@@ -13,9 +13,9 @@ const TopBar = () => {
                 </p>
             </div>
             <div className='flex items-center justify-end w-full gap-4'>
-                <div className='flex items-center text-brand gap-2'>
+                <div className='flex items-center justify-center text-brand gap-2'>
                     <Image
-                        src={`/images/coins.svg`}
+                        src={`/images/orangecoin.svg`}
                         height={20}
                         width={20}
                         alt="logo"

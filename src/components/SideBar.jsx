@@ -132,7 +132,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
             })}>
                 <div
                     className={classNames({
-                        "flex flex-col justify-center h-screen w-full": true,
+                        "flex flex-col justify-center h-screen sticky w-full": true,
 
 
                     })}
