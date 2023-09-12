@@ -1,12 +1,13 @@
 import { EllipsisVerticalIcon, MagnifyingGlassIcon, PencilSquareIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
+import Link from 'next/link'
 import React from 'react'
 
 
 
-const Project = ({ name, updatedAt, createdAt }) => {
+const Project = ({ id, name, updatedAt, createdAt }) => {
     return (<tr className='w-full my-2'>
-        <td className='col-span-2 py-3'>{name}</td>
+        <Link href={`/project/${id}?journey=1`}><td className='col-span-2 py-3'>{name}</td></Link>
         <td className='py-3'>{updatedAt}</td>
         <td className='py-3'>{createdAt}</td>
         <td className="dropdown dropdown-end">
@@ -119,7 +120,7 @@ const ProjectDashboard = () => {
             </div>
 
 
-            <div className='h-[300px] overflow-y-scroll scrollbar-thin'>
+            <div className='h-[60vh] overflow-y-scroll scrollbar-thin'>
                 <table className='table-auto w-full'>
                     <thead>
                         <tr className='text-left text-primary font-thin'>
@@ -138,7 +139,7 @@ const ProjectDashboard = () => {
                     <tbody className='w-full '>
                         {
                             projects.map((project, index) => (
-                                <Project key={index} {...project} />
+                                <Project key={index} {...project} id={index} />
                             ))
                         }
                     </tbody>

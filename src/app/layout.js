@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
         className={classNames({
-          "grid min-h-screen ": true,
+          "grid min-h-screen": true,
           "grid-cols-sidebar": !collapsed,
           "grid-cols-sidebar-collapsed": collapsed,
           "transition-[grid-template-columns] duration-300 ease-in-out": true,
@@ -30,7 +30,9 @@ export default function RootLayout({ children }) {
         })}
       >
         <SideBar collapsed={collapsed} setCollapsed={setSidebarCollapsed} />
-        <section>{children}</section>
+        <section className="max-w-7xl w-full mx-auto transition-all duration-1000 p-10 h-screen">
+          {children}
+        </section>
       </body>
     </html>
   );

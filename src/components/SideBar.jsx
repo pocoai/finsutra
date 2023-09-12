@@ -54,7 +54,7 @@ const ProfileButtons = ({ collapsed, onClick, image, name }) => {
             width={20}
             alt="logo"
 
-            className=""
+            className="text-primary"
         />
         <span className={classNames({
             " text-[16px] transition-all overflow-hidden w-full whitespace-no-wrap": true,
@@ -116,7 +116,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
     return (
         <div
             className={classNames({
-                " text-primary relative z-20 border-r border-[#F1F2F4] w-[248px] flex flex-col items-end": true,
+                " text-primary relative z-20 border-r border-[#F1F2F4] w-[248px] flex flex-col items-end h-screen max-h-screen": true,
                 "transition-all  duration-700 ease-in-out": true,
                 "translate-x-0 ": !collapsed,
                 "-translate-x-[70%]": collapsed,
@@ -153,7 +153,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
                                     height={30}
                                     width={107}
                                     alt="logo"
-                                    style={{ objectFit: 'cover' }}
+                                    style={{ objectFit: 'contain' }}
                                     className=""
                                 /> : (
                                     <Image
@@ -168,7 +168,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
                             }
                         </Link>
                         <button
-                            className="grid place-content-center w-10 h-10 rounded-full opacity-0 md:opacity-100"
+                            className="p-1 my-2 outline-none"
                             onClick={() => setCollapsed(!collapsed)}
                         >
                             <Icon className="w-5 h-5" />
