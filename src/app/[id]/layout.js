@@ -1,8 +1,9 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import SideBar from "@/components/SideBar";
-import "../../../app/globals.css";
+import "../globals.css";
 import { Urbanist } from "next/font/google";
-import classNames from "classnames";
+
+import ParentLayout from "@/components/ParentLayout";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -17,14 +18,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={classNames({
-          [`${urbanist.className}`]: true,
-        })}
-      >
-        {/* <ClerkProvider> */}
-        <section className="max-w-7xl w-full mx-auto p-10 h-screen">{children}</section>
-        {/* </ClerkProvider> */}
+      <body>
+        <ClerkProvider>
+          <ParentLayout>{children}</ParentLayout>
+        </ClerkProvider>
       </body>
     </html>
   );

@@ -112,8 +112,7 @@ const profilebuttons = [
 
 
 
-const SideBar = () => {
-    const [collapsed, setCollapsed] = useState(true);
+const SideBar = ({ collapsed, setCollapsed }) => {
     const [selected, setSelected] = useState(1);
     const Icon = collapsed ? ChevronDoubleRightIcon : ChevronDoubleLeftIcon;
     return (
@@ -124,6 +123,7 @@ const SideBar = () => {
                 "translate-x-0 ": !collapsed,
                 "-translate-x-[70%]": collapsed,
 
+
                 // "-translate-x-full": !shown,
             })}
         >
@@ -132,10 +132,13 @@ const SideBar = () => {
                 "w-[73px]": collapsed,
                 "w-full": !collapsed
 
+
             })}>
                 <div
                     className={classNames({
                         "flex flex-col justify-center h-screen sticky w-full": true,
+
+
 
 
                     })}
@@ -150,6 +153,7 @@ const SideBar = () => {
                     >
                         <Link href={"/"}>
                             {!collapsed ?
+
 
                                 <Image
                                     src="/images/logo.png"
@@ -178,6 +182,7 @@ const SideBar = () => {
                         </button>
                     </div>
 
+
                     <div className={classNames({
                         "flex flex-col justify-between gap-2 h-screen sticky inset-0": true,
                         "p-4 items-start": !collapsed,
@@ -186,6 +191,7 @@ const SideBar = () => {
                     })}>
                         <div className={classNames({
                             "flex items-center gap-2": true
+
 
                         })}>
                             <Image
@@ -208,29 +214,38 @@ const SideBar = () => {
                                 </span>
                             </div>
 
+
                         </div>
+
 
                         <div className='w-full flex flex-col items-center justify-center gap-3 '>
                             {sidecards.map((card, index) => (
                                 <SideCard key={index} {...card} selected={selected} collapsed={collapsed} />
                             ))}
 
+
                         </div>
+
 
                         <div className='w-full flex flex-col items-center justify-center gap-3 '>
                             {profilebuttons.map((card, index) => (
                                 <ProfileButtons key={index} {...card} collapsed={collapsed} />
                             ))}
 
+
                         </div>
-                        <UserButton afterSignOutUrl="/" />
+
 
                     </div>
+
+
 
 
                 </div>
             </div>
         </div>
+
+
     )
 }
 
