@@ -1,9 +1,7 @@
-"use client";
-
+import { ClerkProvider } from "@clerk/nextjs";
 import SideBar from "@/components/SideBar";
 import "./globals.css";
 import { Inter, Urbanist } from "next/font/google";
-import { useState } from "react";
 import classNames from "classnames";
 
 const urbanist = Urbanist({
@@ -17,23 +15,24 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const [collapsed, setSidebarCollapsed] = useState(false);
   return (
-    <html lang="en">
-      <body
-        className={classNames({
-          "grid min-h-screen": true,
-          "grid-cols-sidebar": !collapsed,
-          "grid-cols-sidebar-collapsed": collapsed,
-          "transition-[grid-template-columns] duration-300 ease-in-out": true,
-          [`${urbanist.className}`]: true,
-        })}
-      >
-        <SideBar collapsed={collapsed} setCollapsed={setSidebarCollapsed} />
-        <section className="max-w-7xl w-full mx-auto transition-all duration-1000 p-10 h-screen">
-          {children}
-        </section>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={classNames({
+            "grid min-h-screen": true,
+            "grid-cols-sidebar": true,
+            "grid-cols-sidebar-collapsed": false,
+            "transition-[grid-template-columns] duration-300 ease-in-out": true,
+            [`${urbanist.className}`]: true,
+          })}
+        >
+          <SideBar />
+          <section className="max-w-7xl w-full mx-auto transition-all duration-1000 p-10 h-screen">
+            {children}
+          </section>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

@@ -3,8 +3,6 @@ import classNames from 'classnames'
 import Link from 'next/link'
 import React from 'react'
 
-
-
 const Project = ({ id, name, updatedAt, createdAt }) => {
     return (<tr className='w-full my-2'>
         <Link href={`/project/${id}?journey=1`}><td className='col-span-2 py-3'>{name}</td></Link>

@@ -10,8 +10,9 @@ const Journey = ({ selected, id, name, projectId }) => {
     return (
         <Link href={`/project/${projectId}?journey=${id}`}>
             <div className={classNames({
-                "flex items-center gap-4 border border-primary w-fit p-2 rounded-full cursor-pointer": true,
-                "border-brand text-brand": selected === id
+                "flex items-center gap-4 border w-fit p-2 rounded-full cursor-pointer": true,
+                "border-brand text-brand": selected === id,
+                "border-primary": selected != id
             })}
 
             >

@@ -67,12 +67,12 @@ const journey2 = [
       "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
   },
   {
-    title: " Commitment Pillar",
+    title: "Deep Dive - Commitment Pillar",
     description:
       "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
   },
   {
-    title: "Customer Success Pillar",
+    title: "Deep Dive - Customer Success Pillar",
     description:
       "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
   },

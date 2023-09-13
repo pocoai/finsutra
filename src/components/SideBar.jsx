@@ -5,6 +5,8 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { ChevronDoubleLeftIcon, ChevronDoubleRightIcon, RectangleGroupIcon, RectangleStackIcon, } from "@heroicons/react/24/outline";
 import Image from 'next/image';
+import { UserButton } from "@clerk/nextjs";
+
 
 const capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -110,9 +112,10 @@ const profilebuttons = [
 
 
 
-const SideBar = ({ collapsed, setCollapsed }) => {
-    const Icon = collapsed ? ChevronDoubleRightIcon : ChevronDoubleLeftIcon;
+const SideBar = () => {
+    const [collapsed, setCollapsed] = useState(true);
     const [selected, setSelected] = useState(1);
+    const Icon = collapsed ? ChevronDoubleRightIcon : ChevronDoubleLeftIcon;
     return (
         <div
             className={classNames({
@@ -220,6 +223,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
                             ))}
 
                         </div>
+                        <UserButton afterSignOutUrl="/" />
 
                     </div>
 
