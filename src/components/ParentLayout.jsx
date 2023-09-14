@@ -22,7 +22,7 @@ const ParentLayout = ({ children }) => {
                 [`${urbanist.className}`]: true,
             })}>
             <SideBar collapsed={collapsed} setCollapsed={setCollapsed} />
-            <section className="max-w-7xl w-full mx-auto transition-all duration-1000 p-10 h-screen">
+            <section className="max-w-7xl w-full mx-auto transition-all duration-1000 py-10 px-5 h-screen">
                 {children}
             </section>
         </div>
