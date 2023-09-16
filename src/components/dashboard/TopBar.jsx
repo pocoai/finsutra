@@ -21,11 +21,6 @@ import { currentUser, auth } from "@clerk/nextjs";
 const TopBar = async () => {
     const user = await currentUser()
 
-    // let userData = await getUserData()
-
-    // console.log(userData, "userData")
-
-
     return (
         <div className='flex justify-start w-full items-end'>
             <div className='w-full space-y-6'>
