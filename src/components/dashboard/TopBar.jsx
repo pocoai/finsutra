@@ -1,12 +1,36 @@
 import Image from 'next/image'
 import React from 'react'
+import { currentUser, auth } from "@clerk/nextjs";
 
-const TopBar = () => {
+
+// async function getUserData() {
+//     let data = await fetch("http://localhost:3000/api/auth", {
+//         method: "GET",
+//         headers: {
+//             "Content-Type": "application/json",
+
+//         },
+//     })
+
+//     return data.json()
+// }
+
+
+
+
+const TopBar = async () => {
+    const user = await currentUser()
+
+    // let userData = await getUserData()
+
+    // console.log(userData, "userData")
+
+
     return (
         <div className='flex justify-start w-full items-end'>
             <div className='w-full space-y-6'>
                 <h2 className='text-4xl font-medium'>
-                    Hello Shania
+                    Hello {user.firstName}
                 </h2>
                 <p className='text-[16px] text-primary'>
                     You’re almost there! Complete your tasks to realize your entrepreneurial journey.

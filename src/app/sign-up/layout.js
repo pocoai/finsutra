@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
     <ClerkProvider>
       <html lang="en">
         <body>
-          <section className="max-w-7xl w-full mx-auto transition-all duration-1000 p-10 h-screen">
+          <section className=" w-full mx-auto transition-all duration-1000  h-screen">
             {children}
           </section>
         </body>

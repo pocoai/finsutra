@@ -1,6 +1,7 @@
 import { Urbanist } from "next/font/google";
 import classNames from "classnames";
 import { ClerkProvider } from "@clerk/nextjs";
+import Panel from "@/components/onboarding/Panel";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -23,7 +24,10 @@ export default function RootLayout({ children }) {
               [urbanist.className]: true,
             })}
           >
-            {children}
+            <div className="grid grid-cols-2 w-full">
+              <div>{children}</div>
+              <Panel />
+            </div>
           </section>
         </body>
       </html>

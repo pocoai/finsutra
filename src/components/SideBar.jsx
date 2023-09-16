@@ -1,11 +1,12 @@
 "use client"
-
+import { useClerk } from "@clerk/clerk-react";
 import classNames from 'classnames'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { ChevronDoubleLeftIcon, ChevronDoubleRightIcon, RectangleGroupIcon, RectangleStackIcon, } from "@heroicons/react/24/outline";
 import Image from 'next/image';
 import { UserButton } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 
 
 const capitalize = (str) => {
@@ -48,7 +49,7 @@ const ProfileButtons = ({ collapsed, onClick, image, name }) => {
         "justify-center p-3": collapsed,
         "min-w-0": true, // Ensure a minimum width of 0
     })}
-    // onClick={onClick}
+        onClick={onClick}
     >
         <Image
             src={image}
@@ -91,22 +92,27 @@ const profilebuttons = [
     {
         image: "/images/profile.svg",
         name: "My Profile",
+
     },
     {
         image: "/images/release.svg",
         name: "Release Notes",
+
     },
     {
         image: "/images/roadmap.svg",
         name: "Product Roadmap",
+
     },
     {
         image: "/images/about.svg",
         name: "About Us",
+
     },
     {
         image: "/images/logout.svg",
         name: "Logout",
+
     }
 ]
 
@@ -115,8 +121,13 @@ const profilebuttons = [
 const SideBar = ({ collapsed, setCollapsed }) => {
     const [selected, setSelected] = useState(1);
     const Icon = collapsed ? ChevronDoubleRightIcon : ChevronDoubleLeftIcon;
+    const { isLoaded, isSignedIn, user } = useUser();
+    const { signOut } = useClerk();
+
+    // console.log("user", user)
+
     return (
-        <div
+        isLoaded && (<div
             className={classNames({
                 " text-primary relative z-20 border-r border-[#F1F2F4] w-[248px] flex flex-col items-end h-screen max-h-screen": true,
                 "transition-all  duration-700 ease-in-out": true,
@@ -189,33 +200,37 @@ const SideBar = ({ collapsed, setCollapsed }) => {
                         "items-center px-2": collapsed,
                         "overflow-hidden": true
                     })}>
-                        <div className={classNames({
-                            "flex items-center gap-2": true
+                        {
+                            isSignedIn && (
+                                <div className={classNames({
+                                    "flex items-center gap-2": true
 
 
-                        })}>
-                            <Image
-                                src=" https://picsum.photos/40/40"
-                                height={40}
-                                width={40}
-                                alt="logo"
-                                style={{ objectFit: 'contain' }}
-                                className="rounded-full"
-                            />
-                            <div className={classNames({
-                                "font-medium transition-all overflow-hidden": true,
-                                "hidden": collapsed
-                            })}>
-                                <p className='text-[#373D41] text-[16px]'>
-                                    Shania Sinha
-                                </p>
-                                <span className='text-[#ADB0B6] text-[14px]'>
-                                    Product Designer
-                                </span>
-                            </div>
+                                })}>
+                                    <Image
+                                        src={user?.hasImage ? user?.imageUrl : "https://picsum.photos/40/40"}
+                                        height={40}
+                                        width={40}
+                                        alt="logo"
+                                        style={{ objectFit: 'contain' }}
+                                        className="rounded-full"
+                                    />
+                                    <div className={classNames({
+                                        "font-medium transition-all overflow-hidden": true,
+                                        "hidden": collapsed
+                                    })}>
+                                        <p className='text-[#373D41] text-[16px]'>
+                                            {user.firstName}
+                                        </p>
+                                        <span className='text-[#ADB0B6] text-[14px]'>
+                                            Product Designer
+                                        </span>
+                                    </div>
 
 
-                        </div>
+                                </div>
+                            )
+                        }
 
 
                         <div className='w-full flex flex-col items-center justify-center gap-3 '>
@@ -229,7 +244,9 @@ const SideBar = ({ collapsed, setCollapsed }) => {
 
                         <div className='w-full flex flex-col items-center justify-center gap-3 '>
                             {profilebuttons.map((card, index) => (
-                                <ProfileButtons key={index} {...card} collapsed={collapsed} />
+                                <ProfileButtons key={index} {...card} collapsed={collapsed} onClick={
+                                    () => signOut()
+                                } />
                             ))}
 
 
@@ -243,7 +260,7 @@ const SideBar = ({ collapsed, setCollapsed }) => {
 
                 </div>
             </div>
-        </div>
+        </div>)
 
 
     )
