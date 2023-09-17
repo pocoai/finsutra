@@ -1,18 +1,24 @@
+"use client"
+
 import { EllipsisVerticalIcon, MagnifyingGlassIcon, PencilSquareIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import Link from 'next/link'
 import React from 'react'
+import NewProjectModal from './NewProjectModal'
+
+
+
 
 const Project = ({ id, name, updatedAt, createdAt }) => {
     return (<tr className='w-full my-2'>
-        <Link href={`/${id}?journey=1`}><td className='col-span-2 py-3'>{name}</td></Link>
+        <Link href={`/${id}?journey=1`} prefetch={true} ><td className='col-span-2 py-3'>{name}</td></Link>
         <td className='py-3'>{updatedAt}</td>
         <td className='py-3'>{createdAt}</td>
         <td className="dropdown dropdown-end">
             <label tabIndex={0} className="">
                 <EllipsisVerticalIcon className='w-5 h-5 cursor-pointer text-black' />
             </label>
-            <div tabIndex={0} className="dropdown-content z-[10] menu p-2 shadow bg-base-200 rounded-box w-fit">
+            <span tabIndex={0} className="dropdown-content z-[10] menu p-2 shadow bg-base-200 rounded-box w-fit">
                 <span className='w-[100px] flex items-start justify-start gap-2 px-3 py-1 cursor-pointer hover:bg-[#F1F2F4] rounded-lg '>
                     <TrashIcon className='w-5 h-5 text-black' />
                     <p>
@@ -25,7 +31,7 @@ const Project = ({ id, name, updatedAt, createdAt }) => {
                         Edit
                     </p>
                 </span>
-            </div>
+            </span>
 
         </td >
     </tr >)
@@ -111,15 +117,17 @@ const ProjectDashboard = () => {
                     />
                     <MagnifyingGlassIcon className='w-8 h-8 text-[#808182]' />
                 </div>
-                <button className='bg-[#FFF0DF] rounded-full px-4 py-2 text-brand flex items-center gap-1'>
+                <button onClick={() => document.getElementById('my_modal_2').showModal()} className='bg-[#FFF0DF] rounded-full px-4 py-2 text-brand flex items-center gap-1'>
                     <PlusIcon className='w-5 h-5' />
                     New Project
                 </button>
             </div>
+            {/* Open the modal using document.getElementById('ID').showModal() method */}
+
 
 
             <div className='h-[60vh] overflow-y-scroll scrollbar-thin'>
-                <table className='table-auto w-full'>
+                <table className='table-auto w-full '>
                     <thead>
                         <tr className='text-left text-primary font-thin'>
                             <td className='col-span-2 py-3'>
@@ -144,6 +152,8 @@ const ProjectDashboard = () => {
                 </table>
             </div>
 
+
+            <NewProjectModal />
 
         </div>
     )

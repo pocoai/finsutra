@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import { currentUser, auth } from "@clerk/nextjs";
-
+import "animate.css"
 
 // async function getUserData() {
 //     let data = await fetch("http://localhost:3000/api/auth", {
@@ -24,14 +24,14 @@ const TopBar = async () => {
     return (
         <div className='flex justify-start w-full items-end'>
             <div className='w-full space-y-6'>
-                <h2 className='text-4xl font-medium'>
+                <h2 className='text-4xl font-medium animate__animated animate__fadeInDown'>
                     Hello {user.firstName}
                 </h2>
-                <p className='text-[16px] text-primary'>
+                <p className='text-[16px] text-primary animate__animated animate__fadeInDown'>
                     You’re almost there! Complete your tasks to realize your entrepreneurial journey.
                 </p>
             </div>
-            <div className='flex items-center justify-end w-full gap-4'>
+            <div className='flex items-center justify-end w-full gap-4 animate__animated animate__fadeInDown px-6'>
                 <div className='flex items-center justify-center text-brand gap-2'>
                     <Image
                         src={`/images/orangecoin.svg`}

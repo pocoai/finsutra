@@ -27,7 +27,7 @@ const Page = () => {
             width={210}
             alt="logo"
             style={{ objectFit: "contain" }}
-            className="animate__animated animate__fadeInDown absolute top-[100px]"
+            className="animate__animated animate__fadeInDown absolute top-[15%]"
           />
           <Slide1
             scrollTo={() => scrollTo(2)} // Scroll to the next slide (Slide2)

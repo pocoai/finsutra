@@ -84,7 +84,7 @@ const Slide2 = ({ hidden, activeSlide }) => {
           : "transition-opacity duration-1000 ease-in-out opacity-0 transform translate-x-8"
       }`}
     >
-      <div className="flex flex-col justify-start items-start gap-10 p-20 w-full  animate__animated animate__fadeInLeft ">
+      <div className="flex flex-col h-[500px] justify-start items-start gap-10 p-20 w-full  animate__animated animate__fadeInLeft ">
         <p className="text-black lg:text-[25px] font-bold">Get Started </p>
         <div className=" text-black lg:text-[25px]  flex flex-col justify-center items-start ">
           <div className=" flex flex-col lg:flex lg:flex-row animate__animated animate__fadeInDown">
