@@ -1,7 +1,11 @@
+"use client";
+
 import Header from "@/components/project/header";
 // import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Card from "@/components/project/Card";
+import InputModal from "@/components/project/InputIdeaModal";
+import { useEffect } from "react";
 
 const journey1 = [
   {
@@ -138,20 +142,27 @@ const getTabResults = (journey) => {
 
         return item;
       });
+
+    default:
+      return [];
   }
 };
 
 const page = async ({ params, searchParams }) => {
   const { id } = params;
 
-  // console.log("searchParams", searchParams);
-
   let journey = parseInt(searchParams?.journey) || 1;
-  const data = (await getTabResults(journey)) || [];
+  const data = getTabResults(journey);
+
+  useEffect(() => {
+    typeof window !== "undefined" && document.getElementById("idea_modal").showModal();
+  }, []);
 
   return (
     <div className="">
       <Header id={id} name={"Cloud Kitchen idea 2 "} journey={journey} />
+
+      <InputModal />
 
       <div className="my-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-8 ">
