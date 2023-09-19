@@ -1,26 +1,40 @@
 import Image from 'next/image'
 import React from 'react'
-import { currentUser, auth } from "@clerk/nextjs";
+import { currentUser, auth, useAuth } from "@clerk/nextjs";
 import "animate.css"
+import axios from 'axios';
 
-// async function getUserData() {
-//     let data = await fetch("http://localhost:3000/api/auth", {
-//         method: "GET",
-//         headers: {
-//             "Content-Type": "application/json",
 
-//         },
-//     })
+async function getUserData() {
+    try {
+        const { getToken } = auth();
 
-//     return data.json()
-// }
+        const token = await getToken();
+
+        let response = await axios.get(`http://localhost:3000/api/auth`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                "Content-Type": "application/json",
+
+            }
+        })
+
+        if (response.data.success) {
+            return response.data.data;
+        }
+    } catch (error) {
+
+        return error
+    }
+
+}
 
 
 
 
 const TopBar = async () => {
-    const user = await currentUser()
-
+    // const user = await currentUser()
+    let user = await getUserData()
     return (
         <div className='flex justify-start w-full items-end'>
             <div className='w-full space-y-6'>
@@ -41,7 +55,7 @@ const TopBar = async () => {
                         className=""
                     />
                     <p>
-                        Remaining Credits: 100
+                        Remaining Credits: {user?.credits}
                     </p>
                 </div>
                 <button className='bg-brand rounded-full px-4 py-2 text-white'>

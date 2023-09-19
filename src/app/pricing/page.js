@@ -1,5 +1,9 @@
+"use client";
+
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import React from "react";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 /**
  * Renders a pricing plan card with the plan name, price, credits, bonus (if provided), and a button.
@@ -80,18 +84,24 @@ let pricing = [
     bonus: " Personal Venture Building Advisor Assistance for 6 months ",
   },
 ];
-
+const stripePromise = loadStripe(process.env.publishable_key);
 const page = () => {
+  const options = {
+    // passing the client secret obtained from the server
+    clientSecret: process.env.client_secret,
+  };
   return (
-    <div className="w-full mx-auto space-y-20">
-      <h1 className="text-center text-5xl font-bold">Pricing Plan </h1>
+    <Elements stripe={stripePromise} options={options}>
+      <div className="w-full mx-auto space-y-20">
+        <h1 className="text-center text-5xl font-bold">Pricing Plan </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center w-full">
-        {pricing.map((item, id) => (
-          <PricingLayout {...item} key={id} />
-        ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center w-full">
+          {pricing.map((item, id) => (
+            <PricingLayout {...item} key={id} />
+          ))}
+        </div>
       </div>
-    </div>
+    </Elements>
   );
 };
 

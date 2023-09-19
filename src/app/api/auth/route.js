@@ -20,8 +20,6 @@ export const GET = async (request) => {
   await connectDb();
   const user = await currentUser();
 
-  console.log(user, "user");
-
   if (!user) {
     return new Response("Unauthorized", { status: 401 });
   }
