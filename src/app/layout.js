@@ -4,6 +4,7 @@ import "./globals.css";
 import { Urbanist } from "next/font/google";
 
 import ParentLayout from "@/components/ParentLayout";
+import { ToastContainer } from "react-toastify";
 
 const urbanist = Urbanist({
   subsets: ["latin"],

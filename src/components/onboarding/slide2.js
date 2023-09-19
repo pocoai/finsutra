@@ -9,6 +9,8 @@ import {
 import "animate.css";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { useAuth } from "@clerk/nextjs";
 
 // console.log(session);
 
@@ -60,8 +62,44 @@ const Slide2 = ({ hidden, activeSlide }) => {
   const [selectedSkill, setSelectedSkill] = useState(skill[0]);
 
   const router = useRouter();
+  let { getToken } = useAuth();
 
-  const handleInterests = () => {
+  let getAccessToken = async () => {
+    let token = await getToken();
+
+    return token;
+  };
+
+  const setInterests = async () => {
+    try {
+      let response = await axios.post(
+        `http://localhost:3000/api/onboarding`,
+        {
+          interests: {
+            work: selectedWork.name,
+            designation: selectedOrg.name,
+            goal: selectedGoal.name,
+            skill: selectedSkill.name,
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${await getAccessToken()}`,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        console.log(response.data.data, "data");
+        return response.data;
+      }
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const handleInterests = async () => {
     if (
       selectedWork.id === "____________" ||
       selectedOrg.id === "____________" ||
@@ -73,6 +111,13 @@ const Slide2 = ({ hidden, activeSlide }) => {
       return;
     } else {
       // call api
+      let res = await setInterests();
+
+      if (res.success) {
+        router.push("/");
+      } else {
+        alert("Something went wrong");
+      }
     }
   };
 
@@ -84,7 +129,7 @@ const Slide2 = ({ hidden, activeSlide }) => {
           : "transition-opacity duration-1000 ease-in-out opacity-0 transform translate-x-8"
       }`}
     >
-      <div className="flex flex-col h-[500px] justify-start items-start gap-10 p-20 w-full  animate__animated animate__fadeInLeft ">
+      <div className="flex flex-col mt-32 h-[500px] justify-start items-start gap-10 p-10 w-full  animate__animated animate__fadeInLeft ">
         <p className="text-black lg:text-[25px] font-bold">Get Started </p>
         <div className=" text-black lg:text-[25px]  flex flex-col justify-center items-start ">
           <div className=" flex flex-col lg:flex lg:flex-row animate__animated animate__fadeInDown">
@@ -145,9 +190,8 @@ const Slide2 = ({ hidden, activeSlide }) => {
         {selectedSkill.id !== "____________" && (
           <div className="lg:mt-8  flex justify-start lg:w-[150px] animate__animated animate__fadeInDown">
             <button
-              onClick={() => {
-                handleInterests();
-                router.push("/");
+              onClick={async () => {
+                await handleInterests();
               }}
               className="border-black rounded-full bg-brand text-white py-2 px-6 text-[20px]"
             >

@@ -30,8 +30,6 @@ async function getUserData() {
 }
 
 
-
-
 const TopBar = async () => {
     // const user = await currentUser()
     let user = await getUserData()
@@ -39,7 +37,7 @@ const TopBar = async () => {
         <div className='flex justify-start w-full items-end'>
             <div className='w-full space-y-6'>
                 <h2 className='text-4xl font-medium animate__animated animate__fadeInDown'>
-                    Hello {user.firstName}
+                    Hello {user?.firstName}
                 </h2>
                 <p className='text-[16px] text-primary animate__animated animate__fadeInDown'>
                     You’re almost there! Complete your tasks to realize your entrepreneurial journey.
