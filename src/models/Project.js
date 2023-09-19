@@ -18,10 +18,22 @@ const ProjectSchema = new mongoose.Schema(
       3: Number,
       4: Number,
     },
-    journey1: Object,
-    journey2: Object,
-    journey3: Object,
-    journey4: Object,
+    journey1: {
+      type: Object,
+      default: {},
+    },
+    journey2: {
+      type: Object,
+      default: {},
+    },
+    journey3: {
+      type: Object,
+      default: {},
+    },
+    journey4: {
+      type: Object,
+      default: {},
+    },
   },
   {
     timestamps: true,

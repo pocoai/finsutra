@@ -1,6 +1,7 @@
 import { useAuth } from '@clerk/nextjs'
 import { PlusSmallIcon } from '@heroicons/react/24/outline'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 
@@ -12,8 +13,11 @@ const NewProjectModal = () => {
     const [name, setName] = useState("")
     const [loading, setLoading] = useState(false)
     let { getToken } = useAuth()
+    const router = useRouter()
 
     const createNewproject = async () => {
+
+        let res;
 
         if (name === "") {
             toast.error("Project name is required", {
@@ -29,7 +33,7 @@ const NewProjectModal = () => {
 
             console.log(token)
 
-            let res = await axios.post(`http://localhost:3000/api/project`, {
+            res = await axios.post(`http://localhost:3000/api/project`, {
                 name
             }, {
                 headers: {
@@ -50,6 +54,11 @@ const NewProjectModal = () => {
         setLoading(false)
         setName("")
         document.getElementById("my_modal_2").checked = false
+
+
+        if (res.data.success) {
+            router.push(`/project/${res.data.data._id}?journey=1`)
+        }
     }
 
 
