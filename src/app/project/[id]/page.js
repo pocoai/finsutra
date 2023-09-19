@@ -144,12 +144,21 @@ const getArrayviaJourney = (journey) => {
   }
 };
 
+function isObjEmpty(obj) {
+  if (!obj) {
+    return true;
+  }
+
+  return Object.keys(obj).length === 0;
+}
+
 const page = ({ params, searchParams }) => {
   const { id } = params;
 
   let journey = parseInt(searchParams?.journey) || 1;
 
   const [data, setData] = useState(getArrayviaJourney(journey));
+  const [showInput, setShowInput] = useState(false);
 
   const { getToken } = useAuth();
   const FetchTabResults = async (id, journey) => {
@@ -164,6 +173,10 @@ const page = ({ params, searchParams }) => {
 
     console.log(res.data);
 
+    if (res.data.data.query === "") {
+      setShowInput(true);
+    }
+
     return res.data.data;
   };
 
@@ -171,15 +184,39 @@ const page = ({ params, searchParams }) => {
     switch (journey) {
       case 1:
         let data = await FetchTabResults(id, journey);
-        if (!data.journey1) {
+        console.log(data, "here");
+        if (isObjEmpty(data.journey1)) {
           // check if tab is selected
+          // console.log("tab not selected");
           return journey1.map((item, index) => {
             item.selected = false;
             item.loading = false;
             return item;
           });
         } else {
-          return data.journey1;
+          // console.log("tab selected");
+          let arr = [];
+          for (let i = 0; i < journey1.length; i++) {
+            if (data.journey1[`tab${i + 1}`]?.selected) {
+              arr.push({
+                title: journey1[i].title,
+                description: journey1[i].description,
+                loading: false,
+                data: data.journey1[`tab${i + 1}`].data,
+                selected: true,
+              });
+            } else {
+              arr.push({
+                title: journey1[i].title,
+                description: journey1[i].description,
+                loading: false,
+                data: [],
+                selected: false,
+              });
+            }
+          }
+
+          return arr;
         }
 
       case 2:
@@ -211,21 +248,21 @@ const page = ({ params, searchParams }) => {
   useEffect(() => {
     if (journey === 1) {
       getTabResults(journey).then((res) => {
-        console.log(res, "e");
+        console.log(res, "getTabResults");
         setData(res);
       });
     }
   }, [journey]);
 
-  // useEffect(() => {
-  //   typeof window !== "undefined" && document.getElementById("idea_modal").showModal();
-  // }, []);
+  useEffect(() => {
+    document.querySelector("#idea_modal").checked = showInput;
+  }, [showInput]);
 
   return (
     <div className="">
       <Header id={id} name={"Cloud Kitchen idea 2 "} journey={journey} />
 
-      <InputModal />
+      <InputModal id={id} />
 
       <div className="my-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-8 ">
