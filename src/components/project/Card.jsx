@@ -1,16 +1,31 @@
+import { creditPricing, getCreditViaTab } from '@/utils/credits';
 import { LockClosedIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import ViewModal from './ViewModal';
 
-const Card = ({ title, description, data, selected, loading }) => {
+const Card = ({ title, description, tab, data, selected, loading, journey }) => {
+    const [cardLoading, setCardLoading] = useState(loading)
+    const [openModal, setOpenModal] = useState(false)
+
+
+
+    useEffect(() => {
+        setCardLoading(loading)
+    }, [loading])
+
     return (
         <div className={classNames({
             "card w-[279px] h-[190px] shadow-md": true,
             "bg-[#FFF0DF]": selected,
             "bg-[#F1F2F4]": !selected
-        })}>
+        })}
+
+
+
+        >
             <div className="card-body px-4 py-6">
                 {!selected && (
                     <LockClosedIcon className="w-5 h-5 text-[#808182]" />
@@ -28,24 +43,39 @@ const Card = ({ title, description, data, selected, loading }) => {
 
 
                     {
-                        loading ? <span className="loading loading-bars loading-sm"></span> : <button className={classNames({
-                            " rounded-full px-4 py-2 text-white text-[13px]": true,
-                            "bg-brand": selected,
-                            "bg-[#808182]": !selected
-                        })}>{selected ? "View Details" : (
-                            <div className='flex items-center gap-2 w-full'>
+                        cardLoading ? <span className="loading loading-bars loading-sm"></span> : <button
 
-                                <Image src="/images/whitecoin.svg" height={20} width={20} alt="coin" />
+                            onClick={() => {
+                                if (selected) {
+                                    setOpenModal(!openModal)
+                                }
+                                else {
+                                    return
+                                }
+                            }}
 
-                                <p>
-                                    5 credits
-                                </p>
-                            </div>
-                        )}  </button>
+                            className={classNames({
+                                " rounded-full px-4 py-2 text-white text-[13px]": true,
+                                "bg-brand": selected,
+                                "bg-[#808182]": !selected
+                            })}>{selected ? "View Details" : (
+                                <div className='flex items-center gap-2 w-full' onClick={
+                                    () => setCardLoading(!cardLoading)
+                                }>
+
+                                    <Image src="/images/whitecoin.svg" height={20} width={20} alt="coin" />
+
+                                    <p>
+                                        {getCreditViaTab(journey, tab)} credits
+                                    </p>
+                                </div>
+                            )}  </button>
                     }
 
                 </div>
             </div>
+
+            {openModal && <ViewModal isOpen={openModal} setIsOpen={setOpenModal} title={title} data={data} journey={journey} tab={tab} />}
         </div>
     )
 }

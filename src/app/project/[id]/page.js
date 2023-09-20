@@ -274,6 +274,9 @@ const page = ({ params, searchParams }) => {
                 key={index}
                 selected={item.selected}
                 loading={item.loading}
+                data={item.data}
+                journey={journey}
+                tab={index + 1}
               />
             ))}
         </div>
