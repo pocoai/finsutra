@@ -390,7 +390,7 @@ const ViewComponent = ({
                 <div className="flex flex-col items-start justify-start space-y-4 ">
                     {data && (
                         <p>
-                            <span className="font-semibold">Problem Solution Fit: {data && data[0]?.key}</span>:
+                            <span className="font-semibold">Problem Solution Fit: {data["Executive Summary"]}</span>:
                         </p>
                     )}
                     <table className="table-auto ">
@@ -404,7 +404,7 @@ const ViewComponent = ({
                                 </th>
                             </tr>
                         </thead>
-                        {data[0].value.map((item, index) => (
+                        {data["ps_list"].map((item, index) => (
                             <tbody key={index}>
                                 <tr>
                                     <td className=" px-4 py-2 border border-gray-500">{item?.Problem}</td>

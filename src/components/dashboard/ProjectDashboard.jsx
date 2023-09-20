@@ -97,6 +97,7 @@ const ProjectDashboard = () => {
 
 
 
+
     let { getToken } = useAuth()
 
     const getProjects = async () => {
@@ -114,6 +115,10 @@ const ProjectDashboard = () => {
             if (res.data.success) {
                 dispatch({ type: "FETCH_SUCCESS", payload: res.data.data })
                 setFilteredProjects(res.data.data);
+
+                if (res.data.data.length === 0) {
+                    dispatch({ type: "FETCH_ERROR", payload: "No projects found" })
+                }
             }
 
 
@@ -203,6 +208,13 @@ const ProjectDashboard = () => {
                                 </tr>
 
                             </thead>
+                            {state.error && (
+                                <tr>
+                                    <td className='col-span-3 py-3 text-red-500'>
+                                        {state.error}
+                                    </td>
+                                </tr>
+                            )}
                             <tbody className='w-full '>
                                 {
                                     filteredProjects.map((project, index) => (

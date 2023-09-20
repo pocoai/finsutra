@@ -5,16 +5,42 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import ViewModal from './ViewModal';
+import { useAuth } from '@clerk/nextjs';
+import axios from 'axios';
 
-const Card = ({ title, description, tab, data, selected, loading, journey }) => {
+const Card = ({ title, description, tab, data, selected, loading, journey, id }) => {
     const [cardLoading, setCardLoading] = useState(loading)
     const [openModal, setOpenModal] = useState(false)
 
-
+    const { getToken } = useAuth()
 
     useEffect(() => {
         setCardLoading(loading)
     }, [loading])
+
+
+    const handleApiCall = async () => {
+
+        console.log("api here");
+        let token = await getToken();
+
+        setCardLoading(true)
+        try {
+            let res = await axios.post(`http://localhost:3000/api/project/${id}?journey=${journey}&tab=${tab}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+
+
+            console.log(res.data, "here");
+
+        } catch (error) {
+            console.log(error);
+        }
+        setCardLoading(false)
+    }
 
     return (
         <div className={classNames({
@@ -22,8 +48,6 @@ const Card = ({ title, description, tab, data, selected, loading, journey }) => 
             "bg-[#FFF0DF]": selected,
             "bg-[#F1F2F4]": !selected
         })}
-
-
 
         >
             <div className="card-body px-4 py-6">
@@ -59,9 +83,7 @@ const Card = ({ title, description, tab, data, selected, loading, journey }) => 
                                 "bg-brand": selected,
                                 "bg-[#808182]": !selected
                             })}>{selected ? "View Details" : (
-                                <div className='flex items-center gap-2 w-full' onClick={
-                                    () => setCardLoading(!cardLoading)
-                                }>
+                                <div className='flex items-center gap-2 w-full' onClick={handleApiCall}>
 
                                     <Image src="/images/whitecoin.svg" height={20} width={20} alt="coin" />
 

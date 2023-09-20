@@ -11,10 +11,14 @@ export async function GET(request) {
 
   console.log(api);
 
-  const q = request.nextUrl.searchParams.get("query");
+  const q = request.nextUrl.searchParams.get("q");
   const id = request.nextUrl.searchParams.get("id");
 
-  let result = await axios.get(`${api}?q=${q}`, {
+  let url = `${api}?q=${q}`;
+
+  console.log(url, "url");
+
+  let result = await axios.get(`${url}`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -23,8 +27,12 @@ export async function GET(request) {
   if (result.data.success) {
     let project = await Project.findById(id);
 
+    console.log(q, "q");
+
     project.query = q;
     project.queryResults = result.data.content;
+
+    console.log(project, "project");
 
     await project.save();
     return NextResponse.json({

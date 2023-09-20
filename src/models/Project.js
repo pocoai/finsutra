@@ -9,7 +9,10 @@ const ProjectSchema = new mongoose.Schema(
       required: true,
     },
     uid: String,
-    query: String,
+    query: {
+      type: String,
+      default: "",
+    },
     queryResults: Array,
     currentJourney: Number,
     currentStage: {
@@ -18,10 +21,10 @@ const ProjectSchema = new mongoose.Schema(
       3: Number,
       4: Number,
     },
-    journey1: Object,
-    journey2: Object,
-    journey3: Object,
-    journey4: Object,
+    journey1: mongoose.Schema.Types.Mixed,
+    journey2: mongoose.Schema.Types.Mixed,
+    journey3: mongoose.Schema.Types.Mixed,
+    journey4: mongoose.Schema.Types.Mixed,
   },
   {
     timestamps: true,

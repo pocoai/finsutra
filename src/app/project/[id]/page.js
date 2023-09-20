@@ -277,6 +277,7 @@ const page = ({ params, searchParams }) => {
                 data={item.data}
                 journey={journey}
                 tab={index + 1}
+                id={id}
               />
             ))}
         </div>
