@@ -1,3 +1,5 @@
+import Markdown from 'react-markdown'
+
 
 const ViewComponent = ({
     data,
@@ -279,11 +281,11 @@ const ViewComponent = ({
                 data[0]?.value.split("\n").map((c, index) => {
                   return <p key={index}> {c} </p>;
                 })} */}
-                        {data?.length > 0 && (
+                        {data && (
                             // <ReactMarkdown remarkPlugins={[breaks]} components={renderers} >
                             //   {data[0].value}
                             // </ReactMarkdown>
-                            <Markdown className="prose text-black">{data[0].value}</Markdown>
+                            <Markdown className="prose">{data}</Markdown>
                         )}
                     </p>
                     {/* <p className="text-sm font-medium">
@@ -306,18 +308,18 @@ const ViewComponent = ({
                     {data && (
                         <h1 className="text-2xl font-semibold text-gray-800">Positioning Statement field</h1>
                     )}
-                    {data && data[0]?.value["Positioning"] && (
+                    {data && data["Positioning"] && (
                         <div className="flex flex-col items-start justify-start space-y-2 ">
                             <p>
                                 <span className="font-semibold">Positioning: </span>
-                                {data[0].value["Positioning"]}
+                                {data["Positioning"]}
                             </p>
                         </div>
                     )}
-                    {data && data[0]?.value["USPs"] && (
+                    {data && data["USPs"] && (
                         <div className="flex flex-col items-start justify-start space-y-2 ">
                             <h1 className="text-2xl font-semibold text-gray-800">USPs</h1>
-                            {data[0]?.value["USPs"]?.map((item, index) => (
+                            {data["USPs"]?.map((item, index) => (
                                 <p key={index}>
                                     <span className="text-red-500">{index + 1}&#41;</span> &nbsp;
                                     {item}
@@ -348,7 +350,7 @@ const ViewComponent = ({
                             </tr>
                         </thead>
                         {data &&
-                            data[0]?.value["Favcy_Venture_builder_framework"].map((item, index) => (
+                            data["Favcy_Venture_builder_framework"].map((item, index) => (
                                 <tbody key={index}>
                                     <tr>
                                         <td className=" px-4 py-2 border border-gray-500">{index + 1}</td>
@@ -370,8 +372,7 @@ const ViewComponent = ({
 
                     <table className="table-fixed ">
                         {data &&
-                            data[0]?.value &&
-                            Object.entries(data[0]?.value).map((item, index) => (
+                            Object.entries(data).map((item, index) => (
                                 // <div key={index} className="flex justify-start items-start space-x-2 ">
                                 //   {/* <p className="font-semibold">{item[0]}</p>:<p>{item[1]}</p> */}
                                 // </div>

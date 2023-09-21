@@ -52,7 +52,7 @@ const ViewModal = ({ isOpen, setIsOpen, title, journey, tab, data }) => {
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
-                            <Dialog.Panel className="w-full max-w-3xl transform overflow-y-scroll rounded-2xl bg-white p-10 text-left align-middle shadow-xl transition-all h-full max-h-[650px]">
+                            <Dialog.Panel className="w-full max-w-3xl transform overflow-y-scroll scrollbar-thin  rounded-2xl bg-white p-10 text-left align-middle shadow-xl transition-all h-full max-h-[650px]">
                                 <div className={classNames({
                                     'flex flex-col gap-5 items-start justify-start': true,
                                     [`${urbanist.className}`]: true
