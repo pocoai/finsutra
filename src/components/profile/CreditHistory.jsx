@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 
@@ -77,26 +78,34 @@ const data = [{
 }]
 
 
-const CreditHistory = () => {
+const CreditHistory = ({ credits, currentPlan, creditHistory }) => {
     return (
         <div className='w-[500px] h-[500px] flex items-start justify-start gap-2 flex-col border rounded-2xl p-3'>
             <h1 className='text-lg font-bold'>
                 Credits Transaction History
             </h1>
             <div className='w-full flex items-center justify-between py-3 border-b'>
+
                 <div>
                     <p className='text-sm text-[#808182]'>
                         Credits Remaining
                     </p>
                     <span className='text-lg font-bold'>
-                        500
+                        {credits}
                     </span>
                 </div>
-
                 <div>
-                    <button className='bg-brand rounded-full px-4 py-2 font-semibold text-md text-white'>
+                    <p className='text-sm text-[#808182]'>
+                        Current Plan
+                    </p>
+                    <span className='text-lg font-bold'>
+                        {currentPlan}
+                    </span>
+                </div>
+                <div>
+                    <Link prefetch={false} href={`/pricing`} className='bg-brand rounded-full px-4 py-2 font-semibold text-md text-white'>
                         Buy Credits
-                    </button>
+                    </Link>
                 </div>
             </div>
 

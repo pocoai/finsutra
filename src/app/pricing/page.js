@@ -1,9 +1,10 @@
 "use client";
 
+import { getPricing } from "@/services/pricing";
+import { useAuth } from "@clerk/nextjs";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
-import React from "react";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 /**
  * Renders a pricing plan card with the plan name, price, credits, bonus (if provided), and a button.
@@ -15,12 +16,38 @@ import { loadStripe } from "@stripe/stripe-js";
  * @param {string} [props.bonus] - An additional feature or bonus included in the plan.
  * @returns {JSX.Element} - The rendered pricing plan card.
  */
-const PricingLayout = ({ plan, price, credits, buttonText, bonus }) => {
+const PricingLayout = ({ plan, price, credits, buttonText, bonus, id }) => {
   const isPriceNumber = typeof price === "number";
+  const { getToken } = useAuth();
+
+  const handleSubscription = async (e) => {
+    const token = await getToken();
+
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3000/api/payment",
+        {
+          priceId: id,
+          plan: plan,
+          credits: credits,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      window.location.assign(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <main className="relative">
-      <div className="py-3 flex flex-col justify-start items-center rounded-lg shadow-lg text-black w-[300px] h-[350px] bg-[#FFF0DF]">
+    <main className="">
+      <div className="py-3 flex flex-col justify-evenly items-center rounded-lg shadow-lg text-black w-[300px] h-[400px] bg-[#FFF0DF]">
         <div className="p-5">
           <div className="flex items-center w-full justify-center">
             <span className="inline-flex px-4 py-1 text-sm font-semibold leading-5 tracking-wide uppercase rounded-full">
@@ -38,70 +65,96 @@ const PricingLayout = ({ plan, price, credits, buttonText, bonus }) => {
             </div>
           )}
         </div>
-        <div className="flex justify-start flex-col items-start p-4 gap-3 ">
-          <span className="flex w-full justify-start items-start mt-4 ">
-            <CheckCircleIcon className="w-6 h-6 text-black" />
-            <p className="ml-3 leading-6 font-medium text-gray-700">{credits} credits only</p>
-          </span>
-          {bonus && (
-            <div className="flex w-full justify-start items-start ">
-              <CheckCircleIcon className="w-[40px] text-black" />
-              <p className="ml-3 leading-6 text-gray-700">{bonus}</p>
-            </div>
-          )}
-        </div>
-        <div className="absolute bottom-4 flex justify-center items-center">
-          <a
-            href="#"
-            className="px-5 py-3 text-sm font-medium leading-6 text-white transition duration-150 ease-in-out rounded-full bg-brand focus:outline-none focus:shadow-outline"
+        <div className="flex justify-center items-center w-[80%]">
+          <button
+            onClick={handleSubscription}
+            className="px-10 py-3 text-sm font-medium leading-6 text-white transition duration-150 ease-in-out rounded-md bg-brand focus:outline-none focus:shadow-outline text-center w-full"
           >
             {buttonText}
-          </a>
+          </button>
+        </div>
+        <div className="flex justify-start flex-col items-start w-full p-2 px-10 gap-3 ">
+          <div className="flex w-full justify-start items-start mt-4 ">
+            <CheckCircleIcon className="w-6 h-6 text-black" />
+            <p className="ml-3 leading-6 text-sm font-medium text-gray-700">
+              {credits} credits only
+            </p>
+          </div>
+          {bonus &&
+            bonus.map((bon) => (
+              <div className="flex w-full justify-start items-start ">
+                <CheckCircleIcon className="w-6 h-6 text-black" />
+                <p className="ml-3 leading-6 text-sm font-medium w-full text-gray-700">{bon}</p>
+              </div>
+            ))}
         </div>
       </div>
     </main>
   );
 };
 
-let pricing = [
-  {
-    plan: "Basic Plan",
-    price: 249,
-    credits: 75,
-    buttonText: "Subscribe",
-  },
-  {
-    plan: "Standard Plan",
-    price: 599,
-    credits: 200,
-    buttonText: "Subscribe",
-  },
-  {
-    plan: "Advanced Plan",
-    price: 1199,
-    credits: 400,
-    buttonText: "Subscribe",
-    bonus: " Personal Venture Building Advisor Assistance for 6 months ",
-  },
-];
-const stripePromise = loadStripe(process.env.publishable_key);
 const page = () => {
-  const options = {
-    // passing the client secret obtained from the server
-    clientSecret: process.env.client_secret,
-  };
-  return (
-    <Elements stripe={stripePromise} options={options}>
-      <div className="w-full mx-auto space-y-20">
-        <h1 className="text-center text-5xl font-bold">Pricing Plan </h1>
+  const [pricing, setPricing] = useState([]);
+  const { getToken } = useAuth();
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center w-full">
-          {pricing.map((item, id) => (
-            <PricingLayout {...item} key={id} />
-          ))}
-        </div>
+  const fetchPricing = async () => {
+    const token = await getToken();
+    let data = await getPricing(token);
+
+    let newData = data.map((item) => {
+      if (item.product === "prod_OgMVHZDwy1Ma9R") {
+        return {
+          plan: "Basic Plan",
+          price: 249,
+          credits: 75,
+          bonus: ["No Expert Support"],
+          buttonText: "Subscribe",
+          ...item,
+        };
+      } else if (item.product === "prod_OgMWiJpg5qU1qz") {
+        return {
+          plan: "Standard Plan",
+          price: 599,
+          credits: 200,
+          bonus: ["Limited Expert Support"],
+          buttonText: "Subscribe",
+          ...item,
+        };
+      } else if (item.product === "prod_OgMYCACUfe2hJ1") {
+        return {
+          plan: "Advanced Plan",
+          price: 1199,
+          credits: 400,
+          bonus: [
+            "Limited Expert Support",
+            "Personal Venture Building Advisor Support for 6 months",
+          ],
+          buttonText: "Subscribe",
+          ...item,
+        };
+      }
+    });
+
+    setPricing(newData);
+    // console.log(data);
+  };
+
+  useEffect(() => {
+    fetchPricing();
+  }, []);
+
+  console.log(pricing);
+
+  return (
+    <div className="w-full mx-auto space-y-20">
+      <h1 className="text-center text-5xl font-bold">Pricing Plan </h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center w-full">
+        {pricing.map((item, id) => (
+          <PricingLayout {...item} key={id} />
+        ))}
       </div>
-    </Elements>
+    </div>
   );
 };
 

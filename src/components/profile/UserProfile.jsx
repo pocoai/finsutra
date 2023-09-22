@@ -1,10 +1,16 @@
+
 import { currentUser } from '@clerk/nextjs'
 import Image from 'next/image'
 import React from 'react'
 
-const UserProfile = async () => {
+const UserProfile = async ({ userData }) => {
 
-    let user = await currentUser()
+    let user = await currentUser();
+
+
+
+
+
 
     return (
         <div className='w-[320px] h-[470px] flex items-center justify-evenly gap-5 flex-col border rounded-2xl'>
@@ -35,7 +41,7 @@ const UserProfile = async () => {
                     </span>
 
                     <span className='whitespace-nowrap'>
-                        Front-End Developer
+                        {userData?.interests?.designation}
                     </span>
                 </p>
                 <p className='grid grid-cols-2 place-content-start'>
@@ -44,7 +50,7 @@ const UserProfile = async () => {
                     </span>
 
                     <span>
-                        Build Website
+                        {userData?.interests?.goal}
                     </span>
                 </p>
                 <p className='grid grid-cols-2 place-content-start'>
@@ -53,7 +59,7 @@ const UserProfile = async () => {
                     </span>
 
                     <span>
-                        POCO AI
+                        {userData?.interests?.work}
                     </span>
                 </p>
                 <p className='grid grid-cols-2 place-content-start'>
@@ -62,7 +68,7 @@ const UserProfile = async () => {
                     </span>
 
                     <span>
-                        Nextjs
+                        {userData?.interests?.skill}
                     </span>
                 </p>
             </div>

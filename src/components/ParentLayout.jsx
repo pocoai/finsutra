@@ -25,7 +25,9 @@ const ParentLayout = ({ children }) => {
                 "transition-[grid-template-columns] duration-300 ease-in-out": true,
                 [`${urbanist.className}`]: true,
             })}>
-            <SideBar collapsed={collapsed} setCollapsed={setCollapsed} isLoaded={isLoaded} isSignedIn={isSignedIn} user={user} />
+            {
+                <SideBar collapsed={collapsed} setCollapsed={setCollapsed} isLoaded={isLoaded} isSignedIn={isSignedIn} user={user} />
+            }
 
             <section className="max-w-7xl w-full mx-auto transition-all duration-1000 py-10 px-5 h-screen">
                 {children}

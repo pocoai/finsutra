@@ -3,31 +3,9 @@ import React from 'react'
 import { currentUser, auth, useAuth } from "@clerk/nextjs";
 import "animate.css"
 import axios from 'axios';
+import { getUserData } from '@/services/user';
 
 
-async function getUserData() {
-    try {
-        const { getToken } = auth();
-
-        const token = await getToken();
-
-        let response = await axios.get(`http://localhost:3000/api/auth`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                "Content-Type": "application/json",
-
-            }
-        })
-
-        if (response.data.success) {
-            return response.data.data;
-        }
-    } catch (error) {
-
-        return error
-    }
-
-}
 
 
 const TopBar = async () => {
