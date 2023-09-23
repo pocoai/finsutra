@@ -17,89 +17,62 @@ const journey1 = [
   },
   {
     title: " Problem Solution Fit",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
+    description: "This tab is not yet processed",
     loading: true,
   },
   {
     title: " Brand Kit",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
+    description: "This tab is not yet processed",
     loading: true,
   },
   {
     title: " Positioning and Messaging ",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
+    description: "This tab is not yet processed",
     loading: true,
   },
   {
     title: " Coming Soon Page",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
+    description: "This tab is not yet processed",
     loading: true,
   },
   {
     title: " Build your MVP",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
+    description: "This tab is not yet processed",
     loading: true,
   },
-  {
-    title: " Features to Monetize",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
-    loading: true,
-  },
-  {
-    title: "Research & Knowledge Bank",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
-    loading: true,
-  },
+  // {
+  //   title: " Features to Monetize",
+  //   description:
+  //     "This tab is not yet processed",
+  //   loading: true,
+  // },
+  // {
+  //   title: "Research & Knowledge Bank",
+  //   description:
+  //     "This tab is not yet processed",
+  //   loading: true,
+  // },
   {
     title: "Business Model Canvas",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
+    description: "This tab is not yet processed",
     loading: true,
   },
 ];
 
 const journey2 = [
   {
-    title: "Aligning Resources & Manpower",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
+    title: "Assembling the Founding Team: Skills, Roles, and Culture Fit",
+    description: "This tab is not yet processed",
     loading: true,
   },
   {
-    title: "Deep Dive - Reach Pillar    ",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
+    title: "Introduction to Idea Validation",
+    description: "This tab is not yet processed",
     loading: true,
   },
   {
-    title: "Deep Dive - Nurture Pillar",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
-    loading: true,
-  },
-  {
-    title: "Deep Dive - Commitment Pillar",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
-    loading: true,
-  },
-  {
-    title: "Deep Dive - Customer Success Pillar",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
-    loading: true,
-  },
-  {
-    title: "Enabling Tech Pre-Product    ",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
+    title: "Building a Vision and Mission Statement",
+    description: "This tab is not yet processed",
     loading: true,
   },
 ];
@@ -107,26 +80,22 @@ const journey2 = [
 const journey3 = [
   {
     title: "Channel Management",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
+    description: "This tab is not yet processed",
     loading: true,
   },
   {
     title: "Social Media Management",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
+    description: "This tab is not yet processed",
     loading: true,
   },
   {
     title: "Influencer or Not ?",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
+    description: "This tab is not yet processed",
     loading: true,
   },
   {
     title: "SEO Strategy",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus perspiciatis tempore accusamus dolores eum ullam ipsa quos quis eius dicta.",
+    description: "This tab is not yet processed",
     loading: true,
   },
 ];
@@ -158,6 +127,7 @@ const page = ({ params, searchParams }) => {
   let journey = parseInt(searchParams?.journey) || 1;
 
   const [data, setData] = useState(getArrayviaJourney(journey));
+  const [projectName, setProjectName] = useState("");
   const [showInput, setShowInput] = useState(false);
 
   const { getToken } = useAuth();
@@ -171,64 +141,112 @@ const page = ({ params, searchParams }) => {
       },
     });
 
-    console.log(res.data);
+    console.log(res.data, "res sss");
 
-    if (res.data.data.query === "") {
+    if (res.data?.data?.query === "" && journey === 1) {
       setShowInput(true);
+    }
+
+    if (res.data.data?.name) {
+      setProjectName(res.data.data.name);
     }
 
     return res.data.data;
   };
 
   const getTabResults = async (journey) => {
+    let data;
     switch (journey) {
       case 1:
-        let data = await FetchTabResults(id, journey);
+        data = await FetchTabResults(id, journey);
         console.log(data, "here");
         if (isObjEmpty(data.journey1)) {
           // check if tab is selected
           // console.log("tab not selected");
-          return journey1.map((item, index) => {
-            item.selected = false;
-            item.loading = false;
-            return item;
+          console.log("tab not selected");
+          const updatedJourney1 = journey1.map((item, index) => {
+            // Set locked to false only for the first item
+            if (index === 0) {
+              return { ...item, locked: false, loading: false };
+            }
+            // Keep other properties unchanged
+            return { ...item, locked: true, loading: false };
           });
+
+          return updatedJourney1;
         } else {
           // console.log("tab selected");
           let arr = [];
+          let prevSelected = false; // Initialize a variable to keep track of the previous item's 'selected' value.
+          let currentTab;
           for (let i = 0; i < journey1.length; i++) {
-            if (data.journey1[`tab${i + 1}`]?.selected) {
-              arr.push({
-                title: journey1[i].title,
-                description: journey1[i].description,
-                loading: false,
-                data: data.journey1[`tab${i + 1}`].data,
-                selected: true,
-              });
+            if (i === 6) {
+              currentTab = data.journey1[`tab9`];
             } else {
-              arr.push({
-                title: journey1[i].title,
-                description: journey1[i].description,
-                loading: false,
-                data: [],
-                selected: false,
-              });
+              currentTab = data.journey1[`tab${i + 1}`];
             }
+
+            const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
+
+            const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false and the previous item was also false.
+
+            arr.push({
+              title: journey1[i].title,
+              description: selected ? "Click to view" : journey1[i].description,
+              loading: false,
+              data: selected ? currentTab.data : [],
+              selected: selected,
+              locked: locked,
+            });
+
+            prevSelected = selected; // Update the 'prevSelected' variable for the next iteration.
           }
 
           return arr;
         }
 
       case 2:
-        return journey2.map((item, index) => {
-          if (index < 1) {
-            item.selected = true;
-          } else {
-            item.selected = false;
+        data = await FetchTabResults(id, journey);
+        console.log(data, "here");
+        if (!data.journey2 || isObjEmpty(data.journey2)) {
+          // check if tab is selected
+          console.log("tab not selected");
+          const updatedJourney2 = journey2.map((item, index) => {
+            // Set locked to false only for the first item
+            if (index === 0) {
+              return { ...item, locked: false, loading: false };
+            }
+            // Keep other properties unchanged
+            return { ...item, locked: true, loading: false };
+          });
+
+          return updatedJourney2;
+        } else {
+          // console.log("tab selected");
+          let arr = [];
+          let prevSelected = false; // Initialize a variable to keep track of the previous item's 'selected' value.
+
+          for (let i = 0; i < journey2.length; i++) {
+            const currentTab = data.journey2[`tab${i + 1}`];
+            const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
+
+            const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false and the previous item was also false.
+
+            arr.push({
+              title: journey2[i].title,
+              description: selected ? "Click to view" : journey2[i].description,
+              loading: false,
+              data: selected ? currentTab.data : [],
+              selected: selected,
+              locked: locked,
+            });
+
+            prevSelected = selected; // Update the 'prevSelected' variable for the next iteration.
           }
 
-          return item;
-        });
+          return arr;
+        }
+
       case 3:
         return journey3.map((item, index) => {
           if (index < 1) {
@@ -246,12 +264,10 @@ const page = ({ params, searchParams }) => {
   };
 
   useEffect(() => {
-    if (journey === 1) {
-      getTabResults(journey).then((res) => {
-        console.log(res, "getTabResults");
-        setData(res);
-      });
-    }
+    getTabResults(journey).then((res) => {
+      // console.log(res, "getTabResults");
+      setData(res);
+    });
   }, [journey]);
 
   useEffect(() => {
@@ -260,12 +276,12 @@ const page = ({ params, searchParams }) => {
 
   return (
     <div className="">
-      <Header id={id} name={"Cloud Kitchen idea 2 "} journey={journey} />
+      <Header id={id} name={projectName} journey={journey} />
 
       <InputModal id={id} />
 
       <div className="my-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-8 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-8  ">
           {data.length > 0 &&
             data.map((item, index) => (
               <Card
@@ -276,6 +292,7 @@ const page = ({ params, searchParams }) => {
                 loading={item.loading}
                 data={item.data}
                 journey={journey}
+                locked={item.locked}
                 tab={index + 1}
                 id={id}
               />

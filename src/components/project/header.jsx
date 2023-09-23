@@ -33,16 +33,16 @@ const journeys = [
     },
     {
         id: 2,
-        name: "Pre-Product Hustle",
+        name: "Favcy Venture Manual",
     },
-    {
-        id: 3,
-        name: "Brand Marketing and Venture Strategy",
-    },
-    {
-        id: 4,
-        name: "Post-Product Growth",
-    }
+    // {
+    //     id: 3,
+    //     name: "Brand Marketing and Venture Strategy",
+    // },
+    // {
+    //     id: 4,
+    //     name: "Post-Product Growth",
+    // }
 ]
 
 const Header = ({ id, name, journey }) => {
@@ -62,7 +62,7 @@ const Header = ({ id, name, journey }) => {
                             className=""
                         />
                         <p>
-                            Remaining Credits: 100
+                            Remaining Credits: 20
                         </p>
                     </div>
                     <button className='bg-brand rounded-full px-4 py-2 text-white'>

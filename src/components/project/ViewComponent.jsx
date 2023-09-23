@@ -17,12 +17,12 @@ const ViewComponent = ({
                         <tr className="">
                             <td colSpan="2" rowSpan="2" className="divCont">
                                 <h4>Key Partners</h4>
-                                {data[0].value["Key Partners"].map((item, index) => (
+                                {data["Key Partners"].map((item, index) => (
                                     <p
                                         className={`
                 ${index % 2 === 0
-                                                ? "bg-[#f69e53] shadow-md text-white"
-                                                : " bg-[#f9ece0] shadow-md text-black"
+                                                ? "bg-[#f69e53] shadow-md p-2 text-white"
+                                                : " bg-[#f9ece0] shadow-md p-2 text-black"
                                             }
                 text-xs cards
                 
@@ -35,12 +35,12 @@ const ViewComponent = ({
                             </td>
                             <td colspan="2" className="divCont">
                                 <h4>Key Activities</h4>
-                                {data[0].value["Key Activities"].map((item, index) => (
+                                {data["Key Activities"].map((item, index) => (
                                     <p
                                         className={`
                 ${index % 2 === 0
-                                                ? "bg-[#f69e53] shadow-md text-white"
-                                                : " bg-[#f9ece0] shadow-md text-black"
+                                                ? "bg-[#f69e53] shadow-md p-2 text-white"
+                                                : " bg-[#f9ece0] shadow-md p-2 text-black"
                                             }
                 text-xs cards
                 
@@ -53,12 +53,12 @@ const ViewComponent = ({
                             </td>
                             <td colspan="2" rowspan="2" className="divCont">
                                 <h4>Value Proposition</h4>
-                                {data[0].value["Value Propositions"].map((item, index) => (
+                                {data["Value Propositions"].map((item, index) => (
                                     <p
                                         className={`
                 ${index % 2 === 0
-                                                ? "bg-[#f69e53] shadow-md text-white"
-                                                : " bg-[#f9ece0] shadow-md text-black"
+                                                ? "bg-[#f69e53] shadow-md p-2 text-white"
+                                                : " bg-[#f9ece0] shadow-md p-2 text-black"
                                             }
                 text-xs cards
                 
@@ -71,12 +71,12 @@ const ViewComponent = ({
                             </td>
                             <td colspan="2" className="divCont">
                                 <h4>Customer Relationship</h4>
-                                {data[0].value["Customer Relationships"].map((item, index) => (
+                                {data["Customer Relationships"].map((item, index) => (
                                     <p
                                         className={`
                  ${index % 2 === 0
-                                                ? "bg-[#f69e53] shadow-md text-white"
-                                                : " bg-[#f9ece0] shadow-md text-black"
+                                                ? "bg-[#f69e53] shadow-md p-2 text-white"
+                                                : " bg-[#f9ece0] shadow-md p-2 text-black"
                                             }
                  text-xs cards
                  
@@ -89,12 +89,12 @@ const ViewComponent = ({
                             </td>
                             <td colspan="2" rowspan="2" className="divCont">
                                 <h4>Customer Segments</h4>
-                                {data[0].value["Customer Segments"].map((item, index) => (
+                                {data["Customer Segments"].map((item, index) => (
                                     <p
                                         className={`
                  ${index % 2 === 0
-                                                ? "bg-[#f69e53] shadow-md text-white"
-                                                : " bg-[#f9ece0] shadow-md text-black"
+                                                ? "bg-[#f69e53] shadow-md p-2 text-white"
+                                                : " bg-[#f9ece0] shadow-md p-2 text-black"
                                             }
                  text-xs cards
                  
@@ -110,12 +110,12 @@ const ViewComponent = ({
                         <tr>
                             <td colspan="2" className="divCont">
                                 <h4>Key Resources</h4>
-                                {data[0].value["Key Resources"].map((item, index) => (
+                                {data["Key Resources"].map((item, index) => (
                                     <p
                                         className={`
                  ${index % 2 === 0
-                                                ? "bg-[#f69e53] shadow-md text-white"
-                                                : " bg-[#f9ece0] shadow-md text-black"
+                                                ? "bg-[#f69e53] shadow-md p-2 text-white"
+                                                : " bg-[#f9ece0] shadow-md p-2 text-black"
                                             }
                  text-xs cards
                  
@@ -128,12 +128,12 @@ const ViewComponent = ({
                             </td>
                             <td colspan="2" className="divCont">
                                 <h4>Channels</h4>
-                                {data[0].value["Channels"].map((item, index) => (
+                                {data["Channels"].map((item, index) => (
                                     <p
                                         className={`
                  ${index % 2 === 0
-                                                ? "bg-[#f69e53] shadow-md text-white"
-                                                : " bg-[#f9ece0] shadow-md text-black"
+                                                ? "bg-[#f69e53] shadow-md p-2 text-white"
+                                                : " bg-[#f9ece0] shadow-md p-2 text-black"
                                             }
                  text-xs cards
                  
@@ -148,12 +148,12 @@ const ViewComponent = ({
                         <tr>
                             <td colspan="5" className="divCont">
                                 <h4>Cost Structure</h4>
-                                {data[0].value["Cost Structure"].map((item, index) => (
+                                {data["Cost Structure"].map((item, index) => (
                                     <p
                                         className={`
                 ${index % 2 === 0
-                                                ? "bg-[#f69e53] shadow-md text-white"
-                                                : " bg-[#f9ece0] shadow-md text-black"
+                                                ? "bg-[#f69e53] shadow-md p-2 text-white"
+                                                : " bg-[#f9ece0] shadow-md p-2 text-black"
                                             }
                 text-xs cards
                 
@@ -166,12 +166,12 @@ const ViewComponent = ({
                             </td>
                             <td colspan="5" className="divCont">
                                 <h4>Revenue Streams</h4>
-                                {data[0].value["Revenue Streams"].map((item, index) => (
+                                {data["Revenue Streams"].map((item, index) => (
                                     <p
                                         className={`
                   ${index % 2 === 0
-                                                ? "bg-[#f69e53] shadow-md text-white"
-                                                : " bg-[#f9ece0] shadow-md text-black"
+                                                ? "bg-[#f69e53] shadow-md p-2 text-white"
+                                                : " bg-[#f9ece0] shadow-md p-2 text-black"
                                             }
                   text-xs cards
                   
@@ -186,7 +186,7 @@ const ViewComponent = ({
                     </table>
                     <div className="flex flex-col items-start mt-5 p-2">
                         <h1>Summary :</h1>
-                        <p className="text-md my-1 text-left leading-5 ">{data[0].value["BMC_summary"]}</p>
+                        <p className="text-md my-1 text-left leading-5 ">{data["BMC_summary"]}</p>
                     </div>
                 </div>
             );
@@ -466,197 +466,199 @@ const ViewComponent = ({
             )} */}
                 </div>
             );
-    } else if (journey === "2") {
-        if (tab === 3) {
-            return (
-                <>
-                    {data && (
-                        <div>
-                            <table className="table-auto ">
-                                <thead>
-                                    <tr>
-                                        <th className="px-4 py-2 border border-gray-500">
-                                            Pillars <span className="text-red-500">*</span>
-                                        </th>
-                                        <th className="px-4 py-2 border border-gray-500">
-                                            Inbound <span className="text-red-500">*</span>
-                                        </th>
-                                        <th className="px-4 py-2 border border-gray-500">
-                                            Outbound <span className="text-red-500">*</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {data[0].value?.reach_pillar && (
-                                        <tr>
-                                            <td className=" px-4 py-2 border border-gray-500">Reach</td>
-                                            <td className=" px-4 py-2 border border-gray-500">
-                                                {data[0].value?.reach_pillar?.inbound}
-                                            </td>
-                                            <td className=" px-4 py-2 border border-gray-500">
-                                                {data[0].value?.reach_pillar?.outbound}
-                                            </td>
-                                        </tr>
-                                    )}
-                                    {data[0].value?.nurture_pillar && (
-                                        <tr>
-                                            <td className=" px-4 py-2 border border-gray-500">Nurture</td>
-                                            <td className=" px-4 py-2 border border-gray-500">
-                                                {data[0].value?.nurture_pillar?.inbound}
-                                            </td>
-                                            <td className=" px-4 py-2 border border-gray-500">
-                                                {data[0].value?.nurture_pillar?.outbound}
-                                            </td>
-                                        </tr>
-                                    )}
-                                    {data[0].value?.commitment_pillar && (
-                                        <tr>
-                                            <td className=" px-4 py-2 border border-gray-500">Commitment</td>
-                                            <td className=" px-4 py-2 border border-gray-500">
-                                                {data[0].value?.commitment_pillar?.inbound}
-                                            </td>
-                                            <td className=" px-4 py-2 border border-gray-500">
-                                                {data[0].value?.commitment_pillar?.outbound}
-                                            </td>
-                                        </tr>
-                                    )}
-                                    {data[0].value?.customer_success_pillar && (
-                                        <tr>
-                                            <td className=" px-4 py-2 border border-gray-500">Customer Success</td>
-                                            <td className=" px-4 py-2 border border-gray-500">
-                                                {data[0].value?.customer_success_pillar?.inbound}
-                                            </td>
-                                            <td className=" px-4 py-2 border border-gray-500">
-                                                {data[0].value?.customer_success_pillar?.outbound}
-                                            </td>
-                                        </tr>
-                                    )}
-
-                                    {data[0].value?.product_pillar && (
-                                        <tr>
-                                            <td className=" px-4 py-2 border border-gray-500">Product</td>
-                                            <td className=" px-4 py-2 border border-gray-500">
-                                                {data[0].value?.product_pillar?.inbound}
-                                            </td>
-                                            <td className=" px-4 py-2 border border-gray-500">
-                                                {data[0].value?.product_pillar?.outbound}
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
-                </>
-            );
-        }
-    } else if (journey === "3") {
-        if (tab === 1) {
-            return (
-                <>
-                    {typeof data[0].value === "object" ? (
-                        <div>
-                            <table className="table-auto ">
-                                <thead>
-                                    <tr>
-                                        <th className="px-4 py-2 border border-gray-500">
-                                            Title <span className="text-red-500">*</span>
-                                        </th>
-                                        <th className="px-4 py-2 border border-gray-500">
-                                            Description <span className="text-red-500">*</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className=" px-4 py-2 border border-gray-500">Introduction</td>
-                                        <td className=" px-4 py-2 border border-gray-500">{data[0].value["intro"]}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className=" px-4 py-2 border border-gray-500">Direct Sales</td>
-                                        <td className=" px-4 py-2 border border-gray-500">
-                                            {data[0].value["Direct Sales"]}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className=" px-4 py-2 border border-gray-500">Referral Program</td>
-                                        <td className=" px-4 py-2 border border-gray-500">
-                                            {data[0].value["Referral Program"]}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className=" px-4 py-2 border border-gray-500">Strategic Partnerships</td>
-                                        <td className=" px-4 py-2 border border-gray-500">
-                                            {data[0].value["Strategic Partnerships"]}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className=" px-4 py-2 border border-gray-500">Digital Marketing</td>
-                                        <td className=" px-4 py-2 border border-gray-500">
-                                            {data[0].value["Digital Marketing"]}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className=" px-4 py-2 border border-gray-500">Customer Support</td>
-                                        <td className=" px-4 py-2 border border-gray-500">
-                                            {data[0].value["Customer Support"]}
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td className=" px-4 py-2 border border-gray-500">B2B Marketplaces</td>
-                                        <td className=" px-4 py-2 border border-gray-500">
-                                            {data[0].value["B2B Marketplaces"]}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className=" px-4 py-2 border border-gray-500">Affiliate Marketing</td>
-                                        <td className=" px-4 py-2 border border-gray-500">
-                                            {data[0].value["Affiliate Marketing"]}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className=" px-4 py-2 border border-gray-500">Closing thoughts</td>
-                                        <td className=" px-4 py-2 border border-gray-500">
-                                            {data[0].value["Closing thoughts"]}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    ) : (
-                        <div className="flex flex-col items-start justify-start space-y-4 ">
-                            <p>
-                                {/* {data?.length > 0 &&
-                data[0]?.value.split("\n").map((c, index) => {
-                  return <p key={index}> {c} </p>;
-                })} */}
-                                {data?.length > 0 && (
-                                    // <ReactMarkdown remarkPlugins={[breaks]} components={renderers} >
-                                    //   {data[0].value}
-                                    // </ReactMarkdown>
-
-                                    <Markdown className="prose text-black">{data[0].value}</Markdown>
-                                )}
-                            </p>
-
-                            <p className="text-sm font-medium">
-                                * If you would like to detail out each of these sub tasks , please use the &nbsp;
-                                <a
-                                    href="https://minigator.vercel.app/"
-                                    className="text-orange-500 outline-none border-none"
-                                    target="_blank"
-                                >
-                                    Favcy Minigator
-                                </a>
-                            </p>
-                        </div>
-                    )}
-                </>
-            );
-        }
     }
+
+    // else if (journey === "2") {
+    //     if (tab === 3) {
+    //         return (
+    //             <>
+    //                 {data && (
+    //                     <div>
+    //                         <table className="table-auto ">
+    //                             <thead>
+    //                                 <tr>
+    //                                     <th className="px-4 py-2 border border-gray-500">
+    //                                         Pillars <span className="text-red-500">*</span>
+    //                                     </th>
+    //                                     <th className="px-4 py-2 border border-gray-500">
+    //                                         Inbound <span className="text-red-500">*</span>
+    //                                     </th>
+    //                                     <th className="px-4 py-2 border border-gray-500">
+    //                                         Outbound <span className="text-red-500">*</span>
+    //                                     </th>
+    //                                 </tr>
+    //                             </thead>
+
+    //                             <tbody>
+    //                                 {data[0].value?.reach_pillar && (
+    //                                     <tr>
+    //                                         <td className=" px-4 py-2 border border-gray-500">Reach</td>
+    //                                         <td className=" px-4 py-2 border border-gray-500">
+    //                                             {data[0].value?.reach_pillar?.inbound}
+    //                                         </td>
+    //                                         <td className=" px-4 py-2 border border-gray-500">
+    //                                             {data[0].value?.reach_pillar?.outbound}
+    //                                         </td>
+    //                                     </tr>
+    //                                 )}
+    //                                 {data[0].value?.nurture_pillar && (
+    //                                     <tr>
+    //                                         <td className=" px-4 py-2 border border-gray-500">Nurture</td>
+    //                                         <td className=" px-4 py-2 border border-gray-500">
+    //                                             {data[0].value?.nurture_pillar?.inbound}
+    //                                         </td>
+    //                                         <td className=" px-4 py-2 border border-gray-500">
+    //                                             {data[0].value?.nurture_pillar?.outbound}
+    //                                         </td>
+    //                                     </tr>
+    //                                 )}
+    //                                 {data[0].value?.commitment_pillar && (
+    //                                     <tr>
+    //                                         <td className=" px-4 py-2 border border-gray-500">Commitment</td>
+    //                                         <td className=" px-4 py-2 border border-gray-500">
+    //                                             {data[0].value?.commitment_pillar?.inbound}
+    //                                         </td>
+    //                                         <td className=" px-4 py-2 border border-gray-500">
+    //                                             {data[0].value?.commitment_pillar?.outbound}
+    //                                         </td>
+    //                                     </tr>
+    //                                 )}
+    //                                 {data[0].value?.customer_success_pillar && (
+    //                                     <tr>
+    //                                         <td className=" px-4 py-2 border border-gray-500">Customer Success</td>
+    //                                         <td className=" px-4 py-2 border border-gray-500">
+    //                                             {data[0].value?.customer_success_pillar?.inbound}
+    //                                         </td>
+    //                                         <td className=" px-4 py-2 border border-gray-500">
+    //                                             {data[0].value?.customer_success_pillar?.outbound}
+    //                                         </td>
+    //                                     </tr>
+    //                                 )}
+
+    //                                 {data[0].value?.product_pillar && (
+    //                                     <tr>
+    //                                         <td className=" px-4 py-2 border border-gray-500">Product</td>
+    //                                         <td className=" px-4 py-2 border border-gray-500">
+    //                                             {data[0].value?.product_pillar?.inbound}
+    //                                         </td>
+    //                                         <td className=" px-4 py-2 border border-gray-500">
+    //                                             {data[0].value?.product_pillar?.outbound}
+    //                                         </td>
+    //                                     </tr>
+    //                                 )}
+    //                             </tbody>
+    //                         </table>
+    //                     </div>
+    //                 )}
+    //             </>
+    //         );
+    //     }
+    // } else if (journey === "3") {
+    //     if (tab === 1) {
+    //         return (
+    //             <>
+    //                 {typeof data[0].value === "object" ? (
+    //                     <div>
+    //                         <table className="table-auto ">
+    //                             <thead>
+    //                                 <tr>
+    //                                     <th className="px-4 py-2 border border-gray-500">
+    //                                         Title <span className="text-red-500">*</span>
+    //                                     </th>
+    //                                     <th className="px-4 py-2 border border-gray-500">
+    //                                         Description <span className="text-red-500">*</span>
+    //                                     </th>
+    //                                 </tr>
+    //                             </thead>
+    //                             <tbody>
+    //                                 <tr>
+    //                                     <td className=" px-4 py-2 border border-gray-500">Introduction</td>
+    //                                     <td className=" px-4 py-2 border border-gray-500">{data[0].value["intro"]}</td>
+    //                                 </tr>
+    //                                 <tr>
+    //                                     <td className=" px-4 py-2 border border-gray-500">Direct Sales</td>
+    //                                     <td className=" px-4 py-2 border border-gray-500">
+    //                                         {data[0].value["Direct Sales"]}
+    //                                     </td>
+    //                                 </tr>
+    //                                 <tr>
+    //                                     <td className=" px-4 py-2 border border-gray-500">Referral Program</td>
+    //                                     <td className=" px-4 py-2 border border-gray-500">
+    //                                         {data[0].value["Referral Program"]}
+    //                                     </td>
+    //                                 </tr>
+    //                                 <tr>
+    //                                     <td className=" px-4 py-2 border border-gray-500">Strategic Partnerships</td>
+    //                                     <td className=" px-4 py-2 border border-gray-500">
+    //                                         {data[0].value["Strategic Partnerships"]}
+    //                                     </td>
+    //                                 </tr>
+    //                                 <tr>
+    //                                     <td className=" px-4 py-2 border border-gray-500">Digital Marketing</td>
+    //                                     <td className=" px-4 py-2 border border-gray-500">
+    //                                         {data[0].value["Digital Marketing"]}
+    //                                     </td>
+    //                                 </tr>
+    //                                 <tr>
+    //                                     <td className=" px-4 py-2 border border-gray-500">Customer Support</td>
+    //                                     <td className=" px-4 py-2 border border-gray-500">
+    //                                         {data[0].value["Customer Support"]}
+    //                                     </td>
+    //                                 </tr>
+
+    //                                 <tr>
+    //                                     <td className=" px-4 py-2 border border-gray-500">B2B Marketplaces</td>
+    //                                     <td className=" px-4 py-2 border border-gray-500">
+    //                                         {data[0].value["B2B Marketplaces"]}
+    //                                     </td>
+    //                                 </tr>
+    //                                 <tr>
+    //                                     <td className=" px-4 py-2 border border-gray-500">Affiliate Marketing</td>
+    //                                     <td className=" px-4 py-2 border border-gray-500">
+    //                                         {data[0].value["Affiliate Marketing"]}
+    //                                     </td>
+    //                                 </tr>
+    //                                 <tr>
+    //                                     <td className=" px-4 py-2 border border-gray-500">Closing thoughts</td>
+    //                                     <td className=" px-4 py-2 border border-gray-500">
+    //                                         {data[0].value["Closing thoughts"]}
+    //                                     </td>
+    //                                 </tr>
+    //                             </tbody>
+    //                         </table>
+    //                     </div>
+    //                 ) : (
+    //                     <div className="flex flex-col items-start justify-start space-y-4 ">
+    //                         <p>
+    //                             {/* {data?.length > 0 &&
+    //             data[0]?.value.split("\n").map((c, index) => {
+    //               return <p key={index}> {c} </p>;
+    //             })} */}
+    //                             {data?.length > 0 && (
+    //                                 // <ReactMarkdown remarkPlugins={[breaks]} components={renderers} >
+    //                                 //   {data[0].value}
+    //                                 // </ReactMarkdown>
+
+    //                                 <Markdown className="prose text-black">{data[0].value}</Markdown>
+    //                             )}
+    //                         </p>
+
+    //                         <p className="text-sm font-medium">
+    //                             * If you would like to detail out each of these sub tasks , please use the &nbsp;
+    //                             <a
+    //                                 href="https://minigator.vercel.app/"
+    //                                 className="text-orange-500 outline-none border-none"
+    //                                 target="_blank"
+    //                             >
+    //                                 Favcy Minigator
+    //                             </a>
+    //                         </p>
+    //                     </div>
+    //                 )}
+    //             </>
+    //         );
+    //     }
+    // }
 
     return (
         <div className="flex flex-col items-start justify-start space-y-4 ">
@@ -665,12 +667,12 @@ const ViewComponent = ({
         data[0]?.value.split("\n").map((c, index) => {
           return <p key={index}> {c} </p>;
         })} */}
-                {data?.length > 0 && (
+                {data && (
                     // <ReactMarkdown remarkPlugins={[breaks]} components={renderers} >
                     //   {data[0].value}
                     // </ReactMarkdown>
 
-                    <Markdown className="prose text-black">{data[0].value}</Markdown>
+                    <Markdown className="prose text-black">{data}</Markdown>
                 )}
             </p>
 

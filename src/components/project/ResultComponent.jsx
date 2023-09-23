@@ -30,6 +30,7 @@ const CardComponent = ({ data, select, id }) => {
             if (res.data.success) {
                 toast.success("Added")
                 document.querySelector("#idea_modal").checked = false
+                window.location.reload()
             }
 
         } catch (error) {

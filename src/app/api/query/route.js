@@ -1,6 +1,6 @@
 import { connectDb } from "@/app/lib/connectDb";
 import Project from "@/models/Project";
-import { PORTKEY, getApi } from "@/utils/api";
+import { PORTKEY, getApi, getContent } from "@/utils/api";
 import axios from "axios";
 
 import { NextResponse } from "next/server";
@@ -30,29 +30,27 @@ export async function GET(request) {
       }
     );
     console.log(result.data, "result");
+
+    if (result.data.success) {
+      let project = await Project.findById(id);
+
+      console.log(q, "q");
+
+      project.query = q;
+      project.queryResults = getContent(result);
+
+      console.log(project, "project");
+
+      await project.save();
+      return NextResponse.json({
+        success: true,
+        data: project.queryResults,
+      });
+    } else {
+      return new Response(null, { status: 404, statusText: "Something went wrong" });
+    }
   } catch (error) {
     console.log(error);
+    return new Response(null, { status: 404, statusText: "Something went wrong" });
   }
-
-  // if (result.data.success) {
-  //   let project = await Project.findById(id);
-
-  //   console.log(q, "q");
-
-  //   project.query = q;
-  //   project.queryResults = result.data.content;
-
-  //   console.log(project, "project");
-
-  //   await project.save();
-  //   return NextResponse.json({
-  //     success: true,
-  //     data: project.queryResults,
-  //   });
-  // } else {
-  //   return new Response(null, { status: 404, statusText: "Something went wrong" });
-  // }
-  return NextResponse.json({
-    success: true,
-  });
 }

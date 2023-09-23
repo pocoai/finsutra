@@ -4,6 +4,8 @@ import "../../globals.css";
 import { Urbanist } from "next/font/google";
 
 import ParentLayout from "@/components/ParentLayout";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -21,6 +23,7 @@ export default function RootLayout({ children }) {
     <div>
       <ClerkProvider>
         <ParentLayout>{children}</ParentLayout>
+        <ToastContainer />
       </ClerkProvider>
     </div>
     // </html>

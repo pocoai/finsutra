@@ -7,8 +7,13 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import ViewModal from './ViewModal';
 import { useAuth } from '@clerk/nextjs';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const Card = ({ title, description, tab, data, selected, loading, journey, id }) => {
+import { LockOpenIcon } from '@heroicons/react/24/solid';
+import "animate.css"
+
+
+const Card = ({ title, description, tab, data, selected, loading, journey, id, locked }) => {
     const [cardLoading, setCardLoading] = useState(loading)
     const [openModal, setOpenModal] = useState(false)
 
@@ -19,14 +24,26 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id })
     }, [loading])
 
 
+    const getTab = (tab) => {
+        if (tab === 7) {
+            return 9
+        }
+        else {
+            return tab
+        }
+    }
+
+
     const handleApiCall = async () => {
 
-        console.log("api here");
+        let currentab;
+
+        // console.log("api here");
         let token = await getToken();
 
         setCardLoading(true)
         try {
-            let res = await axios.post(`http://localhost:3000/api/project/${id}?journey=${journey}&tab=${tab}`, {
+            let res = await axios.post(`http://localhost:3000/api/project/${id}?journey=${journey}&tab=${getTab(tab)}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
@@ -34,26 +51,38 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id })
             })
 
 
-            console.log(res.data, "here");
+            if (res.data.success) {
+
+                window.location.reload()
+            }
+            else {
+                toast.error("Internal Server Error")
+            }
+
 
         } catch (error) {
             console.log(error);
+            toast.error("Internal Server Error")
         }
         setCardLoading(false)
     }
 
     return (
         <div className={classNames({
-            "card w-[279px] h-[190px] shadow-md": true,
+            "card w-[279px] h-[190px] shadow-md animate__animated animate__fadeInLeft": true,
             "bg-[#FFF0DF]": selected,
             "bg-[#F1F2F4]": !selected
         })}
 
         >
             <div className="card-body px-4 py-6">
-                {!selected && (
+                {selected ? null : locked ? (
                     <LockClosedIcon className="w-5 h-5 text-[#808182]" />
+                ) : (
+                    <LockOpenIcon className="w-5 h-5 text-[#808182]" />
                 )}
+
+
                 <h2 className={classNames({
                     "card-title text-[17px] w-full": true,
                     "whitespace-nowrap": title.length < 27,
@@ -97,7 +126,9 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id })
                 </div>
             </div>
 
-            {openModal && <ViewModal isOpen={openModal} setIsOpen={setOpenModal} title={title} data={data} journey={journey} tab={tab} />}
+            {openModal && <ViewModal isOpen={openModal} setIsOpen={setOpenModal} title={title} data={data} journey={journey} tab={getTab(tab)} />}
+
+
         </div>
     )
 }

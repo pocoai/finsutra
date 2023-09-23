@@ -1,5 +1,5 @@
 import Project from "@/models/Project";
-import { API, getApi } from "@/utils/api";
+import { API, PORTKEY, getApi, getContent } from "@/utils/api";
 import { auth } from "@clerk/nextjs";
 import axios from "axios";
 import { NextResponse } from "next/server";
@@ -29,6 +29,19 @@ export async function GET(request, { params }) {
 
     if (!project.query) {
       project.query = "";
+    }
+  }
+
+  if (journey === 2) {
+    project = await Project.findOne({
+      _id: id,
+      uid: userId,
+    })
+      .select("journey2 name")
+      .lean();
+
+    if (!project) {
+      return new Response(null, { status: 404, statusText: "Not Found" });
     }
   }
 
@@ -72,22 +85,32 @@ export async function POST(request, { params }) {
     if (tab === 2) {
       let api = getApi(1, 2);
 
-      let pitch = project.journey1.tab1.data[0]?.value;
-      let icp = project.journey1.tab1.data[1]?.value;
+      let pitch = project.journey1.tab1.data[1]?.value;
+      let icp = project.journey1.tab1.data[2]?.value;
 
       console.log(pitch, icp, "pitch");
 
-      let result = await axios.get(`${api}?x=${pitch}&y=${icp}`, {
-        headers: {
-          "Content-Type": "application/json",
+      let result = await axios.post(
+        api,
+        {
+          variables: {
+            elevator_pitch: pitch,
+            ideal_customer_profile: icp,
+          },
         },
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-portkey-api-key": PORTKEY,
+          },
+        }
+      );
 
       // console.log(result.data, "api results ");
 
       if (result.data.success) {
         let tab2 = {
-          data: result.data.content,
+          data: getContent(result),
           selected: true,
         };
 
@@ -108,24 +131,34 @@ export async function POST(request, { params }) {
     }
 
     if (tab === 3) {
-      let api = `${API}/j1/tab3`;
+      let api = getApi(1, 3);
 
-      let pitch = project.journey1.tab1.data[0]?.value;
-      let icp = project.journey1.tab1.data[1]?.value;
+      let pitch = project.journey1.tab1.data[1]?.value;
+      let icp = project.journey1.tab1.data[2]?.value;
 
       console.log(pitch, icp, "pitch");
 
-      let result = await axios.get(`${api}?x=${pitch}&y=${icp}`, {
-        headers: {
-          "Content-Type": "application/json",
+      let result = await axios.post(
+        api,
+        {
+          variables: {
+            elevator_pitch: pitch,
+            ideal_customer_profile: icp,
+          },
         },
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-portkey-api-key": PORTKEY,
+          },
+        }
+      );
 
       // console.log(result.data, "api results ");
 
       if (result.data.success) {
         let tab3 = {
-          data: result.data.content,
+          data: getContent(result),
           selected: true,
         };
 
@@ -146,24 +179,34 @@ export async function POST(request, { params }) {
     }
 
     if (tab === 4) {
-      let api = `${API}/j1/tab4`;
+      let api = getApi(1, 4);
 
-      let pitch = project.journey1.tab1.data[0]?.value;
-      let icp = project.journey1.tab1.data[1]?.value;
+      let pitch = project.journey1.tab1.data[1]?.value;
+      let icp = project.journey1.tab1.data[2]?.value;
 
       console.log(pitch, icp, "pitch");
 
-      let result = await axios.get(`${api}?x=${pitch}&y=${icp}`, {
-        headers: {
-          "Content-Type": "application/json",
+      let result = await axios.post(
+        api,
+        {
+          variables: {
+            elevator_pitch: pitch,
+            ideal_customer_profile: icp,
+          },
         },
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-portkey-api-key": PORTKEY,
+          },
+        }
+      );
 
       console.log(result.data, "api results ");
 
       if (result.data.success) {
         let tab4 = {
-          data: result.data.content,
+          data: getContent(result),
           selected: true,
         };
 
@@ -183,24 +226,34 @@ export async function POST(request, { params }) {
       }
     }
     if (tab === 5) {
-      let api = `${API}/j1/tab5`;
+      let api = getApi(1, 5);
 
-      let pitch = project.journey1.tab1.data[0]?.value;
-      let icp = project.journey1.tab1.data[1]?.value;
+      let pitch = project.journey1.tab1.data[1]?.value;
+      let icp = project.journey1.tab1.data[2]?.value;
 
       console.log(pitch, icp, "pitch");
 
-      let result = await axios.get(`${api}?x=${pitch}&y=${icp}`, {
-        headers: {
-          "Content-Type": "application/json",
+      let result = await axios.post(
+        api,
+        {
+          variables: {
+            elevator_pitch: pitch,
+            ideal_customer_profile: icp,
+          },
         },
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-portkey-api-key": PORTKEY,
+          },
+        }
+      );
 
       console.log(result.data, "api results ");
 
       if (result.data.success) {
         let tab = {
-          data: result.data.content,
+          data: result.data.data.choices[0].message.content,
           selected: true,
         };
 
@@ -208,6 +261,263 @@ export async function POST(request, { params }) {
           id,
           {
             "journey1.tab5": tab,
+          },
+          {
+            new: true,
+          }
+        );
+
+        console.log(updated_res, "updated_res");
+      } else {
+        return new Response(null, { status: 404, statusText: "Not Found" });
+      }
+    }
+    if (tab === 6) {
+      let api = getApi(1, 6);
+
+      let pitch = project.journey1.tab1.data[1]?.value;
+      let icp = project.journey1.tab1.data[2]?.value;
+
+      console.log(pitch, icp, "pitch");
+
+      let result = await axios.post(
+        api,
+        {
+          variables: {
+            elevator_pitch: pitch,
+            ideal_customer_profile: icp,
+            brand_guidelines: "",
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-portkey-api-key": PORTKEY,
+          },
+        }
+      );
+
+      console.log(result.data, "api results ");
+
+      if (result.data.success) {
+        let tab = {
+          data: result.data.data.choices[0].message.content,
+          selected: true,
+        };
+
+        let updated_res = await Project.findByIdAndUpdate(
+          id,
+          {
+            "journey1.tab6": tab,
+          },
+          {
+            new: true,
+          }
+        );
+
+        console.log(updated_res, "updated_res");
+      } else {
+        return new Response(null, { status: 404, statusText: "Not Found" });
+      }
+    }
+    if (tab === 9) {
+      let api = getApi(1, 9);
+
+      let pitch = project.journey1.tab1.data[1]?.value;
+      let icp = project.journey1.tab1.data[2]?.value;
+
+      console.log(pitch, icp, "pitch");
+
+      let result = await axios.post(
+        api,
+        {
+          variables: {
+            elevator_pitch: pitch,
+            ideal_customer_profile: icp,
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-portkey-api-key": PORTKEY,
+          },
+        }
+      );
+
+      console.log(result.data, "api results ");
+
+      if (result.data.success) {
+        let tab = {
+          data: getContent(result),
+          selected: true,
+        };
+
+        let updated_res = await Project.findByIdAndUpdate(
+          id,
+          {
+            "journey1.tab9": tab,
+          },
+          {
+            new: true,
+          }
+        );
+
+        console.log(updated_res, "updated_res");
+      } else {
+        return new Response(null, { status: 404, statusText: "Not Found" });
+      }
+    }
+  }
+
+  if (journey === 2) {
+    if (tab === 1) {
+      let api = getApi(2, 1);
+
+      let pitch = project.journey1.tab1.data[1]?.value;
+      let icp = project.journey1.tab1.data[2]?.value;
+      let ind = project.journey1.tab1.data[3]?.value;
+      let ps = project.journey1.tab1.data[4]?.value;
+      let vp = project.journey1.tab1.data[5]?.value;
+
+      console.log(pitch, icp, "pitch");
+
+      let result = await axios.post(
+        api,
+        {
+          variables: {
+            elevator_pitch: pitch,
+            ideal_customer_profile: icp,
+            industry: ind,
+            problem_statement: ps,
+            value_proposition: vp,
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-portkey-api-key": PORTKEY,
+          },
+        }
+      );
+
+      // console.log(result.data, "api results ");
+
+      if (result.data.success) {
+        let tab2 = {
+          data: result.data.data.choices[0].message.content,
+          selected: true,
+        };
+
+        let updated_res = await Project.findByIdAndUpdate(
+          id,
+          {
+            "journey2.tab1": tab2,
+          },
+          {
+            new: true,
+          }
+        );
+
+        console.log(updated_res, "updated_res");
+      } else {
+        return new Response(null, { status: 404, statusText: "Not Found" });
+      }
+    }
+    if (tab === 2) {
+      let api = getApi(2, 2);
+
+      let pitch = project.journey1.tab1.data[1]?.value;
+      let icp = project.journey1.tab1.data[2]?.value;
+      let ind = project.journey1.tab1.data[3]?.value;
+      let ps = project.journey1.tab1.data[4]?.value;
+      let vp = project.journey1.tab1.data[5]?.value;
+
+      console.log(pitch, icp, "pitch");
+
+      let result = await axios.post(
+        api,
+        {
+          variables: {
+            elevator_pitch: pitch,
+            ideal_customer_profile: icp,
+            industry: ind,
+            problem_statement: ps,
+            value_proposition: vp,
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-portkey-api-key": PORTKEY,
+          },
+        }
+      );
+
+      // console.log(result.data, "api results ");
+
+      if (result.data.success) {
+        let tab2 = {
+          data: result.data.data.choices[0].message.content,
+          selected: true,
+        };
+
+        let updated_res = await Project.findByIdAndUpdate(
+          id,
+          {
+            "journey2.tab2": tab2,
+          },
+          {
+            new: true,
+          }
+        );
+
+        console.log(updated_res, "updated_res");
+      } else {
+        return new Response(null, { status: 404, statusText: "Not Found" });
+      }
+    }
+    if (tab === 3) {
+      let api = getApi(2, 3);
+
+      let pitch = project.journey1.tab1.data[1]?.value;
+      let icp = project.journey1.tab1.data[2]?.value;
+      let ind = project.journey1.tab1.data[3]?.value;
+      let ps = project.journey1.tab1.data[4]?.value;
+      let vp = project.journey1.tab1.data[5]?.value;
+
+      console.log(pitch, icp, "pitch");
+
+      let result = await axios.post(
+        api,
+        {
+          variables: {
+            elevator_pitch: pitch,
+            ideal_customer_profile: icp,
+            industry: ind,
+            problem_statement: ps,
+            value_proposition: vp,
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-portkey-api-key": PORTKEY,
+          },
+        }
+      );
+
+      // console.log(result.data, "api results ");
+
+      if (result.data.success) {
+        let tab2 = {
+          data: result.data.data.choices[0].message.content,
+          selected: true,
+        };
+
+        let updated_res = await Project.findByIdAndUpdate(
+          id,
+          {
+            "journey2.tab3": tab2,
           },
           {
             new: true,
