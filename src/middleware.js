@@ -3,7 +3,7 @@ import { authMiddleware } from "@clerk/nextjs";
 export default authMiddleware({
   ignoredRoutes: ["/api/stripe-webhook"],
 
-  // debug: true,
+  debug: true,
 });
 
 export const config = {
