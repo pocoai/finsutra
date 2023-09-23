@@ -207,7 +207,7 @@ const ViewComponent = ({
                             information that we believe should be useful for you as a founder.
                         </p>
                     </div>
-                    {data[0].value?.competitors && (
+                    {data?.competitors && (
                         <div className="flex flex-col items-start justify-start space-y-2 ">
                             {/* <h2 className="text-xl font-semibold text-gray-800">Competitors : </h2> */}
                             <table className="table-auto ">
@@ -231,7 +231,7 @@ const ViewComponent = ({
                                     </tr>
                                 </thead>
                                 {data &&
-                                    data[0]?.value?.competitors.map((item, index) => (
+                                    data.competitors.map((item, index) => (
                                         <tbody key={index}>
                                             <tr>
                                                 <td className=" px-4 py-2 border border-gray-500">{index + 1}</td>

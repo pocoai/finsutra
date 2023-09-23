@@ -345,6 +345,108 @@ export async function POST(request, { params }) {
         return new Response(null, { status: 400, statusText: "Internal Server Error" });
       }
     }
+    if (tab === 7) {
+      let api = getApi(1, 7);
+
+      let pitch = project.journey1.tab1.data[1]?.value;
+      let icp = project.journey1.tab1.data[2]?.value;
+
+      let psfit = project.journey1.tab2.data.ps_list;
+
+      let solutions = "";
+      for (let i = 0; i < psfit.length; i++) {
+        let d = psfit[i]["Solution"];
+
+        solutions = solutions + d + "\n";
+      }
+
+      console.log(pitch, icp, "pitch");
+
+      try {
+        let result = await axios.post(
+          api,
+          {
+            variables: {
+              elevator_pitch: pitch,
+              ideal_customer_profile: icp,
+              solutions,
+            },
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-portkey-api-key": PORTKEY,
+            },
+          }
+        );
+
+        console.log(result.data, "api results ");
+
+        if (result.data.success) {
+          let tab = {
+            data: result.data.data.choices[0].message.content,
+            selected: true,
+          };
+
+          let updated_res = await Project.findByIdAndUpdate(
+            id,
+            {
+              "journey1.tab7": tab,
+            },
+            {
+              new: true,
+            }
+          );
+
+          console.log(updated_res, "updated_res");
+        } else {
+          return new Response(null, { status: 404, statusText: "Not Found" });
+        }
+      } catch (error) {
+        console.log(error);
+        return new Response(null, { status: 400, statusText: "Internal Server Error" });
+      }
+    }
+    if (tab === 8) {
+      let api = getApi(1, 8);
+
+      let pitch = project.journey1.tab1.data[1]?.value;
+      let icp = project.journey1.tab1.data[2]?.value;
+
+      try {
+        let result = await axios.get(`${api}?x=${pitch}&y=${icp}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        console.log(result.data, "api results ");
+
+        if (result.data.success) {
+          let tab = {
+            data: result.data.content,
+            selected: true,
+          };
+
+          let updated_res = await Project.findByIdAndUpdate(
+            id,
+            {
+              "journey1.tab8": tab,
+            },
+            {
+              new: true,
+            }
+          );
+
+          console.log(updated_res, "updated_res");
+        } else {
+          return new Response(null, { status: 404, statusText: "Not Found" });
+        }
+      } catch (error) {
+        console.log(error);
+        return new Response(null, { status: 400, statusText: "Internal Server Error" });
+      }
+    }
     if (tab === 9) {
       let api = getApi(1, 9);
 

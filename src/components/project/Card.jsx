@@ -25,12 +25,9 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
 
 
     const getTab = (tab) => {
-        if (tab === 7) {
-            return 9
-        }
-        else {
-            return tab
-        }
+
+        return tab
+
     }
 
     const api = process.env.NEXT_PUBLIC_URL;
