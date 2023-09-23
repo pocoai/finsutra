@@ -2,3 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+#bizcanvas td {
+    vertical-align: top;
+    height: 200px;
+    width: 200px;
+    padding: 6px;
+  }
+  
+  
+  #bizcanvas H4 {
+    font-weight: 700;
+    font-size: 1em;
+    background-color: #fce7d2;
+    border-radius: 5%;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+  }
+  
+  #bizcanvas H5 {
+    font-weight: 700;
+    font-size: 0.7em;
+  }
+  
