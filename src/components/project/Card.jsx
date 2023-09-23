@@ -33,7 +33,7 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
         }
     }
 
-
+    const api = process.env.NEXT_PUBLIC_URL;
     const handleApiCall = async () => {
 
         let currentab;
@@ -43,7 +43,7 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
 
         setCardLoading(true)
         try {
-            let res = await axios.post(`http://localhost:3000/api/project/${id}?journey=${journey}&tab=${getTab(tab)}`, {
+            let res = await axios.post(`${api}/api/project/${id}?journey=${journey}&tab=${getTab(tab)}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,

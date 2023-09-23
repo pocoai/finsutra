@@ -2,6 +2,8 @@ import { NextResponse, NextRequest } from "next/server";
 import { auth } from "@clerk/nextjs";
 import Stripe from "stripe";
 
+const api = process.env.NEXT_PUBLIC_URL;
+
 export async function POST(request) {
   const { userId, user } = await auth();
 
@@ -22,8 +24,8 @@ export async function POST(request) {
       credits: data.credits,
       plan: data.plan,
     },
-    success_url: "http://localhost:3000/payment?success=true",
-    cancel_url: "http://localhost:3000/payment?cancelled=true",
+    success_url: `${api}/payment?success=true`,
+    cancel_url: `${api}/payment?cancelled=true`,
   });
 
   return NextResponse.json(session.url);

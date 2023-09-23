@@ -23,10 +23,12 @@ const PricingLayout = ({ plan, price, credits, buttonText, bonus, id }) => {
   const handleSubscription = async (e) => {
     const token = await getToken();
 
+    const api = process.env.NEXT_PUBLIC_URL;
+
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:3000/api/payment",
+        `${api}/api/payment`,
         {
           priceId: id,
           plan: plan,

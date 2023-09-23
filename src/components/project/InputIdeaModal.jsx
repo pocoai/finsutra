@@ -32,7 +32,7 @@ const InputModal = ({ id }) => {
         document.querySelector("#idea_modal").checked = isModalOpen;
     }, [isModalOpen]);
 
-
+    const api = process.env.NEXT_PUBLIC_URL;
     const handleInput = async () => {
 
         if (query === "") {
@@ -46,7 +46,7 @@ const InputModal = ({ id }) => {
 
 
         try {
-            let res = await axios.get(`http://localhost:3000/api/query?q=${query}&id=${id}`, {
+            let res = await axios.get(`${api}/api/query?q=${query}&id=${id}`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,

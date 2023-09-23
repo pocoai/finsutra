@@ -6,7 +6,7 @@ const CardComponent = ({ data, select, id }) => {
 
     const { getToken } = useAuth()
 
-
+    const api = process.env.NEXT_PUBLIC_URL;
     const handleClick = async () => {
 
         console.log(data, "clicked")
@@ -15,7 +15,7 @@ const CardComponent = ({ data, select, id }) => {
 
         try {
 
-            let res = await axios.post(`http://localhost:3000/api/project/${id}?journey=1&tab=1`, {
+            let res = await axios.post(`${api}/api/project/${id}?journey=1&tab=1`, {
                 data
             }, {
                 headers: {

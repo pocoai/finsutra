@@ -99,13 +99,14 @@ const ProjectDashboard = () => {
 
 
     let { getToken } = useAuth()
+    const api = process.env.NEXT_PUBLIC_URL;
 
     const getProjects = async () => {
         dispatch({ type: "FETCH_START" })
         try {
             let token = await getToken()
 
-            let res = await axios.get(`http://localhost:3000/api/project`, {
+            let res = await axios.get(`${api}/api/project`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`

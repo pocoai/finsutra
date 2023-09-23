@@ -70,10 +70,11 @@ const Slide2 = ({ hidden, activeSlide }) => {
     return token;
   };
 
+  const api = process.env.NEXT_PUBLIC_URL;
   const setInterests = async () => {
     try {
       let response = await axios.post(
-        `http://localhost:3000/api/onboarding`,
+        `${api}/api/onboarding`,
         {
           interests: {
             work: selectedWork.name,

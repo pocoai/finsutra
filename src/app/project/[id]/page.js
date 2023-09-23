@@ -129,12 +129,13 @@ const page = ({ params, searchParams }) => {
   const [data, setData] = useState(getArrayviaJourney(journey));
   const [projectName, setProjectName] = useState("");
   const [showInput, setShowInput] = useState(false);
+  const api = process.env.NEXT_PUBLIC_URL;
 
   const { getToken } = useAuth();
   const FetchTabResults = async (id, journey) => {
     let token = await getToken();
 
-    let res = await axios.get(`http://localhost:3000/api/project/${id}?journey=${journey}`, {
+    let res = await axios.get(`${api}/api/project/${id}?journey=${journey}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

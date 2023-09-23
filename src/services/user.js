@@ -1,6 +1,8 @@
 import { auth } from "@clerk/nextjs";
 import axios from "axios";
 
+const api = process.env.NEXT_PUBLIC_URL;
+
 export function getUserData() {
   return new Promise(async (resolve, reject) => {
     try {
@@ -8,7 +10,7 @@ export function getUserData() {
 
       const token = await getToken();
 
-      let response = await axios.get(`http://localhost:3000/api/auth`, {
+      let response = await axios.get(`${api}/api/auth`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

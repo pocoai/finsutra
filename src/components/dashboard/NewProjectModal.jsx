@@ -14,6 +14,7 @@ const NewProjectModal = () => {
     const [loading, setLoading] = useState(false)
     let { getToken } = useAuth()
     const router = useRouter()
+    const api = process.env.NEXT_PUBLIC_URL;
 
     const createNewproject = async () => {
 
@@ -33,7 +34,7 @@ const NewProjectModal = () => {
 
             console.log(token)
 
-            res = await axios.post(`http://localhost:3000/api/project`, {
+            res = await axios.post(`${api}/api/project`, {
                 name
             }, {
                 headers: {
