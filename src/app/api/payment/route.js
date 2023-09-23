@@ -1,6 +1,6 @@
-import Stripe from "stripe";
 import { NextResponse, NextRequest } from "next/server";
 import { auth } from "@clerk/nextjs";
+import Stripe from "stripe";
 
 export async function POST(request) {
   const { userId, user } = await auth();
