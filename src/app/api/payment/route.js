@@ -15,16 +15,13 @@ export async function POST(request) {
         quantity: 1,
       },
     ],
-    mode: "subscription",
-    payment_method_types: ["card", "paypal"],
+    mode: "payment",
     metadata: {
       userId,
       email: user?.emailAddresses[0].emailAddress,
       credits: data.credits,
       plan: data.plan,
     },
-    customer_email: user?.emailAddresses[0].emailAddress,
-    customer: userId,
     success_url: "http://localhost:3000/payment?success=true",
     cancel_url: "http://localhost:3000/payment?cancelled=true",
   });

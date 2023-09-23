@@ -102,7 +102,7 @@ const page = () => {
     let data = await getPricing(token);
 
     let newData = data.map((item) => {
-      if (item.product === "prod_OgMVHZDwy1Ma9R") {
+      if (item.product === "prod_OgltmoYdu5RZu1") {
         return {
           plan: "Basic Plan",
           price: 249,
@@ -111,7 +111,7 @@ const page = () => {
           buttonText: "Subscribe",
           ...item,
         };
-      } else if (item.product === "prod_OgMWiJpg5qU1qz") {
+      } else if (item.product === "prod_OglvE8DEKOTOBx") {
         return {
           plan: "Standard Plan",
           price: 599,
@@ -120,7 +120,7 @@ const page = () => {
           buttonText: "Subscribe",
           ...item,
         };
-      } else if (item.product === "prod_OgMYCACUfe2hJ1") {
+      } else if (item.product === "prod_OglwB8Xyj1hA8v") {
         return {
           plan: "Advanced Plan",
           price: 1199,
