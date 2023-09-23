@@ -17,7 +17,7 @@ const InputModal = ({ id }) => {
     const [results, setResults] = useState([]);
     const { getToken } = useAuth()
 
-
+    const api = process.env.NEXT_PUBLIC_URL;
 
 
     const closeModal = () => {
@@ -32,7 +32,7 @@ const InputModal = ({ id }) => {
         document.querySelector("#idea_modal").checked = isModalOpen;
     }, [isModalOpen]);
 
-    const api = process.env.NEXT_PUBLIC_URL;
+
     const handleInput = async () => {
 
         if (query === "") {
