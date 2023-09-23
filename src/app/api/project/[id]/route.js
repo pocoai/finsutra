@@ -90,43 +90,48 @@ export async function POST(request, { params }) {
 
       console.log(pitch, icp, "pitch");
 
-      let result = await axios.post(
-        api,
-        {
-          variables: {
-            elevator_pitch: pitch,
-            ideal_customer_profile: icp,
-          },
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-portkey-api-key": PORTKEY,
-          },
-        }
-      );
-
-      // console.log(result.data, "api results ");
-
-      if (result.data.success) {
-        let tab2 = {
-          data: getContent(result),
-          selected: true,
-        };
-
-        let updated_res = await Project.findByIdAndUpdate(
-          id,
+      try {
+        let result = await axios.post(
+          api,
           {
-            "journey1.tab2": tab2,
+            variables: {
+              elevator_pitch: pitch,
+              ideal_customer_profile: icp,
+            },
           },
           {
-            new: true,
+            headers: {
+              "Content-Type": "application/json",
+              "x-portkey-api-key": PORTKEY,
+            },
           }
         );
 
-        console.log(updated_res, "updated_res");
-      } else {
-        return new Response(null, { status: 404, statusText: "Not Found" });
+        // console.log(result.data, "api results ");
+
+        if (result.data.success) {
+          let tab2 = {
+            data: getContent(result),
+            selected: true,
+          };
+
+          let updated_res = await Project.findByIdAndUpdate(
+            id,
+            {
+              "journey1.tab2": tab2,
+            },
+            {
+              new: true,
+            }
+          );
+
+          console.log(updated_res, "updated_res");
+        } else {
+          return new Response(null, { status: 404, statusText: "Not Found" });
+        }
+      } catch (error) {
+        console.log(error);
+        return new Response(null, { status: 400, statusText: "Internal Server Error" });
       }
     }
 
@@ -138,43 +143,48 @@ export async function POST(request, { params }) {
 
       console.log(pitch, icp, "pitch");
 
-      let result = await axios.post(
-        api,
-        {
-          variables: {
-            elevator_pitch: pitch,
-            ideal_customer_profile: icp,
-          },
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-portkey-api-key": PORTKEY,
-          },
-        }
-      );
-
-      // console.log(result.data, "api results ");
-
-      if (result.data.success) {
-        let tab3 = {
-          data: getContent(result),
-          selected: true,
-        };
-
-        let updated_res = await Project.findByIdAndUpdate(
-          id,
+      try {
+        let result = await axios.post(
+          api,
           {
-            "journey1.tab3": tab3,
+            variables: {
+              elevator_pitch: pitch,
+              ideal_customer_profile: icp,
+            },
           },
           {
-            new: true,
+            headers: {
+              "Content-Type": "application/json",
+              "x-portkey-api-key": PORTKEY,
+            },
           }
         );
 
-        console.log(updated_res, "updated_res");
-      } else {
-        return new Response(null, { status: 404, statusText: "Not Found" });
+        // console.log(result.data, "api results ");
+
+        if (result.data.success) {
+          let tab3 = {
+            data: getContent(result),
+            selected: true,
+          };
+
+          let updated_res = await Project.findByIdAndUpdate(
+            id,
+            {
+              "journey1.tab3": tab3,
+            },
+            {
+              new: true,
+            }
+          );
+
+          console.log(updated_res, "updated_res");
+        } else {
+          return new Response(null, { status: 404, statusText: "Not Found" });
+        }
+      } catch (error) {
+        console.log(error);
+        return new Response(null, { status: 400, statusText: "Internal Server Error" });
       }
     }
 
@@ -186,43 +196,48 @@ export async function POST(request, { params }) {
 
       console.log(pitch, icp, "pitch");
 
-      let result = await axios.post(
-        api,
-        {
-          variables: {
-            elevator_pitch: pitch,
-            ideal_customer_profile: icp,
-          },
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-portkey-api-key": PORTKEY,
-          },
-        }
-      );
-
-      console.log(result.data, "api results ");
-
-      if (result.data.success) {
-        let tab4 = {
-          data: getContent(result),
-          selected: true,
-        };
-
-        let updated_res = await Project.findByIdAndUpdate(
-          id,
+      try {
+        let result = await axios.post(
+          api,
           {
-            "journey1.tab4": tab4,
+            variables: {
+              elevator_pitch: pitch,
+              ideal_customer_profile: icp,
+            },
           },
           {
-            new: true,
+            headers: {
+              "Content-Type": "application/json",
+              "x-portkey-api-key": PORTKEY,
+            },
           }
         );
 
-        console.log(updated_res, "updated_res");
-      } else {
-        return new Response(null, { status: 404, statusText: "Not Found" });
+        console.log(result.data, "api results ");
+
+        if (result.data.success) {
+          let tab4 = {
+            data: getContent(result),
+            selected: true,
+          };
+
+          let updated_res = await Project.findByIdAndUpdate(
+            id,
+            {
+              "journey1.tab4": tab4,
+            },
+            {
+              new: true,
+            }
+          );
+
+          console.log(updated_res, "updated_res");
+        } else {
+          return new Response(null, { status: 404, statusText: "Not Found" });
+        }
+      } catch (error) {
+        console.log(error);
+        return new Response(null, { status: 400, statusText: "Internal Server Error" });
       }
     }
     if (tab === 5) {
@@ -233,43 +248,48 @@ export async function POST(request, { params }) {
 
       console.log(pitch, icp, "pitch");
 
-      let result = await axios.post(
-        api,
-        {
-          variables: {
-            elevator_pitch: pitch,
-            ideal_customer_profile: icp,
-          },
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-portkey-api-key": PORTKEY,
-          },
-        }
-      );
-
-      console.log(result.data, "api results ");
-
-      if (result.data.success) {
-        let tab = {
-          data: result.data.data.choices[0].message.content,
-          selected: true,
-        };
-
-        let updated_res = await Project.findByIdAndUpdate(
-          id,
+      try {
+        let result = await axios.post(
+          api,
           {
-            "journey1.tab5": tab,
+            variables: {
+              elevator_pitch: pitch,
+              ideal_customer_profile: icp,
+            },
           },
           {
-            new: true,
+            headers: {
+              "Content-Type": "application/json",
+              "x-portkey-api-key": PORTKEY,
+            },
           }
         );
 
-        console.log(updated_res, "updated_res");
-      } else {
-        return new Response(null, { status: 404, statusText: "Not Found" });
+        console.log(result.data, "api results ");
+
+        if (result.data.success) {
+          let tab = {
+            data: result.data.data.choices[0].message.content,
+            selected: true,
+          };
+
+          let updated_res = await Project.findByIdAndUpdate(
+            id,
+            {
+              "journey1.tab5": tab,
+            },
+            {
+              new: true,
+            }
+          );
+
+          console.log(updated_res, "updated_res");
+        } else {
+          return new Response(null, { status: 404, statusText: "Not Found" });
+        }
+      } catch (error) {
+        console.log(error);
+        return new Response(null, { status: 400, statusText: "Internal Server Error" });
       }
     }
     if (tab === 6) {
@@ -280,44 +300,49 @@ export async function POST(request, { params }) {
 
       console.log(pitch, icp, "pitch");
 
-      let result = await axios.post(
-        api,
-        {
-          variables: {
-            elevator_pitch: pitch,
-            ideal_customer_profile: icp,
-            brand_guidelines: "",
-          },
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-portkey-api-key": PORTKEY,
-          },
-        }
-      );
-
-      console.log(result.data, "api results ");
-
-      if (result.data.success) {
-        let tab = {
-          data: result.data.data.choices[0].message.content,
-          selected: true,
-        };
-
-        let updated_res = await Project.findByIdAndUpdate(
-          id,
+      try {
+        let result = await axios.post(
+          api,
           {
-            "journey1.tab6": tab,
+            variables: {
+              elevator_pitch: pitch,
+              ideal_customer_profile: icp,
+              brand_guidelines: "",
+            },
           },
           {
-            new: true,
+            headers: {
+              "Content-Type": "application/json",
+              "x-portkey-api-key": PORTKEY,
+            },
           }
         );
 
-        console.log(updated_res, "updated_res");
-      } else {
-        return new Response(null, { status: 404, statusText: "Not Found" });
+        console.log(result.data, "api results ");
+
+        if (result.data.success) {
+          let tab = {
+            data: result.data.data.choices[0].message.content,
+            selected: true,
+          };
+
+          let updated_res = await Project.findByIdAndUpdate(
+            id,
+            {
+              "journey1.tab6": tab,
+            },
+            {
+              new: true,
+            }
+          );
+
+          console.log(updated_res, "updated_res");
+        } else {
+          return new Response(null, { status: 404, statusText: "Not Found" });
+        }
+      } catch (error) {
+        console.log(error);
+        return new Response(null, { status: 400, statusText: "Internal Server Error" });
       }
     }
     if (tab === 9) {
@@ -328,43 +353,48 @@ export async function POST(request, { params }) {
 
       console.log(pitch, icp, "pitch");
 
-      let result = await axios.post(
-        api,
-        {
-          variables: {
-            elevator_pitch: pitch,
-            ideal_customer_profile: icp,
-          },
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-portkey-api-key": PORTKEY,
-          },
-        }
-      );
-
-      console.log(result.data, "api results ");
-
-      if (result.data.success) {
-        let tab = {
-          data: getContent(result),
-          selected: true,
-        };
-
-        let updated_res = await Project.findByIdAndUpdate(
-          id,
+      try {
+        let result = await axios.post(
+          api,
           {
-            "journey1.tab9": tab,
+            variables: {
+              elevator_pitch: pitch,
+              ideal_customer_profile: icp,
+            },
           },
           {
-            new: true,
+            headers: {
+              "Content-Type": "application/json",
+              "x-portkey-api-key": PORTKEY,
+            },
           }
         );
 
-        console.log(updated_res, "updated_res");
-      } else {
-        return new Response(null, { status: 404, statusText: "Not Found" });
+        console.log(result.data, "api results ");
+
+        if (result.data.success) {
+          let tab = {
+            data: getContent(result),
+            selected: true,
+          };
+
+          let updated_res = await Project.findByIdAndUpdate(
+            id,
+            {
+              "journey1.tab9": tab,
+            },
+            {
+              new: true,
+            }
+          );
+
+          console.log(updated_res, "updated_res");
+        } else {
+          return new Response(null, { status: 404, statusText: "Not Found" });
+        }
+      } catch (error) {
+        console.log(error);
+        return new Response(null, { status: 400, statusText: "Internal Server Error" });
       }
     }
   }
