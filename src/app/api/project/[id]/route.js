@@ -230,8 +230,12 @@ export async function POST(request, { params }) {
               new: true,
             }
           );
-
-          console.log(updated_res, "updated_res");
+          console.log('and', updated_res.journey1.tab4  )
+          return NextResponse.json({
+            success: true,
+            message: "project updated",
+            data: updated_res.journey1.tab4
+          });
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });
         }
@@ -282,8 +286,12 @@ export async function POST(request, { params }) {
               new: true,
             }
           );
-
           console.log(updated_res, "updated_res");
+          return NextResponse.json({
+            success: true,
+            message: "project updated",
+            data: updated_res.journey1.tab5
+          });
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });
         }
@@ -335,6 +343,11 @@ export async function POST(request, { params }) {
               new: true,
             }
           );
+          return NextResponse.json({
+            success: true,
+            message: "project updated",
+            data: updated_res.journey1.tab6
+          });
 
           console.log(updated_res, "updated_res");
         } else {
@@ -397,8 +410,12 @@ export async function POST(request, { params }) {
               new: true,
             }
           );
-
           console.log(updated_res, "updated_res");
+          return NextResponse.json({
+            success: true,
+            message: "project updated",
+            data: updated_res.journey1.tab7
+          });
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });
         }
@@ -439,6 +456,11 @@ export async function POST(request, { params }) {
           );
 
           console.log(updated_res, "updated_res");
+          return NextResponse.json({
+            success: true,
+            message: "project updated",
+            data: updated_res.journey1.tab8
+          });
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });
         }
@@ -491,6 +513,11 @@ export async function POST(request, { params }) {
           );
 
           console.log(updated_res, "updated_res");
+          return NextResponse.json({
+            success: true,
+            message: "project updated",
+            data: updated_res.journey1.tab9
+          });
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });
         }
@@ -551,6 +578,11 @@ export async function POST(request, { params }) {
         );
 
         console.log(updated_res, "updated_res");
+        return NextResponse.json({
+          success: true,
+          message: "project updated",
+          data: updated_res.journey2.tab1
+        });
       } else {
         return new Response(null, { status: 404, statusText: "Not Found" });
       }
@@ -604,6 +636,11 @@ export async function POST(request, { params }) {
         );
 
         console.log(updated_res, "updated_res");
+        return NextResponse.json({
+          success: true,
+          message: "project updated",
+          data: updated_res.journey2.tab2
+        });
       } else {
         return new Response(null, { status: 404, statusText: "Not Found" });
       }
@@ -655,8 +692,14 @@ export async function POST(request, { params }) {
             new: true,
           }
         );
-
+        
         console.log(updated_res, "updated_res");
+        return NextResponse.json({
+          success: true,
+          message: "project updated",
+          data: updated_res.journey2.tab3
+        });
+
       } else {
         return new Response(null, { status: 404, statusText: "Not Found" });
       }
