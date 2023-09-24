@@ -1,8 +1,10 @@
+import { creditCountState, userState } from '@/state/atoms/userState'
 import { ArrowDownIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { useRecoilValue } from 'recoil'
 
 
 
@@ -46,6 +48,9 @@ const journeys = [
 ]
 
 const Header = ({ id, name, journey }) => {
+    // const user = useRecoilValue(userState)
+    const credits = useRecoilValue(creditCountState)
+
     return (
         <header>
             <div className='flex flex-col lg:flex-row items-center justify-between mb-20'>
@@ -62,7 +67,7 @@ const Header = ({ id, name, journey }) => {
                             className=""
                         />
                         <p>
-                            Remaining Credits: 20
+                            Remaining Credits: {credits}
                         </p>
                     </div>
                     <button className='bg-brand rounded-full px-4 py-2 text-white'>

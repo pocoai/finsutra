@@ -28,6 +28,7 @@ export const GET = async (request) => {
     lastName: user.lastName,
     email: user?.emailAddresses[0].emailAddress,
     credits: 20,
+    image: user?.hasImage ? user?.imageUrl : "",
   });
 
   return NextResponse.json({

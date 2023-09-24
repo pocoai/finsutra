@@ -16,6 +16,8 @@ import "animate.css"
 
 import { journeyState } from "@/state/atoms/tabState";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import { creditCountState } from '@/state/atoms/userState';
+import { getCreditBalance, getUserData } from '@/services/user';
 
 
 const Card = ({ title, description, tab, data, selected, loading, journey, id, locked }) => {
@@ -24,6 +26,7 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
     // nir
     const [cardLoading, setCardLoading] = useState(loading)
     const [openModal, setOpenModal] = useState(false)
+    const [creditState, setCreditState] = useRecoilState(creditCountState)
 
     const { getToken } = useAuth()
 
@@ -41,9 +44,13 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
     const api = process.env.NEXT_PUBLIC_URL;
     const handleApiCall = async () => {
 
-        let currentab;
+        if (creditState < getCreditViaTab(journey, tab)) {
+            toast.error("Insufficient Credits", {
+                position: "bottom-center",
+            })
+            return
+        }
 
-        // console.log("api here");
         let token = await getToken();
 
         setCardLoading(true)
@@ -54,19 +61,18 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
                     Authorization: `Bearer ${token}`,
                 },
             })
-            
+
             if (res.data.success) {
 
-                // window.location.reload() //nir
+
                 const updatedData = {
                     ...res.data.data,
                     selected: true,
                 };
-                console.log('first',updatedData)
 
                 setJourneyData(prevState => {
-                    return prevState.map(item => {
-                        if (item.title === title) {
+                    return prevState.map((item, index) => {
+                        if (index + 1 === tab) {
                             return {
                                 ...item,
                                 ...updatedData, // Update the specific tab with new data
@@ -75,8 +81,8 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
                             return item;
                         }
                     });
+
                 });
-                console.log('second',journeyData)
             }
             else {
                 toast.error("Internal Server Error")
@@ -88,6 +94,11 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
             toast.error("Internal Server Error")
         }
         setCardLoading(false)
+
+        let data = await getCreditBalance(token)
+
+        setCreditState(data)
+
     }
 
     return (
@@ -113,7 +124,7 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
                     "text-brand": selected
                 })}>{title}</h2>
                 <p className='text-[13px]'>{
-                    selected?'Click to view...' :String(description).substring(0, 30) + "..."
+                    selected ? 'Click to view...' : String(description).substring(0, 30) + "..."
                 }</p>
                 <div className="card-actions justify-start">
 

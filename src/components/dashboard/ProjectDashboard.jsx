@@ -14,7 +14,7 @@ import { formatDistance } from 'date-fns'
 
 const Project = ({ _id, name, updatedAt, createdAt }) => {
     return (<tr className='w-full my-2'>
-        <Link href={`/project/${_id}?journey=1`} prefetch={true} ><td className='col-span-2 py-3'>{name}</td></Link>
+        <Link href={`/project/${_id}?journey=1`} prefetch={false} ><td className='col-span-2 py-3'>{name}</td></Link>
         <td className='py-3'>{formatDistance(new Date(updatedAt), new Date(), { addSuffix: true })}</td>
         <td className='py-3'>{formatDistance(new Date(createdAt), new Date(), { addSuffix: true })}</td>
         <td className="dropdown dropdown-end">

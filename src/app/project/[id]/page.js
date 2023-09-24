@@ -63,17 +63,17 @@ const journey1 = [
 
 const journey2 = [
   {
-    title: "Assembling the Founding Team: Skills, Roles, and Culture Fit",
+    title: "1.1 Assembling the Founding Team: Skills, Roles, and Culture Fit",
     description: "This tab is not yet processed",
     loading: true,
   },
   {
-    title: "Introduction to Idea Validation",
+    title: "1.2 Introduction to Idea Validation",
     description: "This tab is not yet processed",
     loading: true,
   },
   {
-    title: "Building a Vision and Mission Statement",
+    title: "1.3 Building a Vision and Mission Statement",
     description: "This tab is not yet processed",
     loading: true,
   },
@@ -280,9 +280,9 @@ const page = ({ params, searchParams }) => {
 
   // nir
   useEffect(() => {
-    let data = getArrayviaJourney(journey)
+    let data = getArrayviaJourney(journey);
     setJourneyData(data);
-  },[])
+  }, []);
   // nir
   return (
     <div className="">

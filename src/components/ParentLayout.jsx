@@ -1,10 +1,14 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SideBar from './SideBar'
 import { Inter, Urbanist } from "next/font/google";
 import classNames from "classnames";
-import { useUser } from '@clerk/nextjs';
+import { useAuth, useUser } from '@clerk/nextjs';
+import { useRecoilState } from 'recoil';
+import { getUserData } from '@/services/user';
+import { userState } from '@/state/atoms/userState';
+import { usePathname, useRouter } from 'next/navigation';
 
 const urbanist = Urbanist({
     subsets: ["latin"],
@@ -13,8 +17,26 @@ const urbanist = Urbanist({
 
 const ParentLayout = ({ children }) => {
     const [collapsed, setCollapsed] = useState(true)
+    const [userData, setUserState] = useRecoilState(userState);
+    const { getToken } = useAuth()
 
-    const { user, isLoaded, isSignedIn } = useUser()
+    const pathname = usePathname()
+
+
+    const getData = async () => {
+        let token = await getToken()
+        let user = await getUserData(token)
+        setUserState({
+            ...user,
+            isLoaded: true
+        })
+    }
+
+    useEffect(() => {
+        getData()
+    }, [pathname]);
+
+
 
     return (
         <div
@@ -26,7 +48,7 @@ const ParentLayout = ({ children }) => {
                 [`${urbanist.className}`]: true,
             })}>
             {
-                <SideBar collapsed={collapsed} setCollapsed={setCollapsed} isLoaded={isLoaded} isSignedIn={isSignedIn} user={user} />
+                <SideBar collapsed={collapsed} setCollapsed={setCollapsed} isLoaded={userData.isLoaded} user={userData} />
             }
 
             <section className="max-w-7xl w-full mx-auto transition-all duration-1000 py-10 px-5 h-screen">

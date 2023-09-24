@@ -676,7 +676,7 @@ const ViewComponent = ({
                 )}
             </p>
 
-            <p className="text-sm font-medium">
+            {/* <p className="text-sm font-medium">
                 * If you would like to detail out each of these sub tasks , please use the &nbsp;
                 <a
                     href="https://minigator.vercel.app/"
@@ -685,7 +685,7 @@ const ViewComponent = ({
                 >
                     Favcy Minigator
                 </a>
-            </p>
+            </p> */}
         </div>
     );
 };

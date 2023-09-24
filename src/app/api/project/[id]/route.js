@@ -5,8 +5,34 @@ import axios from "axios";
 import { NextResponse } from "next/server";
 
 import { connectDb } from "@/app/lib/connectDb";
+import { getCreditViaTab } from "@/utils/credits";
+import User from "@/models/User";
 
 await connectDb();
+
+const SubCredits = async (userId, journey, tab) => {
+  let user = await User.findOne({ userId });
+
+  if (!user) {
+    return false;
+  }
+
+  user.credits -= getCreditViaTab(journey, tab);
+
+  user.creditsHistory.push({
+    date: new Date(),
+    credits: getCreditViaTab(journey, tab),
+    tab,
+    journey,
+    type: "remove",
+  });
+
+  await user.save();
+
+  console.log("credits of user", user.credits);
+
+  return true;
+};
 
 export async function GET(request, { params }) {
   const id = params.id;
@@ -84,6 +110,12 @@ export async function POST(request, { params }) {
       project.journey1["tab1"] = tab1;
 
       await project.save();
+
+      return NextResponse.json({
+        success: true,
+        message: "project updated",
+        data: project.journey1.tab1,
+      });
     }
 
     if (tab === 2) {
@@ -129,7 +161,15 @@ export async function POST(request, { params }) {
             }
           );
 
-          console.log(updated_res, "updated_res");
+          let isCreditDeducted = await SubCredits(userId, journey, tab);
+
+          if (isCreditDeducted) {
+            return NextResponse.json({
+              success: true,
+              message: "project updated",
+              data: updated_res.journey1.tab2,
+            });
+          }
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });
         }
@@ -172,6 +212,8 @@ export async function POST(request, { params }) {
             selected: true,
           };
 
+          await SubCredits(userId, journey, tab);
+
           let updated_res = await Project.findByIdAndUpdate(
             id,
             {
@@ -183,6 +225,11 @@ export async function POST(request, { params }) {
           );
 
           console.log(updated_res, "updated_res");
+          return NextResponse.json({
+            success: true,
+            message: "project updated",
+            data: updated_res.journey1.tab3,
+          });
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });
         }
@@ -224,7 +271,7 @@ export async function POST(request, { params }) {
             data: getContent(result),
             selected: true,
           };
-
+          await SubCredits(userId, journey, tab);
           let updated_res = await Project.findByIdAndUpdate(
             id,
             {
@@ -234,11 +281,11 @@ export async function POST(request, { params }) {
               new: true,
             }
           );
-          console.log('and', updated_res.journey1.tab4  )
+          // console.log("and", updated_res.journey1.tab4);
           return NextResponse.json({
             success: true,
             message: "project updated",
-            data: updated_res.journey1.tab4
+            data: updated_res.journey1.tab4,
           });
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });
@@ -273,28 +320,29 @@ export async function POST(request, { params }) {
           }
         );
 
-        console.log(result.data, "api results ");
+        // console.log(result.data, "api results ");
 
         if (result.data.success) {
-          let tab = {
+          let tab5 = {
             data: result.data.data.choices[0].message.content,
             selected: true,
           };
+          await SubCredits(userId, journey, tab);
 
           let updated_res = await Project.findByIdAndUpdate(
             id,
             {
-              "journey1.tab5": tab,
+              "journey1.tab5": tab5,
             },
             {
               new: true,
             }
           );
-          console.log(updated_res, "updated_res");
+          // console.log(updated_res, "updated_res");
           return NextResponse.json({
             success: true,
             message: "project updated",
-            data: updated_res.journey1.tab5
+            data: updated_res.journey1.tab5,
           });
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });
@@ -330,18 +378,19 @@ export async function POST(request, { params }) {
           }
         );
 
-        console.log(result.data, "api results ");
+        // console.log(result.data, "api results ");
 
         if (result.data.success) {
-          let tab = {
+          let tab6 = {
             data: result.data.data.choices[0].message.content,
             selected: true,
           };
+          await SubCredits(userId, journey, tab);
 
           let updated_res = await Project.findByIdAndUpdate(
             id,
             {
-              "journey1.tab6": tab,
+              "journey1.tab6": tab6,
             },
             {
               new: true,
@@ -350,10 +399,10 @@ export async function POST(request, { params }) {
           return NextResponse.json({
             success: true,
             message: "project updated",
-            data: updated_res.journey1.tab6
+            data: updated_res.journey1.tab6,
           });
 
-          console.log(updated_res, "updated_res");
+          // console.log(updated_res, "updated_res");
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });
         }
@@ -377,7 +426,7 @@ export async function POST(request, { params }) {
         solutions = solutions + d + "\n";
       }
 
-      console.log(pitch, icp, "pitch");
+      // console.log(pitch, icp, "pitch");
 
       try {
         let result = await axios.post(
@@ -397,28 +446,30 @@ export async function POST(request, { params }) {
           }
         );
 
-        console.log(result.data, "api results ");
+        // console.log(result.data, "api results ");
 
         if (result.data.success) {
-          let tab = {
+          let tab7 = {
             data: result.data.data.choices[0].message.content,
             selected: true,
           };
 
+          await SubCredits(userId, journey, tab);
+
           let updated_res = await Project.findByIdAndUpdate(
             id,
             {
-              "journey1.tab7": tab,
+              "journey1.tab7": tab7,
             },
             {
               new: true,
             }
           );
-          console.log(updated_res, "updated_res");
+          // console.log(updated_res, "updated_res");
           return NextResponse.json({
             success: true,
             message: "project updated",
-            data: updated_res.journey1.tab7
+            data: updated_res.journey1.tab7,
           });
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });
@@ -444,26 +495,28 @@ export async function POST(request, { params }) {
         console.log(result.data, "api results ");
 
         if (result.data.success) {
-          let tab = {
+          let tab8 = {
             data: result.data.content,
             selected: true,
           };
 
+          await SubCredits(userId, journey, tab);
+
           let updated_res = await Project.findByIdAndUpdate(
             id,
             {
-              "journey1.tab8": tab,
+              "journey1.tab8": tab8,
             },
             {
               new: true,
             }
           );
 
-          console.log(updated_res, "updated_res");
+          // console.log(updated_res, "updated_res");
           return NextResponse.json({
             success: true,
             message: "project updated",
-            data: updated_res.journey1.tab8
+            data: updated_res.journey1.tab8,
           });
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });
@@ -479,7 +532,7 @@ export async function POST(request, { params }) {
       let pitch = project.journey1.tab1.data[1]?.value;
       let icp = project.journey1.tab1.data[2]?.value;
 
-      console.log(pitch, icp, "pitch");
+      // console.log(pitch, icp, "pitch");
 
       try {
         let result = await axios.post(
@@ -498,29 +551,31 @@ export async function POST(request, { params }) {
           }
         );
 
-        console.log(result.data, "api results ");
+        // console.log(result.data, "api results ");
 
         if (result.data.success) {
-          let tab = {
+          let tab9 = {
             data: getContent(result),
             selected: true,
           };
 
+          await SubCredits(userId, journey, tab);
+
           let updated_res = await Project.findByIdAndUpdate(
             id,
             {
-              "journey1.tab9": tab,
+              "journey1.tab9": tab9,
             },
             {
               new: true,
             }
           );
 
-          console.log(updated_res, "updated_res");
+          // console.log(updated_res, "updated_res");
           return NextResponse.json({
             success: true,
             message: "project updated",
-            data: updated_res.journey1.tab9
+            data: updated_res.journey1.tab9,
           });
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });
@@ -542,7 +597,7 @@ export async function POST(request, { params }) {
       let ps = project.journey1.tab1.data[4]?.value;
       let vp = project.journey1.tab1.data[5]?.value;
 
-      console.log(pitch, icp, "pitch");
+      // console.log(pitch, icp, "pitch");
 
       let result = await axios.post(
         api,
@@ -566,26 +621,28 @@ export async function POST(request, { params }) {
       // console.log(result.data, "api results ");
 
       if (result.data.success) {
-        let tab2 = {
+        let tab1 = {
           data: result.data.data.choices[0].message.content,
           selected: true,
         };
 
+        await SubCredits(userId, journey, tab);
+
         let updated_res = await Project.findByIdAndUpdate(
           id,
           {
-            "journey2.tab1": tab2,
+            "journey2.tab1": tab1,
           },
           {
             new: true,
           }
         );
 
-        console.log(updated_res, "updated_res");
+        // console.log(updated_res, "updated_res");
         return NextResponse.json({
           success: true,
           message: "project updated",
-          data: updated_res.journey2.tab1
+          data: updated_res.journey2.tab1,
         });
       } else {
         return new Response(null, { status: 404, statusText: "Not Found" });
@@ -628,6 +685,7 @@ export async function POST(request, { params }) {
           data: result.data.data.choices[0].message.content,
           selected: true,
         };
+        await SubCredits(userId, journey, tab);
 
         let updated_res = await Project.findByIdAndUpdate(
           id,
@@ -639,11 +697,11 @@ export async function POST(request, { params }) {
           }
         );
 
-        console.log(updated_res, "updated_res");
+        // console.log(updated_res, "updated_res");
         return NextResponse.json({
           success: true,
           message: "project updated",
-          data: updated_res.journey2.tab2
+          data: updated_res.journey2.tab2,
         });
       } else {
         return new Response(null, { status: 404, statusText: "Not Found" });
@@ -682,36 +740,38 @@ export async function POST(request, { params }) {
       // console.log(result.data, "api results ");
 
       if (result.data.success) {
-        let tab2 = {
+        let tab3 = {
           data: result.data.data.choices[0].message.content,
           selected: true,
         };
-
+        await SubCredits(userId, journey, tab);
         let updated_res = await Project.findByIdAndUpdate(
           id,
           {
-            "journey2.tab3": tab2,
+            "journey2.tab3": tab3,
           },
           {
             new: true,
           }
         );
-        
+
         console.log(updated_res, "updated_res");
         return NextResponse.json({
           success: true,
           message: "project updated",
-          data: updated_res.journey2.tab3
+          data: updated_res.journey2.tab3,
         });
-
       } else {
         return new Response(null, { status: 404, statusText: "Not Found" });
       }
     }
   }
 
-  return NextResponse.json({
-    success: true,
-    message: "project updated",
-  });
+  return new Response(
+    {
+      success: false,
+      message: "Internal Server Error",
+    },
+    { status: 400, statusText: "Internal Server Error" }
+  );
 }

@@ -1,5 +1,6 @@
 "use client"
 import { useClerk } from "@clerk/clerk-react";
+import { useUser } from "@clerk/nextjs";
 import classNames from 'classnames'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
@@ -7,6 +8,7 @@ import { ChevronDoubleLeftIcon, ChevronDoubleRightIcon, RectangleGroupIcon, Rect
 import Image from 'next/image';
 import { UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
+import Skeleton from "react-loading-skeleton";
 
 
 
@@ -19,7 +21,7 @@ const capitalize = (str) => {
 const SideCard = ({ image, name, selected, id, collapsed, link }) => {
     return (
 
-        <Link href={link} className={classNames({
+        <Link href={link} prefetch={false} className={classNames({
             "flex items-center gap-3 text-lg w-full rounded-xl cursor-pointer ": true,
             "bg-[#F1F2F4]": selected === id,
             "justify-start  px-4 py-2": !collapsed,
@@ -130,10 +132,12 @@ const profilebuttons = [
 
 
 
-const SideBar = ({ collapsed, setCollapsed, isLoaded, user, isSignedIn }) => {
+const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
     const [selected, setSelected] = useState(1);
     const Icon = collapsed ? ChevronDoubleRightIcon : ChevronDoubleLeftIcon;
     const { signOut } = useClerk();
+
+    const { user: ClerkUser } = useUser()
 
     // console.log("user", user)
 
@@ -155,7 +159,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user, isSignedIn }) => {
     return (
         (<div
             className={classNames({
-                " text-primary relative z-20 border-r border-[#F1F2F4] w-[248px] flex flex-col items-end h-screen max-h-screen": true,
+                " text-primary relative border-r border-[#F1F2F4] w-[248px] flex flex-col items-end h-screen max-h-screen": true,
                 "transition-all  duration-700 ease-in-out": true,
                 "translate-x-0 ": !collapsed,
                 "-translate-x-[70%]": collapsed,
@@ -227,7 +231,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user, isSignedIn }) => {
                         "overflow-hidden": true
                     })}>
                         {
-                            isSignedIn && (
+                            isLoaded ? (
                                 <Link href={"/profile"}>
                                     <div className={classNames({
                                         "flex items-center gap-2": true
@@ -235,7 +239,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user, isSignedIn }) => {
 
                                     })}>
                                         <Image
-                                            src={user?.hasImage ? user?.imageUrl : "https://picsum.photos/40/40"}
+                                            src={user?.image || "/images/user.png"}
                                             height={40}
                                             width={40}
                                             alt="logo"
@@ -250,13 +254,15 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user, isSignedIn }) => {
                                                 {user?.firstName}
                                             </p>
                                             <span className='text-[#ADB0B6] text-[14px]'>
-                                                Product Designer
+                                                {user?.interests?.work}
                                             </span>
                                         </div>
 
 
                                     </div>
                                 </Link>
+                            ) : (
+                                <Skeleton width={40} height={40} circle={true} baseColor="#ADB0B6" highlightColor="#F1F2F4" />
                             )
                         }
 

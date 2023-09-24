@@ -7,7 +7,7 @@ export const creditPricing = [
   {
     tab: "journey1_tab2",
     journey: 1,
-    amount: 0,
+    amount: 2,
   },
 
   {
@@ -49,12 +49,12 @@ export const creditPricing = [
   {
     tab: "journey2_tab1",
     journey: 2,
-    amount: 0,
+    amount: 2,
   },
   {
     tab: "journey2_tab2",
     journey: 2,
-    amount: 0,
+    amount: 2,
   },
   {
     tab: "journey2_tab3",

@@ -4,7 +4,7 @@ import Slide1 from "@/components/onboarding/slide1";
 import Slide2 from "@/components/onboarding/slide2";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Page = () => {
   const [activeSlide, setActiveSlide] = useState(1);

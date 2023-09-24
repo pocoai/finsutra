@@ -11,7 +11,12 @@ import { redirect } from 'next/navigation';
 
 const TopBar = async () => {
     // const user = await currentUser()
-    let user = await getUserData()
+
+    let { getToken } = auth()
+
+    let token = await getToken()
+
+    let user = await getUserData(token)
 
     if (!user.onboarded) {
         redirect('/onboarding')

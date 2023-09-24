@@ -26,6 +26,7 @@ export const POST = async (request) => {
       credits: 20,
       onboarded: true,
       interests: interests,
+      image: user?.hasImage ? user?.imageUrl : "",
     });
   } else {
     userdata.interests = interests;
