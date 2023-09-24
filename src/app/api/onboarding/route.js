@@ -7,17 +7,32 @@ import { connectDb } from "@/app/lib/connectDb";
 await connectDb();
 
 export const POST = async (request) => {
-  const { userId } = auth();
+  const user = await currentUser();
 
   const { interests } = await request.json();
 
   console.log(interests);
 
-  let user = await User.findOne({ userId });
+  let userdata;
 
-  user.interests = interests;
+  userdata = await User.findOne({ userId: user.id });
 
-  await user.save();
+  if (!userdata) {
+    userdata = await User.create({
+      userId: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user?.emailAddresses[0].emailAddress,
+      credits: 20,
+      onboarded: true,
+      interests: interests,
+    });
+  } else {
+    userdata.interests = interests;
+    userdata.onboarded = true;
+
+    await userdata.save();
+  }
 
   return NextResponse.json({
     success: true,

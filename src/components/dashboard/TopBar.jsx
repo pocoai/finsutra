@@ -4,6 +4,7 @@ import { currentUser, auth, useAuth } from "@clerk/nextjs";
 import "animate.css"
 import axios from 'axios';
 import { getUserData } from '@/services/user';
+import { redirect } from 'next/navigation';
 
 
 
@@ -11,6 +12,11 @@ import { getUserData } from '@/services/user';
 const TopBar = async () => {
     // const user = await currentUser()
     let user = await getUserData()
+
+    if (!user.onboarded) {
+        redirect('/onboarding')
+    }
+
     return (
         <div className='flex justify-start w-full items-end'>
             <div className='w-full space-y-6'>

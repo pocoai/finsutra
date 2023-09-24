@@ -8,6 +8,7 @@ import Link from "next/link";
 export default function Page() {
 
 
+
     return (<div className="grid grid-cols-2 place-items-center w-full">
         <div className="flex flex-col items-center justify-center gap-6 m-auto">
             <Image

@@ -124,6 +124,7 @@ const ProjectDashboard = () => {
 
 
         } catch (error) {
+            console.log(error)
             dispatch({ type: "FETCH_ERROR", payload: "Something went wrong" })
             return;
         }

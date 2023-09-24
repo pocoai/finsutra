@@ -4,6 +4,10 @@ import { auth } from "@clerk/nextjs";
 import axios from "axios";
 import { NextResponse } from "next/server";
 
+import { connectDb } from "@/app/lib/connectDb";
+
+await connectDb();
+
 export async function GET(request, { params }) {
   const id = params.id;
 

@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: false },
   email: { type: String, required: true },
+  onboarded: { type: Boolean, default: false },
   org: String,
   isOrgEmail: Boolean,
   inviteCode: String,
@@ -14,6 +15,7 @@ const UserSchema = new mongoose.Schema({
       date: Date,
       credits: Number,
       plan: String,
+      payment_data: Object,
     },
   ],
   creditsHistory: [
@@ -22,6 +24,10 @@ const UserSchema = new mongoose.Schema({
       credits: Number,
       tab: String,
       journey: String,
+      type: {
+        type: String,
+        enum: ["add", "remove"],
+      },
     },
   ],
   currentPlan: {

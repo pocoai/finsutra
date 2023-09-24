@@ -12,6 +12,8 @@ export const GET = async (request) => {
 
   let projects = await Project.find({ uid: userId }).sort({ createdAt: -1 });
 
+  console.log(projects, "projects");
+
   return NextResponse.json({
     success: true,
     data: projects,
