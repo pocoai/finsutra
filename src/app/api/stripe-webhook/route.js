@@ -25,48 +25,73 @@ export const POST = async (request) => {
     case "checkout.session.completed":
       const checkoutSessionCompleted = event.data.object;
 
-      let userid = checkoutSessionCompleted.metadata.userId;
-      let plan = checkoutSessionCompleted.metadata.plan;
-      let credits = checkoutSessionCompleted.metadata.credits;
+      // console.log(checkoutSessionCompleted, "checkoutSessionCompleted");
 
-      let user = await User.findOne({ userId: userid });
+      let sessionid = checkoutSessionCompleted.id;
+      let Stripe = stripe(process.env.STRIPE_SECRET_KEY);
 
-      if (user) {
-        user.credits += Number(credits);
-        user.purchaseHistory.push({
-          date: Date.now(),
-          credits,
-          plan: plan,
-          payment_data: {
-            id: checkoutSessionCompleted.id,
-            amount: checkoutSessionCompleted.amount_total,
-            status: checkoutSessionCompleted.status,
-          },
-        });
+      // str.checkout.sessions.listLineItems(sessionid, { limit: 1 }, function (err, lineItems) {
+      //   // asynchronously called
+      //   let productId = lineItems.data[0].price.id;
 
-        user.currentPlan = plan;
+      //   let product = str.
 
-        user.creditsHistory.push({
-          date: Date.now(),
-          credits: credits,
-          type: "add",
-        });
+      // });
+      let productId;
 
-        console.log(user, "user data saved");
+      Stripe.checkout.sessions.listLineItems(
+        sessionid,
+        { limit: 1 },
+        async function (err, lineItems) {
+          productId = lineItems.data[0].price.product;
+          // console.log(productId, "productId");
+          const product = await Stripe.products.retrieve(productId);
 
-        await user.save();
-      } else {
-        return new Response(
-          {
-            success: false,
-            message: "User not found",
-          },
-          {
-            status: 404,
-            statusText: "Not Found",
+          // console.log(product, "product");
+          let userid = checkoutSessionCompleted.client_reference_id;
+          let plan = product.metadata.type;
+          let credits = Number(product.metadata.credit);
+
+          let user = await User.findOne({ userId: userid });
+
+          if (user) {
+            user.credits += Number(credits);
+            user.purchaseHistory.push({
+              date: Date.now(),
+              credits,
+              plan: plan,
+              payment_data: {
+                id: checkoutSessionCompleted.id,
+                amount: checkoutSessionCompleted.amount_total,
+                status: checkoutSessionCompleted.status,
+              },
+            });
+
+            user.currentPlan = plan;
+
+            user.creditsHistory.push({
+              date: Date.now(),
+              credits: credits,
+              type: "add",
+            });
+
+            console.log(user, "user data saved");
+
+            await user.save();
+          } else {
+            return new Response(
+              {
+                success: false,
+                message: "User not found",
+              },
+              {
+                status: 404,
+                statusText: "Not Found",
+              }
+            );
           }
-        );
-      }
+        }
+      );
 
       // update credits in db
 

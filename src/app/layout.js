@@ -26,6 +26,7 @@ export default function RootLayout({ children }) {
         <title>Favcy Navigator</title>
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content={metadata.description} />
+        <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
       </head>
       <body>
         <RecoilRoot>{children}</RecoilRoot>

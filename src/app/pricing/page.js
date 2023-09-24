@@ -1,10 +1,12 @@
 "use client";
 
 import { getPricing } from "@/services/pricing";
+import { userState } from "@/state/atoms/userState";
 import { useAuth } from "@clerk/nextjs";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 
 /**
  * Renders a pricing plan card with the plan name, price, credits, bonus (if provided), and a button.
@@ -97,7 +99,7 @@ const PricingLayout = ({ plan, price, credits, buttonText, bonus, id, plan_type 
 
 const page = () => {
   const [pricing, setPricing] = useState([]);
-  const { getToken } = useAuth();
+  const { getToken, userId } = useAuth();
 
   const fetchPricing = async () => {
     const token = await getToken();
@@ -154,11 +156,16 @@ const page = () => {
     <div className="w-full mx-auto space-y-20">
       <h1 className="text-center text-5xl font-bold">Pricing Plan </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center w-full">
-        {pricing.map((item, id) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 place-items-center w-full">
+        {/* {pricing.map((item, id) => (
           <PricingLayout {...item} key={id} />
-        ))}
+        ))} */}
       </div>
+      <stripe-pricing-table
+        pricing-table-id="prctbl_1NtsghSCdCYBdIKOmPKRYvuV"
+        publishable-key="pk_test_51NlnQuSCdCYBdIKOIroKsfGeyYDm8oqmXUjn5wKfpoacs0eClOwt1Kt3w5UE0fWeqrcCq1G7dJhIGcJmhtUqTwf7009oO9GCrl"
+        client-reference-id={userId}
+      ></stripe-pricing-table>
     </div>
   );
 };
