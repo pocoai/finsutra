@@ -16,7 +16,7 @@ import React, { useEffect, useState } from "react";
  * @param {string} [props.bonus] - An additional feature or bonus included in the plan.
  * @returns {JSX.Element} - The rendered pricing plan card.
  */
-const PricingLayout = ({ plan, price, credits, buttonText, bonus, id }) => {
+const PricingLayout = ({ plan, price, credits, buttonText, bonus, id, plan_type }) => {
   const isPriceNumber = typeof price === "number";
   const { getToken } = useAuth();
 
@@ -31,7 +31,7 @@ const PricingLayout = ({ plan, price, credits, buttonText, bonus, id }) => {
         `${api}/api/payment`,
         {
           priceId: id,
-          plan: plan,
+          plan: plan_type,
           credits: credits,
         },
         {
@@ -107,6 +107,7 @@ const page = () => {
       if (item.product === "prod_OgltmoYdu5RZu1") {
         return {
           plan: "Basic Plan",
+          plan_type: "basic",
           price: 249,
           credits: 75,
           bonus: ["No Expert Support"],
@@ -116,6 +117,7 @@ const page = () => {
       } else if (item.product === "prod_OglvE8DEKOTOBx") {
         return {
           plan: "Standard Plan",
+          plan_type: "standard",
           price: 599,
           credits: 200,
           bonus: ["Limited Expert Support"],
@@ -125,6 +127,7 @@ const page = () => {
       } else if (item.product === "prod_OglwB8Xyj1hA8v") {
         return {
           plan: "Advanced Plan",
+          plan_type: "advanced",
           price: 1199,
           credits: 400,
           bonus: [

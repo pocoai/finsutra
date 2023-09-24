@@ -44,6 +44,8 @@ export const POST = async (request) => {
           },
         });
 
+        user.currentPlan = plan;
+
         user.creditsHistory.push({
           date: Date.now(),
           credits: credits,
