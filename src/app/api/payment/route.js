@@ -24,8 +24,8 @@ export async function POST(request) {
       credits: data.credits,
       plan: data.plan,
     },
-    success_url: `${api}/payment?success=true`,
-    cancel_url: `${api}/payment?cancelled=true`,
+    success_url: `${api}?success=true`,
+    cancel_url: `${api}?cancelled=true`,
   });
 
   return NextResponse.json(session.url);

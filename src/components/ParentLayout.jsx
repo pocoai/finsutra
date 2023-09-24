@@ -8,7 +8,8 @@ import { useAuth, useUser } from '@clerk/nextjs';
 import { useRecoilState } from 'recoil';
 import { getUserData } from '@/services/user';
 import { userState } from '@/state/atoms/userState';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const urbanist = Urbanist({
     subsets: ["latin"],
@@ -21,6 +22,8 @@ const ParentLayout = ({ children }) => {
     const { getToken } = useAuth()
 
     const pathname = usePathname()
+
+    const router = useRouter()
 
 
     const getData = async () => {
@@ -36,6 +39,31 @@ const ParentLayout = ({ children }) => {
         getData()
     }, [pathname]);
 
+    let searchParams = useSearchParams()
+
+    let success = searchParams.get("success")
+    let cancelled = searchParams.get("cancelled")
+
+    success = Boolean(success);
+    cancelled = Boolean(cancelled);
+
+    useEffect(() => {
+        if (success) {
+            toast.success("Payment Successful");
+            setTimeout(() => {
+                router.push("/")
+
+            }, 2000)
+        }
+
+        if (cancelled) {
+            toast.error("Payment Failed");
+            setTimeout(() => {
+                router.push("/");
+            }, 2000)
+        }
+
+    }, [success, cancelled])
 
 
     return (
