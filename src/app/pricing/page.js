@@ -104,7 +104,7 @@ const page = () => {
     let data = await getPricing(token);
 
     let newData = data.map((item) => {
-      if (item.product === "prod_OgltmoYdu5RZu1") {
+      if (item.id === "price_1NtoEhSCdCYBdIKO5ZxMr5KC") {
         return {
           plan: "Basic Plan",
           plan_type: "basic",
@@ -114,7 +114,7 @@ const page = () => {
           buttonText: "Subscribe",
           ...item,
         };
-      } else if (item.product === "prod_OglvE8DEKOTOBx") {
+      } else if (item.id === "price_1NtmfkSCdCYBdIKOyj4aKLg6") {
         return {
           plan: "Standard Plan",
           plan_type: "standard",
@@ -124,7 +124,7 @@ const page = () => {
           buttonText: "Subscribe",
           ...item,
         };
-      } else if (item.product === "prod_OglwB8Xyj1hA8v") {
+      } else if (item.id === "price_1NtlEUSCdCYBdIKOR4horSbE") {
         return {
           plan: "Advanced Plan",
           plan_type: "advanced",
