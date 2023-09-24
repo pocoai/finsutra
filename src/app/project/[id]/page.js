@@ -9,6 +9,10 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
 
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
+import { journeyState } from "@/state/atoms/tabState";
+
 const journey1 = [
   {
     title: " Idea articulation",
@@ -124,7 +128,11 @@ const page = ({ params, searchParams }) => {
 
   let journey = parseInt(searchParams?.journey) || 1;
 
-  const [data, setData] = useState(getArrayviaJourney(journey));
+  //nir
+  const [journeyData, setJourneyData] = useRecoilState(journeyState);
+  //nir
+
+  // const [data, setData] = useState(getArrayviaJourney(journey)); //nir change
   const [projectName, setProjectName] = useState("");
   const [showInput, setShowInput] = useState(false);
   const api = process.env.NEXT_PUBLIC_URL;
@@ -166,10 +174,10 @@ const page = ({ params, searchParams }) => {
           const updatedJourney1 = journey1.map((item, index) => {
             // Set locked to false only for the first item
             if (index === 0) {
-              return { ...item, locked: false, loading: false };
+              return { ...item, data: null, locked: false, loading: false };
             }
             // Keep other properties unchanged
-            return { ...item, locked: true, loading: false };
+            return { ...item, data: null, locked: true, loading: false };
           });
 
           return updatedJourney1;
@@ -261,7 +269,8 @@ const page = ({ params, searchParams }) => {
   useEffect(() => {
     getTabResults(journey).then((res) => {
       // console.log(res, "getTabResults");
-      setData(res);
+      // setData(res); //nir
+      setJourneyData(res);
     });
   }, [journey]);
 
@@ -269,6 +278,12 @@ const page = ({ params, searchParams }) => {
     document.querySelector("#idea_modal").checked = showInput;
   }, [showInput]);
 
+  // nir
+  useEffect(() => {
+    let data = getArrayviaJourney(journey)
+    setJourneyData(data);
+  },[])
+  // nir
   return (
     <div className="">
       <Header id={id} name={projectName} journey={journey} />
@@ -277,8 +292,8 @@ const page = ({ params, searchParams }) => {
 
       <div className="my-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-8  ">
-          {data.length > 0 &&
-            data.map((item, index) => (
+          {journeyData.length > 0 &&
+            journeyData.map((item, index) => (
               <Card
                 title={item.title}
                 description={item.description}

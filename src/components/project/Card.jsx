@@ -1,3 +1,5 @@
+'use client'
+
 import { creditPricing, getCreditViaTab } from '@/utils/credits';
 import { LockClosedIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
@@ -12,8 +14,14 @@ import { toast } from 'react-toastify';
 import { LockOpenIcon } from '@heroicons/react/24/solid';
 import "animate.css"
 
+import { journeyState } from "@/state/atoms/tabState";
+import { useRecoilState, useSetRecoilState } from "recoil";
+
 
 const Card = ({ title, description, tab, data, selected, loading, journey, id, locked }) => {
+    // nir
+    const [journeyData, setJourneyData] = useRecoilState(journeyState);
+    // nir
     const [cardLoading, setCardLoading] = useState(loading)
     const [openModal, setOpenModal] = useState(false)
 
@@ -46,11 +54,29 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
                     Authorization: `Bearer ${token}`,
                 },
             })
-
-
+            
             if (res.data.success) {
 
-                window.location.reload()
+                // window.location.reload() //nir
+                const updatedData = {
+                    ...res.data.data,
+                    selected: true,
+                };
+                console.log('first',updatedData)
+
+                setJourneyData(prevState => {
+                    return prevState.map(item => {
+                        if (item.title === title) {
+                            return {
+                                ...item,
+                                ...updatedData, // Update the specific tab with new data
+                            };
+                        } else {
+                            return item;
+                        }
+                    });
+                });
+                console.log('second',journeyData)
             }
             else {
                 toast.error("Internal Server Error")
@@ -82,12 +108,12 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
 
                 <h2 className={classNames({
                     "card-title text-[17px] w-full": true,
-                    "whitespace-nowrap": title.length < 27,
-                    " max-w-full": title.length > 27,
+                    "whitespace-nowrap": title?.length < 27,
+                    " max-w-full": title?.length > 27,
                     "text-brand": selected
                 })}>{title}</h2>
                 <p className='text-[13px]'>{
-                    String(description).substring(0, 30) + "..."
+                    selected?'Click to view...' :String(description).substring(0, 30) + "..."
                 }</p>
                 <div className="card-actions justify-start">
 

@@ -405,7 +405,7 @@ const ViewComponent = ({
                                 </th>
                             </tr>
                         </thead>
-                        {data["ps_list"].map((item, index) => (
+                        {data["ps_list"]?.map((item, index) => (
                             <tbody key={index}>
                                 <tr>
                                     <td className=" px-4 py-2 border border-gray-500">{item?.Problem}</td>

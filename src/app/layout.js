@@ -1,3 +1,5 @@
+'use client'
+
 import { ClerkProvider } from "@clerk/nextjs";
 import SideBar from "@/components/SideBar";
 import "./globals.css";
@@ -5,6 +7,7 @@ import { Urbanist } from "next/font/google";
 
 import ParentLayout from "@/components/ParentLayout";
 import { ToastContainer } from "react-toastify";
+import { RecoilRoot } from "recoil";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -19,7 +22,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <RecoilRoot>
+        {children}
+        </RecoilRoot>
+      </body>
     </html>
   );
 }
