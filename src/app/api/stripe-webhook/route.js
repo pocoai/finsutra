@@ -25,7 +25,7 @@ export const POST = async (request) => {
     case "checkout.session.completed":
       const checkoutSessionCompleted = event.data.object;
 
-      // console.log(checkoutSessionCompleted, "checkoutSessionCompleted");
+      console.log(checkoutSessionCompleted, "checkoutSessionCompleted");
 
       let sessionid = checkoutSessionCompleted.id;
       let Stripe = stripe(process.env.STRIPE_SECRET_KEY);
@@ -38,7 +38,6 @@ export const POST = async (request) => {
 
       // });
       let productId;
-
       Stripe.checkout.sessions.listLineItems(
         sessionid,
         { limit: 1 },
@@ -92,10 +91,6 @@ export const POST = async (request) => {
           }
         }
       );
-
-      // update credits in db
-
-      // Then define and call a function to handle the event checkout.session.completed
       break;
     // ... handle other event types
     default:
