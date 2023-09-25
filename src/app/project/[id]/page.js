@@ -15,66 +15,66 @@ import { journeyState } from "@/state/atoms/tabState";
 
 const journey1 = [
   {
-    title: " Idea articulation",
-    description: "Please select an option from the below card",
+    title: "Idea articulation",
+    description: "Define & clarify your innovative concept.",
     loading: true,
   },
   {
-    title: " Problem Solution Fit",
-    description: "This tab is not yet processed",
+    title: "Problem Solution Fit",
+    description: "Assess product-market alignment for success.",
     loading: true,
   },
   {
-    title: " Brand Kit",
-    description: "This tab is not yet processed",
+    title: "Brand Kit",
+    description: "Establish visual & brand identity elements.",
     loading: true,
   },
   {
-    title: " Positioning and Messaging ",
-    description: "This tab is not yet processed",
+    title: "Positioning & Messaging",
+    description: "Craft compelling brand positioning.",
     loading: true,
   },
   {
-    title: " Coming Soon Page",
-    description: "This tab is not yet processed",
+    title: "Coming Soon Page",
+    description: "Tease & prepare for your product launch.",
     loading: true,
   },
   {
-    title: " Build your MVP",
-    description: "This tab is not yet processed",
+    title: "Build your MVP",
+    description: "Create a minimal viable product efficiently.",
     loading: true,
   },
   {
-    title: " Features to Monetize",
-    description: "This tab is not yet processed",
+    title: "Features to Monetize",
+    description: "Identify profit-generating product features.",
     loading: true,
   },
   {
     title: "Research & Knowledge Bank",
-    description: "This tab is not yet processed",
+    description: "Store valuable insights & information.",
     loading: true,
   },
   {
     title: "Business Model Canvas",
-    description: "This tab is not yet processed",
+    description: "Outline your business strategy & model.",
     loading: true,
   },
 ];
 
 const journey2 = [
   {
-    title: "1.1 Assembling the Founding Team: Skills, Roles, and Culture Fit",
-    description: "This tab is not yet processed",
+    title: "1.1 Assembling the Founding Team: Skills, Roles, & Culture Fit",
+    description: "Define team skills, roles, & culture fit.",
     loading: true,
   },
   {
     title: "1.2 Introduction to Idea Validation",
-    description: "This tab is not yet processed",
+    description: "Initiate idea validation processes.",
     loading: true,
   },
   {
-    title: "1.3 Building a Vision and Mission Statement",
-    description: "This tab is not yet processed",
+    title: "1.3 Building a Vision & Mission Statement",
+    description: "Create a compelling vision & mission.",
     loading: true,
   },
 ];
@@ -191,11 +191,11 @@ const page = ({ params, searchParams }) => {
 
             const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
 
-            const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false and the previous item was also false.
+            const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false & the previous item was also false.
 
             arr.push({
               title: journey1[i].title,
-              description: selected ? "Click to view" : journey1[i].description,
+              description: journey1[i].description,
               loading: false,
               data: selected ? currentTab.data : [],
               selected: selected,
@@ -233,11 +233,11 @@ const page = ({ params, searchParams }) => {
             const currentTab = data.journey2[`tab${i + 1}`];
             const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
 
-            const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false and the previous item was also false.
+            const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false & the previous item was also false.
 
             arr.push({
               title: journey2[i].title,
-              description: selected ? "Click to view" : journey2[i].description,
+              description: journey2[i].description,
               loading: false,
               data: selected ? currentTab.data : [],
               selected: selected,

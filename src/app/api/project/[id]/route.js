@@ -108,6 +108,7 @@ export async function POST(request, { params }) {
 
       project.journey1 = {};
       project.journey1["tab1"] = tab1;
+      project.currentStage[journey] = tab;
 
       await project.save();
 
@@ -155,6 +156,7 @@ export async function POST(request, { params }) {
             id,
             {
               "journey1.tab2": tab2,
+              [`currentStage.${journey}`]: tab,
             },
             {
               new: true,
@@ -218,6 +220,7 @@ export async function POST(request, { params }) {
             id,
             {
               "journey1.tab3": tab3,
+              [`currentStage.${journey}`]: tab,
             },
             {
               new: true,
@@ -276,6 +279,7 @@ export async function POST(request, { params }) {
             id,
             {
               "journey1.tab4": tab4,
+              [`currentStage.${journey}`]: tab,
             },
             {
               new: true,
@@ -333,6 +337,7 @@ export async function POST(request, { params }) {
             id,
             {
               "journey1.tab5": tab5,
+              [`currentStage.${journey}`]: tab,
             },
             {
               new: true,
@@ -391,6 +396,7 @@ export async function POST(request, { params }) {
             id,
             {
               "journey1.tab6": tab6,
+              [`currentStage.${journey}`]: tab,
             },
             {
               new: true,
@@ -460,6 +466,7 @@ export async function POST(request, { params }) {
             id,
             {
               "journey1.tab7": tab7,
+              [`currentStage.${journey}`]: tab,
             },
             {
               new: true,
@@ -506,6 +513,7 @@ export async function POST(request, { params }) {
             id,
             {
               "journey1.tab8": tab8,
+              [`currentStage.${journey}`]: tab,
             },
             {
               new: true,
@@ -565,6 +573,7 @@ export async function POST(request, { params }) {
             id,
             {
               "journey1.tab9": tab9,
+              [`currentStage.${journey}`]: tab,
             },
             {
               new: true,
@@ -632,6 +641,7 @@ export async function POST(request, { params }) {
           id,
           {
             "journey2.tab1": tab1,
+            [`currentStage.${journey}`]: tab,
           },
           {
             new: true,
@@ -691,6 +701,7 @@ export async function POST(request, { params }) {
           id,
           {
             "journey2.tab2": tab2,
+            [`currentStage.${journey}`]: tab,
           },
           {
             new: true,
@@ -749,6 +760,7 @@ export async function POST(request, { params }) {
           id,
           {
             "journey2.tab3": tab3,
+            [`currentStage.${journey}`]: tab,
           },
           {
             new: true,

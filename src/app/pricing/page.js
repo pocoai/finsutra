@@ -98,74 +98,77 @@ const PricingLayout = ({ plan, price, credits, buttonText, bonus, id, plan_type 
 };
 
 const page = () => {
-  const [pricing, setPricing] = useState([]);
+  // const [pricing, setPricing] = useState([]);
   const { getToken, userId } = useAuth();
 
-  const fetchPricing = async () => {
-    const token = await getToken();
-    let data = await getPricing(token);
+  // const fetchPricing = async () => {
+  //   const token = await getToken();
+  //   let data = await getPricing(token);
 
-    let newData = data.map((item) => {
-      if (item.id === "price_1NtoEhSCdCYBdIKO5ZxMr5KC") {
-        return {
-          plan: "Basic Plan",
-          plan_type: "basic",
-          price: 249,
-          credits: 75,
-          bonus: ["No Expert Support"],
-          buttonText: "Subscribe",
-          ...item,
-        };
-      } else if (item.id === "price_1NtmfkSCdCYBdIKOyj4aKLg6") {
-        return {
-          plan: "Standard Plan",
-          plan_type: "standard",
-          price: 599,
-          credits: 200,
-          bonus: ["Limited Expert Support"],
-          buttonText: "Subscribe",
-          ...item,
-        };
-      } else if (item.id === "price_1NtlEUSCdCYBdIKOR4horSbE") {
-        return {
-          plan: "Advanced Plan",
-          plan_type: "advanced",
-          price: 1199,
-          credits: 400,
-          bonus: [
-            "Limited Expert Support",
-            "Personal Venture Building Advisor Support for 6 months",
-          ],
-          buttonText: "Subscribe",
-          ...item,
-        };
-      }
-    });
+  //   let newData = data.map((item) => {
+  //     if (item.id === "price_1NtoEhSCdCYBdIKO5ZxMr5KC") {
+  //       return {
+  //         plan: "Basic Plan",
+  //         plan_type: "basic",
+  //         price: 249,
+  //         credits: 75,
+  //         bonus: ["No Expert Support"],
+  //         buttonText: "Subscribe",
+  //         ...item,
+  //       };
+  //     } else if (item.id === "price_1NtmfkSCdCYBdIKOyj4aKLg6") {
+  //       return {
+  //         plan: "Standard Plan",
+  //         plan_type: "standard",
+  //         price: 599,
+  //         credits: 200,
+  //         bonus: ["Limited Expert Support"],
+  //         buttonText: "Subscribe",
+  //         ...item,
+  //       };
+  //     } else if (item.id === "price_1NtlEUSCdCYBdIKOR4horSbE") {
+  //       return {
+  //         plan: "Advanced Plan",
+  //         plan_type: "advanced",
+  //         price: 1199,
+  //         credits: 400,
+  //         bonus: [
+  //           "Limited Expert Support",
+  //           "Personal Venture Building Advisor Support for 6 months",
+  //         ],
+  //         buttonText: "Subscribe",
+  //         ...item,
+  //       };
+  //     }
+  //   });
 
-    setPricing(newData);
-    // console.log(data);
-  };
+  //   setPricing(newData);
+  //   // console.log(data);
+  // };
 
-  useEffect(() => {
-    fetchPricing();
-  }, []);
+  // useEffect(() => {
+  //   fetchPricing();
+  // }, []);
 
-  console.log(pricing);
+  // console.log(pricing);
 
   return (
-    <div className="w-full mx-auto space-y-20">
+    <div className="flex flex-col items-start justify-start gap-10 space-y-4">
       <h1 className="text-center text-5xl font-bold">Pricing Plan </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 place-items-center w-full">
-        {/* {pricing.map((item, id) => (
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 place-items-center w-full">
+        {pricing.map((item, id) => (
           <PricingLayout {...item} key={id} />
-        ))} */}
-      </div>
+        ))}
+      </div> */}
+      {/* <div className=""> */}
       <stripe-pricing-table
         pricing-table-id="prctbl_1NtsghSCdCYBdIKOmPKRYvuV"
         publishable-key="pk_test_51NlnQuSCdCYBdIKOIroKsfGeyYDm8oqmXUjn5wKfpoacs0eClOwt1Kt3w5UE0fWeqrcCq1G7dJhIGcJmhtUqTwf7009oO9GCrl"
         client-reference-id={userId}
+        className="w-full space-x-4 space-y-4"
       ></stripe-pricing-table>
+      {/* </div> */}
     </div>
   );
 };

@@ -18,10 +18,6 @@ const TopBar = async () => {
 
     let user = await getUserData(token)
 
-    if (!user.onboarded) {
-        redirect('/onboarding')
-    }
-
     return (
         <div className='flex justify-start w-full items-end'>
             <div className='w-full space-y-6'>

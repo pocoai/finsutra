@@ -50,6 +50,12 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
             })
             return
         }
+        else if (locked) {
+            toast.error("Tab Locked. Please process previous tabs first", {
+                position: "bottom-center",
+            })
+            return
+        }
 
         let token = await getToken();
 
@@ -103,7 +109,7 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
 
     return (
         <div className={classNames({
-            "card w-[279px] h-[190px] shadow-md animate__animated animate__fadeInLeft": true,
+            "card w-[280px] h-[200px] shadow-md animate__animated animate__fadeInLeft": true,
             "bg-[#FFF0DF]": selected,
             "bg-[#F1F2F4]": !selected
         })}
@@ -123,8 +129,9 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
                     " max-w-full": title?.length > 27,
                     "text-brand": selected
                 })}>{title}</h2>
-                <p className='text-[13px]'>{
-                    selected ? 'Click to view...' : String(description).substring(0, 30) + "..."
+                <p className='text-[15px]'>{
+                    //  String(description).substring(0, 30) + "..."
+                    description
                 }</p>
                 <div className="card-actions justify-start">
 

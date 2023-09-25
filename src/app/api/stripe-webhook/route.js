@@ -70,6 +70,7 @@ export const POST = async (request) => {
 
             user.creditsHistory.push({
               date: Date.now(),
+              purchasePlan: plan,
               credits: credits,
               type: "add",
             });

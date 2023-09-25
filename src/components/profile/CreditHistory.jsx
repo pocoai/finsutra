@@ -1,6 +1,9 @@
-import Link from 'next/link'
-import React from 'react'
+"use client"
 
+import { creditPricing } from '@/utils/credits'
+import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
+import { formatDistance } from 'date-fns'
 
 
 const CreditTab = ({ letter, date, tab, credits, purchase }) => {
@@ -18,7 +21,7 @@ const CreditTab = ({ letter, date, tab, credits, purchase }) => {
                     </p>
 
                     <p className='font-medium text-sm'>
-                        {date}
+                        {formatDistance(new Date(date), new Date(), { addSuffix: true })}
                     </p>
                 </div>
             </div>
@@ -77,8 +80,56 @@ const data = [{
     purchase: false
 }]
 
+function capitalizeFirstLetter(str) {
+    if (typeof str !== "string" || str.length === 0) {
+        return str; // Return the original string if it's not a string or an empty string.
+    }
+
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 
 const CreditHistory = ({ credits, currentPlan, creditHistory }) => {
+
+    const getTabNameAndLetter = (journey, tab, purchasePlan) => {
+        let name = creditPricing.find((item) => item?.tab === `journey${journey}_tab${tab}`)?.name || (capitalizeFirstLetter(purchasePlan) + " Plan")
+        let letter = name?.charAt(0) || purchasePlan.charAt(0)
+
+        return {
+            name,
+            letter
+        }
+    }
+
+    // console.log(creditHistory)
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+
+        let history = []
+        for (let i = 0; i < creditHistory.length; i++) {
+            let obj = {};
+
+            obj.date = creditHistory[i].date;
+            obj.tab = getTabNameAndLetter(creditHistory[i].journey, creditHistory[i].tab, creditHistory[i].purchasePlan).name
+            obj.credits = creditHistory[i].credits;
+            obj.letter = getTabNameAndLetter(creditHistory[i].journey, creditHistory[i].tab, creditHistory[i].purchasePlan).letter;
+            obj.purchase = creditHistory[i].type === "add" ? true : false;
+
+
+            history.push(obj)
+        }
+
+        history.sort((a, b) => {
+            return new Date(b.date) - new Date(a.date)
+        })
+
+        setData(history)
+
+
+
+    }, [creditHistory])
+
     return (
         <div className='w-[500px] h-[500px] flex items-start justify-start gap-2 flex-col border rounded-2xl p-3'>
             <h1 className='text-lg font-bold'>

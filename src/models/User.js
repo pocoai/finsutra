@@ -29,6 +29,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         enum: ["add", "remove"],
       },
+      purchasePlan: String,
     },
   ],
   currentPlan: {

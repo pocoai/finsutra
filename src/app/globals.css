@@ -25,3 +25,11 @@
     font-size: 0.7em;
   }
   
+
+  
+
+.PricingTable-grid{
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+}

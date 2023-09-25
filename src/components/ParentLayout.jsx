@@ -17,11 +17,11 @@ const urbanist = Urbanist({
 });
 
 const ParentLayout = ({ children }) => {
-    const [collapsed, setCollapsed] = useState(true)
+    const [collapsed, setCollapsed] = useState(false)
     const [userData, setUserState] = useRecoilState(userState);
     const { getToken } = useAuth()
 
-    const pathname = usePathname()
+    // const pathname = usePathname()
 
     const router = useRouter()
 
@@ -37,7 +37,7 @@ const ParentLayout = ({ children }) => {
 
     useEffect(() => {
         getData()
-    }, [pathname]);
+    }, []);
 
     let searchParams = useSearchParams()
 
