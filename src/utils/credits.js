@@ -75,27 +75,32 @@ export const creditPricing = [
   },
   {
     tab: "journey2_tab4",
+    name: "Market Research & Analysis",
     journey: 2,
     amount: 2,
   },
   {
     tab: "journey2_tab5",
     journey: 2,
+    name: "Customer Identification & Segmentation",
     amount: 2,
   },
   {
     tab: "journey2_tab6",
     journey: 2,
-    amount: 85,
+    name: "Value Proposition Design",
+    amount: 2,
   },
   {
     tab: "journey2_tab7",
     journey: 2,
+    name: " Business Model Canvas",
     amount: 2,
   },
   {
     tab: "journey2_tab8",
     journey: 2,
+    name: "Competitive Analysis",
     amount: 2,
   },
   {

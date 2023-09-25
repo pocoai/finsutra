@@ -86,6 +86,31 @@ const journey2 = [
     description: "Create a compelling vision & mission.",
     loading: true,
   },
+  {
+    title: "1.4 Market Research & Analysis",
+    description: "Analyze market trends & insights.",
+    loading: true,
+  },
+  {
+    title: "1.5 Customer Identification & Segmentation",
+    description: "Identify & segment target customers.",
+    loading: true,
+  },
+  {
+    title: "1.6 Value Proposition Design",
+    description: "Craft a unique value proposition.",
+    loading: true,
+  },
+  {
+    title: "1.7 Business Model Canvas",
+    description: "Develop a business model strategy.",
+    loading: true,
+  },
+  {
+    title: "1.8 Competitive Analysis",
+    description: "Analyze competitors & their strengths.",
+    loading: true,
+  },
 ];
 
 const journey3 = [

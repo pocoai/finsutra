@@ -787,6 +787,65 @@ export async function POST(request, { params }) {
         return new Response(null, { status: 404, statusText: "Not Found" });
       }
     }
+    if (tab >= 4) {
+      let api = getApi(2, tab);
+
+      let pitch = project.journey1.tab1.data[1]?.value;
+      let icp = project.journey1.tab1.data[2]?.value;
+      let ind = project.journey1.tab1.data[3]?.value;
+      let ps = project.journey1.tab1.data[4]?.value;
+      let vp = project.journey1.tab1.data[5]?.value;
+
+      console.log(pitch, icp, "pitch");
+
+      let result = await axios.post(
+        api,
+        {
+          variables: {
+            elevator_pitch: pitch,
+            ideal_customer_profile: icp,
+            industry: ind,
+            problem_statement: ps,
+            value_proposition: vp,
+          },
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-portkey-api-key": PORTKEY,
+          },
+        }
+      );
+
+      // console.log(result.data, "api results ");
+
+      if (result.data.success) {
+        let tabData = {
+          data: result.data.data.choices[0].message.content,
+          selected: true,
+        };
+        await SubCredits(userId, journey, tab);
+        let updated_res = await Project.findByIdAndUpdate(
+          id,
+          {
+            [`journey2.tab${tab}`]: tabData,
+            [`currentStage.${journey}`]: tab,
+          },
+          {
+            new: true,
+          }
+        );
+
+        console.log(updated_res, "updated_res");
+        return NextResponse.json({
+          success: true,
+          message: "project updated",
+          data: updated_res.journey2[`tab${tab}`],
+        });
+      } else {
+        return new Response(null, { status: 404, statusText: "Not Found" });
+      }
+    }
   }
 
   return new Response(
