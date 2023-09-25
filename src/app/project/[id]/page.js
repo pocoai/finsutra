@@ -111,6 +111,41 @@ const journey2 = [
     description: "Analyze competitors & their strengths.",
     loading: true,
   },
+  {
+    title: "2.1 Defining Project Objectives",
+    description: "Clearly define project objectives & goals.",
+    loading: true,
+  },
+  {
+    title: "2.2 Setting Key Performance Indicators (KPIs)",
+    description: "Identify & set key performance indicators (KPIs).",
+    loading: true,
+  },
+  {
+    title: "2.3 Milestones & Timelines",
+    description: "Outline project milestones & timelines.",
+    loading: true,
+  },
+  {
+    title: "2.4 Risk Assessment & Mitigation",
+    description: "Assess project risks & plan for mitigation.",
+    loading: true,
+  },
+  {
+    title: "2.5 Regulatory & Compliance Checklist",
+    description: "Create a regulatory & compliance checklist.",
+    loading: true,
+  },
+  {
+    title: "2.6 Fundraising Strategy",
+    description: "Develop a fundraising strategy & approach.",
+    loading: true,
+  },
+  {
+    title: "2.7 Contingency Planning",
+    description: "Plan for contingencies & unexpected events.",
+    loading: true,
+  },
 ];
 
 const journey3 = [
@@ -340,8 +375,8 @@ const page = ({ params, searchParams }) => {
         <InputModal id={id} isOpen={showInput} setIsOpen={setShowInput} choices={choices} />
       )}
 
-      <div className="my-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-8  ">
+      <div className="my-10 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-8 py-10  ">
           {journeyData.length > 0 &&
             journeyData.map((item, index) => (
               <Card

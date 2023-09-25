@@ -66,12 +66,12 @@ const ParentLayout = ({ children }) => {
     }, [success, cancelled])
 
 
-    console.log(userData, "userData");
+    // console.log(userData, "userData");
 
     return (
         <div
             className={classNames({
-                "grid min-h-screen": true,
+                "grid h-screen overflow-hidden": true,
                 "grid-cols-sidebar": !collapsed,
                 "grid-cols-sidebar-collapsed": collapsed,
                 "transition-[grid-template-columns] duration-300 ease-in-out": true,
@@ -81,7 +81,7 @@ const ParentLayout = ({ children }) => {
                 <SideBar collapsed={collapsed} setCollapsed={setCollapsed} isLoaded={userData.isLoaded} user={userData} />
             }
 
-            <section className="max-w-7xl w-full mx-auto transition-all duration-1000 py-10 px-5 h-screen">
+            <section className="max-w-7xl w-full mx-auto transition-all duration-1000 py-10 px-5 h-screen overflow-y-scroll scrollbar-thin scrollbar-thumb-brand scrollbar-track-gray-300">
                 {children}
             </section>
         </div>

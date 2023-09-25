@@ -194,7 +194,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
     return (
         (<div
             className={classNames({
-                " text-primary relative border-r border-[#F1F2F4] w-[248px] flex flex-col items-end h-screen max-h-screen": true,
+                " text-primary relative border-r border-[#F1F2F4] w-[248px] flex flex-col items-end h-screen overflow-y-hidden max-h-screen": true,
                 "transition-all  duration-700 ease-in-out": true,
                 "translate-x-0 ": !collapsed,
                 "-translate-x-[70%]": collapsed,

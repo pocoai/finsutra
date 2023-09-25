@@ -119,7 +119,7 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
 
     return (
         <div className={classNames({
-            "card w-[280px] h-[200px] shadow-md animate__animated animate__fadeInLeft": true,
+            "card w-[280px] h-[210px] shadow-md animate__animated animate__fadeInLeft": true,
             "bg-[#FFF0DF]": selected,
             "bg-[#F1F2F4]": !selected
         })}

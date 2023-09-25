@@ -94,7 +94,7 @@ export const creditPricing = [
   {
     tab: "journey2_tab7",
     journey: 2,
-    name: " Business Model Canvas",
+    name: "Business Model Canvas",
     amount: 2,
   },
   {
@@ -104,24 +104,45 @@ export const creditPricing = [
     amount: 2,
   },
   {
-    tab: "journey3_tab1",
-    journey: 3,
-    amount: 2,
-  },
-  ,
-  {
-    tab: "journey3_tab2",
-    journey: 3,
+    tab: "journey2_tab9",
+    journey: 2,
+    name: "Defining Project Objectives",
     amount: 2,
   },
   {
-    tab: "journey3_tab3",
-    journey: 3,
+    tab: "journey2_tab10",
+    journey: 2,
+    name: "KPIs",
     amount: 2,
   },
   {
-    tab: "journey3_tab4",
-    journey: 3,
+    tab: "journey2_tab11",
+    journey: 2,
+    name: "Milestones and Timelines",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab12",
+    journey: 2,
+    name: "Risk Assessment & Mitigation",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab13",
+    journey: 2,
+    name: "Regulatory & Compliance Checklist",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab14",
+    journey: 2,
+    name: "Fundraising Strategy",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab15",
+    journey: 2,
+    name: "Contingency Planning",
     amount: 2,
   },
 ];
