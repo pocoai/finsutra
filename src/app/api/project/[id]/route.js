@@ -50,7 +50,7 @@ export async function GET(request, { params }) {
       _id: id,
       uid: userId,
     })
-      .select("journey1 name query")
+      .select("journey1 name query queryResults")
       .lean();
 
     if (!project) {
@@ -372,7 +372,7 @@ export async function POST(request, { params }) {
 
       let pitch = project.journey1.tab1.data[1]?.value;
       let icp = project.journey1.tab1.data[2]?.value;
-
+      let brand_guidelines = project.journey1.tab3.data["Branding Guidelines Summary"] || "";
       console.log(pitch, icp, "pitch");
 
       try {
@@ -382,7 +382,7 @@ export async function POST(request, { params }) {
             variables: {
               elevator_pitch: pitch,
               ideal_customer_profile: icp,
-              brand_guidelines: "",
+              brand_guidelines,
             },
           },
           {

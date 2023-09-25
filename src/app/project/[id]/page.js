@@ -144,6 +144,7 @@ const page = ({ params, searchParams }) => {
   // const [data, setData] = useState(getArrayviaJourney(journey)); //nir change
   const [projectName, setProjectName] = useState("");
   const [showInput, setShowInput] = useState(false);
+  const [choices, setChoices] = useState([]);
   const api = process.env.NEXT_PUBLIC_URL;
 
   const { getToken } = useAuth();
@@ -163,6 +164,15 @@ const page = ({ params, searchParams }) => {
       setShowInput(true);
     }
 
+    if (
+      res.data.data?.queryResults?.length > 0 &&
+      journey === 1 &&
+      !res.data.data?.journey1?.tab1?.selected
+    ) {
+      setChoices(res.data.data.queryResults);
+      setShowInput(true);
+    }
+
     if (res.data.data?.name) {
       setProjectName(res.data.data.name);
     }
@@ -175,6 +185,7 @@ const page = ({ params, searchParams }) => {
     switch (journey) {
       case 1:
         data = await FetchTabResults(id, journey);
+
         console.log(data, "here");
         if (isObjEmpty(data.journey1)) {
           // check if tab is selected
@@ -220,6 +231,7 @@ const page = ({ params, searchParams }) => {
       case 2:
         data = await FetchTabResults(id, journey);
         console.log(data, "here");
+
         if (!data.journey2 || isObjEmpty(data.journey2)) {
           // check if tab is selected
           console.log("tab not selected");
@@ -292,12 +304,16 @@ const page = ({ params, searchParams }) => {
     let data = getArrayviaJourney(journey);
     setJourneyData(data);
   }, []);
+
+  console.log(choices, "choices");
   // nir
   return (
     <div className="">
       <Header id={id} name={projectName} journey={journey} />
 
-      {showInput && <InputModal id={id} isOpen={showInput} setIsOpen={setShowInput} />}
+      {showInput && (
+        <InputModal id={id} isOpen={showInput} setIsOpen={setShowInput} choices={choices} />
+      )}
 
       <div className="my-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-8  ">

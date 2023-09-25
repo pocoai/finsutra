@@ -1,16 +1,24 @@
+import { journeyState } from "@/state/atoms/tabState";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "react-toastify";
+import { useSetRecoilState } from "recoil";
 
-const CardComponent = ({ data, isSelected, setIsSelected, id, closeModal }) => {
+const CardComponent = ({ data, id, closeModal }) => {
 
     const { getToken } = useAuth()
+    const setJourneyData = useSetRecoilState(journeyState)
+
+    const router = useRouter()
+
+
+    console.log(data, "data")
 
     const api = process.env.NEXT_PUBLIC_URL;
     const handleClick = async () => {
 
-        setIsSelected(true)
-        // console.log(data, "clicked")
 
         let token = await getToken()
         try {
@@ -28,9 +36,33 @@ const CardComponent = ({ data, isSelected, setIsSelected, id, closeModal }) => {
             console.log(res, "res")
 
             if (res.data.success) {
-                toast.success("Idea Saved")
+                let state = {
+                    ...res.data.data,
+                    selected: true
+                }
+
+                setJourneyData(prevState => {
+                    return prevState.map((item, index) => {
+                        if (index + 1 === 1) {
+                            return {
+                                ...item,
+                                ...state, // Update the specific tab with new data
+                            };
+                        }
+                        else if (index + 1 === 2) {
+                            return {
+                                ...item,
+                                locked: false,
+                            };
+                        }
+                        else {
+                            return item;
+                        }
+                    });
+
+                });
                 closeModal()
-                window.location.reload()
+                router.refresh()
             }
 
         } catch (error) {
@@ -48,7 +80,7 @@ const CardComponent = ({ data, isSelected, setIsSelected, id, closeModal }) => {
                             <div className=" font-bold w-[190px] text-brand lg:pl-7">{item.key}</div>
                             {":"}
                             <div className="w-[700px]">{item.value}</div>
-                            {/* <p className="font-semibold"></p>:<p></p> */}
+
                         </div>
                     </>
                 );

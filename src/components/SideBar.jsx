@@ -53,7 +53,39 @@ const SideCard = ({ image, name, selected, id, collapsed, link }) => {
     )
 }
 
-const ProfileButtons = ({ collapsed, onClick, image, name }) => {
+const ProfileButtons = ({ collapsed, onClick, image, name, link }) => {
+    if (link) {
+        return (
+
+
+            <Link href={link} target="_blank" prefetch={false} className={classNames({
+                "flex items-center gap-3 text-lg w-full rounded-xl cursor-pointer ": true,
+                "justify-start  px-4 py-2 ": !collapsed,
+                "justify-center p-3": collapsed,
+                "min-w-0": true, // Ensure a minimum width of 0
+            })}
+
+            >
+                <Image
+                    src={image}
+                    height={20}
+                    width={20}
+                    alt="logo"
+
+                    className="text-primary"
+                />
+                <span className={classNames({
+                    " text-[16px] transition-all overflow-hidden w-full whitespace-no-wrap": true,
+                    "hidden": collapsed,
+
+                })}>
+                    {capitalize(name)}
+                </span>
+
+
+            </Link>)
+    }
+
     return (<div className={classNames({
         "flex items-center gap-3 text-lg w-full rounded-xl cursor-pointer ": true,
         "justify-start  px-4 py-2 ": !collapsed,
@@ -97,7 +129,7 @@ const sidecards = [
         id: 3,
         name: "Minigator",
         image: "/images/minigator.svg",
-        link: "/minigator"
+        link: "https://minigator.vercel.app/"
     }
 ]
 
@@ -106,27 +138,30 @@ const profilebuttons = [
     {
         image: "/images/profile.svg",
         name: "My Profile",
+        link: "/profile",
 
     },
     {
         image: "/images/release.svg",
         name: "Release Notes",
+        link: "https://favcynavigator.canny.io/changelog/"
 
     },
     {
         image: "/images/roadmap.svg",
         name: "Product Roadmap",
+        link: "https://favcynavigator.canny.io/",
 
     },
-    {
-        image: "/images/about.svg",
-        name: "About Us",
+    // {
+    //     image: "/images/about.svg",
+    //     name: "About Us",
 
-    },
+    // },
     {
         image: "/images/logout.svg",
         name: "Logout",
-
+        link: false
     }
 ]
 

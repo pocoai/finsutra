@@ -19,17 +19,38 @@ const urbanist = Urbanist({
 });
 
 
-const InputModal = ({ id, isOpen, setIsOpen }) => {
+const InputModal = ({ id, isOpen, setIsOpen, choices }) => {
     const [query, setQuery] = useState('');
     const [loading, setLoading] = useState(false);
     const [results, setResults] = useState([]);
-    const [isSelected, setIsSelected] = useState(false);
     const { getToken } = useAuth()
 
     const api = process.env.NEXT_PUBLIC_URL;
 
+    useEffect(() => {
+        if (choices.length > 0) {
+            let arr = []
+            for (let i = 0; i < choices.length; i++) {
+                let element = choices[i];
+                let arrayOfObjects = Object.keys(element).map((key) => {
+                    return {
+                        key: key,
+                        value: element[key],
+                    };
+                });
+
+                if (arr.length === choices.length) {
+                    break;
+                } else {
+                    arr.push(arrayOfObjects);
+                }
+            }
+            setResults(arr);
+        }
+    }, [choices])
+
     function closeModal() {
-        if (query.trim() === '') {
+        if (query.trim() === '' && !choices.length > 0) {
             alert('Please enter some text before closing.');
             return;
         }
@@ -39,10 +60,7 @@ const InputModal = ({ id, isOpen, setIsOpen }) => {
             return;
         }
 
-        if (!isSelected) {
-            toast.error('Please select an option')
-            return;
-        }
+
 
 
         setIsOpen(false)
@@ -108,7 +126,7 @@ const InputModal = ({ id, isOpen, setIsOpen }) => {
         }
     }
 
-    // console.log(results, "res")
+    console.log(results, "res")
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
@@ -193,8 +211,6 @@ const InputModal = ({ id, isOpen, setIsOpen }) => {
                                                                         <CardComponent
                                                                             data={item}
                                                                             id={id}
-                                                                            isSelected={isSelected}
-                                                                            setIsSelected={setIsSelected}
                                                                             closeModal={closeModal}
                                                                         // handleClick={handleClick}
                                                                         />
