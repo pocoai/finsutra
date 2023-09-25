@@ -64,7 +64,7 @@ const ViewModal = ({ isOpen, setIsOpen, title, journey, tab, data }) => {
                                         as="h3"
                                         className="text-2xl font-medium leading-6 text-brand  "
                                     >
-                                        {title}
+                                        {journey !== 2 && title}
                                     </Dialog.Title>
                                     <ViewComponent
                                         data={data}

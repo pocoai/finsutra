@@ -27,9 +27,10 @@
   
 
   
+  .swiper-button-prev, .swiper-button-next {
 
-.PricingTable-grid{
-   display: flex;
-   flex-wrap: wrap;
-   justify-content: center;
-}
+    color: #FD8A09;
+   
+    
+  }
+  

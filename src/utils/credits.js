@@ -9,6 +9,7 @@ export const creditPricing = [
     tab: "journey1_tab2",
     journey: 1,
     name: "Problem Solution Fit ",
+    amount: 2,
   },
 
   {

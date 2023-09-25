@@ -101,6 +101,16 @@ export async function POST(request, { params }) {
 
   if (journey === 1) {
     if (tab === 1) {
+      if (!data) {
+        return new Response(
+          {
+            success: false,
+            error: "No data",
+          },
+          { status: 404, statusText: "Not Found" }
+        );
+      }
+
       let tab1 = {
         data: data,
         selected: true,

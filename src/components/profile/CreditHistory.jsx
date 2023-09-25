@@ -165,6 +165,14 @@ const CreditHistory = ({ credits, currentPlan, creditHistory }) => {
                 {data.map((item, index) => (
                     <CreditTab key={index} {...item} />
                 ))}
+
+                {data.length === 0 && (
+                    <div className='flex items-center m-auto h-full justify-center flex-col w-[100%]'>
+                        <p>
+                            No transactions yet..
+                        </p>
+                    </div>
+                )}
             </div>
 
         </div>

@@ -196,7 +196,7 @@ const ViewComponent = ({
             return (
                 <div className="flex flex-col items-start justify-start space-y-4 ">
                     {/* <h1 className="text-lg">{data[0]?.key}</h1> */}
-                    <p className="text-sm text-center text-red-500">
+                    <p className="text-sm text-center font-semibold text-red-500">
                         Disclaimer: Research Tab is in private beta, it may not give accurate results all the
                         time and is prone to hallucinations. We are working on it
                     </p>
@@ -214,19 +214,19 @@ const ViewComponent = ({
                                 <thead>
                                     <tr>
                                         <th className="px-4 py-2 border border-gray-500">
-                                            Sr. No <span className="text-red-500">*</span>
+                                            Sr. No
                                         </th>
                                         <th className="px-4 py-2 border border-gray-500">
-                                            Website <span className="text-red-500">*</span>
+                                            Website
                                         </th>
                                         {process.env.NEXT_PUBLIC_ENV === "test" && (
                                             <th className="px-4 py-2 border border-gray-500">
-                                                Type <span className="text-red-500">*</span>
+                                                Type
                                             </th>
                                         )}
 
                                         <th className="px-4 py-2 border border-gray-500">
-                                            Description <span className="text-red-500">*</span>
+                                            Description
                                         </th>
                                     </tr>
                                 </thead>
@@ -310,17 +310,17 @@ const ViewComponent = ({
                     )}
                     {data && data["Positioning"] && (
                         <div className="flex flex-col items-start justify-start space-y-2 ">
-                            <p>
-                                <span className="font-semibold">Positioning: </span>
+                            <p className='font-medium text-lg'>
+                                {/* <span className="font-semibold">: </span> */}
                                 {data["Positioning"]}
                             </p>
                         </div>
                     )}
                     {data && data["USPs"] && (
                         <div className="flex flex-col items-start justify-start space-y-2 ">
-                            <h1 className="text-2xl font-semibold text-gray-800">USPs</h1>
+                            <h1 className="text-2xl font-semibold text-gray-800">Favcy USPs framework</h1>
                             {data["USPs"]?.map((item, index) => (
-                                <p key={index}>
+                                <p key={index} className='font-medium text-lg'>
                                     <span className="text-red-500">{index + 1}&#41;</span> &nbsp;
                                     {item}
                                 </p>
@@ -335,17 +335,17 @@ const ViewComponent = ({
                     <table className="table-auto ">
                         <thead>
                             <tr>
-                                <th className="px-4 py-2 border border-gray-500">
-                                    Sr. No <span className="text-red-500">*</span>
+                                <th className="px-4 py-2 border-b-2 font-medium text-brand">
+                                    Sr. No
                                 </th>
-                                <th className="px-4 py-2 border border-gray-500">
-                                    Feature <span className="text-red-500">*</span>
+                                <th className="px-4 py-2 border-b-2 border-l-2  font-medium text-brand">
+                                    Feature
                                 </th>
-                                <th className="px-4 py-2 border border-gray-500">
-                                    Value Proposition <span className="text-red-500">*</span>
+                                <th className="px-4 py-2 border-b-2 border-l-2  font-medium text-brand">
+                                    Value Proposition
                                 </th>
-                                <th className="px-4 py-2 border border-gray-500">
-                                    Benefit <span className="text-red-500">*</span>
+                                <th className="px-4 py-2 border-b-2 border-l-2  font-medium text-brand">
+                                    Benefit
                                 </th>
                             </tr>
                         </thead>
@@ -353,10 +353,10 @@ const ViewComponent = ({
                             data["Favcy_Venture_builder_framework"].map((item, index) => (
                                 <tbody key={index}>
                                     <tr>
-                                        <td className=" px-4 py-2 border border-gray-500">{index + 1}</td>
-                                        <td className=" px-4 py-2 border border-gray-500">{item.Feature}</td>
-                                        <td className=" px-4 py-2 border border-gray-500">{item.Value_Proposition}</td>
-                                        <td className=" px-4 py-2 border border-gray-500">{item.Benefit}</td>
+                                        <td className=" px-4 py-2 border-b-2 font-medium">{index + 1}</td>
+                                        <td className=" px-4 py-2 border-b-2 border-l-2 font-medium">{item.Feature}</td>
+                                        <td className=" px-4 py-2 border-b-2 border-l-2 font-medium">{item.Value_Proposition}</td>
+                                        <td className=" px-4 py-2 border-b-2 border-l-2 font-medium">{item.Benefit}</td>
                                     </tr>
                                 </tbody>
                             ))}
@@ -378,8 +378,8 @@ const ViewComponent = ({
                                 // </div>
                                 <tbody key={index}>
                                     <tr>
-                                        <td className=" px-4 py-2 border border-gray-500 w-[200px]">{item[0]}</td>
-                                        <td className=" px-4 py-2 border border-gray-500">{item[1]}</td>
+                                        <td className="px-4 py-2 text-brand border-b-2 font-medium w-[200px]" style={{ verticalAlign: 'top' }}>{item[0]}</td>
+                                        <td className=" px-4 py-2 border-b-2 border-l-2 font-medium">{item[1]}</td>
                                     </tr>
                                 </tbody>
                             ))}
@@ -391,25 +391,29 @@ const ViewComponent = ({
                 <div className="flex flex-col items-start justify-start space-y-4 ">
                     {data && (
                         <p>
-                            <span className="font-semibold">Problem Solution Fit: {data["Executive Summary"]}</span>:
+                            <span className="font-semibold">{data["Executive Summary"]}</span>:
                         </p>
                     )}
                     <table className="table-auto ">
                         <thead>
                             <tr>
-                                <th className="px-4 py-2 border border-gray-500">
-                                    Problem <span className="text-red-500">*</span>
+                                <th className="px-4 py-2 text-brand whitespace-nowrap">
+                                    Problems
                                 </th>
-                                <th className="px-4 py-2 border border-gray-500">
-                                    Solution <span className="text-red-500">*</span>
+                                <th className="px-4 py-2 text-brand whitespace-nowrap">
+                                    Solutions
                                 </th>
                             </tr>
                         </thead>
                         {data["ps_list"]?.map((item, index) => (
                             <tbody key={index}>
                                 <tr>
-                                    <td className=" px-4 py-2 border border-gray-500">{item?.Problem}</td>
-                                    <td className=" px-4 py-2 border border-gray-500">{item?.Solution}</td>
+
+                                    <td className=" px-4 py-2 border-b-2 font-medium">
+
+                                        {/* {index + 1}) &nbsp; */}
+                                        {item?.Problem}</td>
+                                    <td className=" px-4 py-2 text-brand border-b-2 border-l-2 font-medium">{item?.Solution}</td>
                                 </tr>
                             </tbody>
                         ))}
@@ -423,10 +427,10 @@ const ViewComponent = ({
                         {/* <thead>
                             <tr>
                                 <th className="px-4 py-2 border border-gray-500">
-                                    Title <span className="text-red-500">*</span>
+                                    Title 
                                 </th>
                                 <th className="px-4 py-2 border border-gray-500">
-                                    Description <span className="text-red-500">*</span>
+                                    Description 
                                 </th>
                             </tr>
                         </thead> */}
@@ -478,13 +482,13 @@ const ViewComponent = ({
     //                             <thead>
     //                                 <tr>
     //                                     <th className="px-4 py-2 border border-gray-500">
-    //                                         Pillars <span className="text-red-500">*</span>
+    //                                         Pillars 
     //                                     </th>
     //                                     <th className="px-4 py-2 border border-gray-500">
-    //                                         Inbound <span className="text-red-500">*</span>
+    //                                         Inbound 
     //                                     </th>
     //                                     <th className="px-4 py-2 border border-gray-500">
-    //                                         Outbound <span className="text-red-500">*</span>
+    //                                         Outbound 
     //                                     </th>
     //                                 </tr>
     //                             </thead>
@@ -563,10 +567,10 @@ const ViewComponent = ({
     //                             <thead>
     //                                 <tr>
     //                                     <th className="px-4 py-2 border border-gray-500">
-    //                                         Title <span className="text-red-500">*</span>
+    //                                         Title 
     //                                     </th>
     //                                     <th className="px-4 py-2 border border-gray-500">
-    //                                         Description <span className="text-red-500">*</span>
+    //                                         Description 
     //                                     </th>
     //                                 </tr>
     //                             </thead>

@@ -18,46 +18,55 @@ const journey1 = [
     title: "Idea articulation",
     description: "Define & clarify your innovative concept.",
     loading: true,
+    locked: true,
   },
   {
     title: "Problem Solution Fit",
     description: "Assess product-market alignment for success.",
     loading: true,
+    locked: true,
   },
   {
     title: "Brand Kit",
     description: "Establish visual & brand identity elements.",
     loading: true,
+    locked: true,
   },
   {
     title: "Positioning & Messaging",
     description: "Craft compelling brand positioning.",
     loading: true,
+    locked: true,
   },
   {
     title: "Coming Soon Page",
     description: "Tease & prepare for your product launch.",
     loading: true,
+    locked: true,
   },
   {
     title: "Build your MVP",
     description: "Create a minimal viable product efficiently.",
     loading: true,
+    locked: true,
   },
   {
     title: "Features to Monetize",
     description: "Identify profit-generating product features.",
     loading: true,
+    locked: true,
   },
   {
     title: "Research & Knowledge Bank",
     description: "Store valuable insights & information.",
     loading: true,
+    locked: true,
   },
   {
     title: "Business Model Canvas",
     description: "Outline your business strategy & model.",
     loading: true,
+    locked: true,
   },
 ];
 
@@ -274,9 +283,9 @@ const page = ({ params, searchParams }) => {
     });
   }, [journey]);
 
-  useEffect(() => {
-    document.querySelector("#idea_modal").checked = showInput;
-  }, [showInput]);
+  // useEffect(() => {
+  //   document.querySelector("#idea_modal").checked = showInput;
+  // }, [showInput]);
 
   // nir
   useEffect(() => {
@@ -288,7 +297,7 @@ const page = ({ params, searchParams }) => {
     <div className="">
       <Header id={id} name={projectName} journey={journey} />
 
-      <InputModal id={id} />
+      {showInput && <InputModal id={id} isOpen={showInput} setIsOpen={setShowInput} />}
 
       <div className="my-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-8  ">

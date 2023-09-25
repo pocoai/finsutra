@@ -76,7 +76,7 @@ const NewProjectModal = () => {
                             <h3 className="font-bold text-lg">Enter project name</h3>
 
                             <div className='flex flex-col justify-center items-center gap-5 my-5'>
-                                <input type="text" placeholder="Your business idea" className="input w-full border outline-none"
+                                <input type="text" placeholder="Your project name" className="input w-full border outline-none"
 
                                     onChange={(e) => setName(e.target.value)}
 

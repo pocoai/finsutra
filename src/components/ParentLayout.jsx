@@ -66,6 +66,8 @@ const ParentLayout = ({ children }) => {
     }, [success, cancelled])
 
 
+    console.log(userData, "userData");
+
     return (
         <div
             className={classNames({

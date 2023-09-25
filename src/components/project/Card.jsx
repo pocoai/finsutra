@@ -76,6 +76,8 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
                     selected: true,
                 };
 
+                const nextTabIndex = tab + 1;
+
                 setJourneyData(prevState => {
                     return prevState.map((item, index) => {
                         if (index + 1 === tab) {
@@ -83,7 +85,15 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
                                 ...item,
                                 ...updatedData, // Update the specific tab with new data
                             };
-                        } else {
+                        }
+                        else if (index + 1 === nextTabIndex) {
+                            // Set the "locked" status of the next tab to false
+                            return {
+                                ...item,
+                                locked: false,
+                            };
+                        }
+                        else {
                             return item;
                         }
                     });
