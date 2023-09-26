@@ -1,23 +1,17 @@
-<<<<<<< HEAD
-import { creditCountState, userState } from '@/state/atoms/userState'
-=======
 'use client'
+import { creditCountState, userState } from '@/state/atoms/userState'
 
->>>>>>> ad9f2a06271eddff8aae8e92be9f536fbc5aec15
 import { ArrowDownIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
-<<<<<<< HEAD
-import React from 'react'
+
 import { useRecoilValue } from 'recoil'
 
 
-=======
 import React, { useState } from 'react'
 import PdfDisplay from '../PdfDisplay'
 import PdfViewModal from '../PdfModal'
->>>>>>> ad9f2a06271eddff8aae8e92be9f536fbc5aec15
 
 const Journey = ({ selected, id, name, projectId }) => {
     return (
