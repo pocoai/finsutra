@@ -1,12 +1,23 @@
+<<<<<<< HEAD
 import { creditCountState, userState } from '@/state/atoms/userState'
+=======
+'use client'
+
+>>>>>>> ad9f2a06271eddff8aae8e92be9f536fbc5aec15
 import { ArrowDownIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
+<<<<<<< HEAD
 import React from 'react'
 import { useRecoilValue } from 'recoil'
 
 
+=======
+import React, { useState } from 'react'
+import PdfDisplay from '../PdfDisplay'
+import PdfViewModal from '../PdfModal'
+>>>>>>> ad9f2a06271eddff8aae8e92be9f536fbc5aec15
 
 const Journey = ({ selected, id, name, projectId }) => {
     return (
@@ -47,10 +58,17 @@ const journeys = [
     // }
 ]
 
+
 const Header = ({ id, name, journey }) => {
     // const user = useRecoilValue(userState)
     const credits = useRecoilValue(creditCountState)
 
+
+    const [showPdf, setShowPdf] = useState(false);
+
+    const handleClick = () => {
+        setShowPdf(prev => !prev)
+    }
     return (
         <header>
             <div className='flex flex-col lg:flex-row items-center justify-between mb-20'>
@@ -74,7 +92,7 @@ const Header = ({ id, name, journey }) => {
                         Buy Credits
                     </button>
                     <button className='bg-[#FFF0DF] rounded-full px-4 py-2 text-brand flex items-center gap-2'>
-                        <ArrowDownTrayIcon className='w-5 h-5' />
+                        <ArrowDownTrayIcon className='w-5 h-5' onClick={handleClick} />
                         Download Playbook
                     </button>
                 </div>
@@ -84,6 +102,7 @@ const Header = ({ id, name, journey }) => {
                     <Journey key={j.id} {...j} selected={journey} projectId={id} />
                 ))}
             </div>
+            {showPdf && <PdfViewModal open={showPdf} onClose={handleClick}><PdfDisplay setShowPdf={setShowPdf} showPdf={showPdf} id={id} /></PdfViewModal>}
         </header>
     )
 }
