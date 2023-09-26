@@ -128,11 +128,9 @@ const page = ({ params, searchParams }) => {
 
   let journey = parseInt(searchParams?.journey) || 1;
 
-  //nir
   const [journeyData, setJourneyData] = useRecoilState(journeyState);
-  //nir
 
-  // const [data, setData] = useState(getArrayviaJourney(journey)); //nir change
+  // const [data, setData] = useState(getArrayviaJourney(journey)); 
   const [projectName, setProjectName] = useState("");
   const [showInput, setShowInput] = useState(false);
   const api = process.env.NEXT_PUBLIC_URL;
@@ -269,7 +267,7 @@ const page = ({ params, searchParams }) => {
   useEffect(() => {
     getTabResults(journey).then((res) => {
       // console.log(res, "getTabResults");
-      // setData(res); //nir
+      // setData(res); 
       setJourneyData(res);
     });
   }, [journey]);
@@ -278,12 +276,12 @@ const page = ({ params, searchParams }) => {
     document.querySelector("#idea_modal").checked = showInput;
   }, [showInput]);
 
-  // nir
   useEffect(() => {
     let data = getArrayviaJourney(journey)
     setJourneyData(data);
   },[])
-  // nir
+
+
   return (
     <div className="">
       <Header id={id} name={projectName} journey={journey} />

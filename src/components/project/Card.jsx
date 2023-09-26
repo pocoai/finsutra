@@ -19,9 +19,9 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 
 
 const Card = ({ title, description, tab, data, selected, loading, journey, id, locked }) => {
-    // nir
+
     const [journeyData, setJourneyData] = useRecoilState(journeyState);
-    // nir
+    
     const [cardLoading, setCardLoading] = useState(loading)
     const [openModal, setOpenModal] = useState(false)
 
@@ -57,7 +57,7 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
             
             if (res.data.success) {
 
-                // window.location.reload() //nir
+                // window.location.reload() 
                 const updatedData = {
                     ...res.data.data,
                     selected: true,

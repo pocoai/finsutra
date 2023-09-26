@@ -1,43 +1,83 @@
 "use client"
 
-import { EllipsisVerticalIcon, MagnifyingGlassIcon, PencilSquareIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
-import classNames from 'classnames'
-import Link from 'next/link'
-import React, { useEffect, useReducer, useState } from 'react'
-import NewProjectModal from './NewProjectModal'
-import { useAuth } from '@clerk/nextjs'
-import axios from 'axios'
-import { formatDistance } from 'date-fns'
+import React, { useEffect, useReducer, useState } from 'react';
+import { EllipsisVerticalIcon, MagnifyingGlassIcon, PencilSquareIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
+import classNames from 'classnames';
+import Link from 'next/link';
+import axios from 'axios';
+import { formatDistance } from 'date-fns';
+import { useAuth } from "@clerk/nextjs";
+import { ToastContainer, toast } from 'react-toastify';
+import NewProjectModal from './NewProjectModal';
+import EditProjectName from '../EditProjectName';
 
+const api = process.env.NEXT_PUBLIC_URL;
 
+const Project = ({ _id, name, updatedAt, createdAt, getProjects }) => {
+    // const [editOpen, setEditOpen] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    // const handleEdit = () => {
+    //     console.log('editing ')
+    //     setEditOpen(prevState => !prevState)
+    // }
 
+    const { getToken } = useAuth();
+    const handleDelete = async (id) => {
+        let token = await getToken();
+        const res = await axios.delete(`${api}/api/project/${id}/deleteProject`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (res.data.success) {
+            toast.success('project deleted');
+            getProjects();
+        } else {
+            toast.error('something went wrong');
+        }
+    }
 
-const Project = ({ _id, name, updatedAt, createdAt }) => {
-    return (<tr className='w-full my-2'>
-        <Link href={`/project/${_id}?journey=1`} prefetch={true} ><td className='col-span-2 py-3'>{name}</td></Link>
-        <td className='py-3'>{formatDistance(new Date(updatedAt), new Date(), { addSuffix: true })}</td>
-        <td className='py-3'>{formatDistance(new Date(createdAt), new Date(), { addSuffix: true })}</td>
-        <td className="dropdown dropdown-end">
-            <label tabIndex={0} className="">
-                <EllipsisVerticalIcon className='w-5 h-5 cursor-pointer text-black' />
-            </label>
-            <span tabIndex={0} className="dropdown-content z-[10] menu p-2 shadow bg-base-200 rounded-box w-fit">
-                <span className='w-[100px] flex items-start justify-start gap-2 px-3 py-1 cursor-pointer hover:bg-[#F1F2F4] rounded-lg '>
-                    <TrashIcon className='w-5 h-5 text-black' />
-                    <p>
-                        Delete
-                    </p>
-                </span>
-                <span className='w-[100px] flex items-start justify-start gap-2 px-3 py-1 cursor-pointer hover:bg-[#F1F2F4] rounded-lg '>
-                    <PencilSquareIcon className='w-5 h-5 text-black' />
-                    <p>
-                        Edit
-                    </p>
-                </span>
-            </span>
+    const handleEdit = () => {
+        console.log('Editing ', _id);
+        setIsEditing(true);
+      }
 
-        </td >
-    </tr >)
+    return (    
+        <>
+            <tr className='w-full my-2'>
+                <Link href={`/project/${_id}?journey=1`} prefetch={true} ><td className='col-span-2 py-3'>{name}</td></Link>
+                <td className='py-3'>{formatDistance(new Date(updatedAt), new Date(), { addSuffix: true })}</td>
+                <td className='py-3'>{formatDistance(new Date(createdAt), new Date(), { addSuffix: true })}</td>
+                <td className="dropdown dropdown-end">
+                    <label tabIndex={0} className="">
+                        <EllipsisVerticalIcon className='w-5 h-5 cursor-pointer text-black' />
+                    </label>
+                    <span tabIndex={0} className="dropdown-content z-[10] menu p-2 shadow bg-base-200 rounded-box w-fit">
+                        <span className='w-[100px] flex items-start justify-start gap-2 px-3 py-1 cursor-pointer hover:bg-[#F1F2F4] rounded-lg ' onClick={() => handleDelete(_id)}>
+                            <TrashIcon className='w-5 h-5 text-black' />
+                            <p>
+                                Delete
+                            </p>
+                        </span>
+                        
+                            <span className='w-[100px] flex items-start justify-start gap-2 px-3 py-1 cursor-pointer hover:bg-[#F1F2F4] rounded-lg ' >
+                                <PencilSquareIcon className='w-5 h-5 text-black' />
+                                <p onClick={handleEdit}>
+                                {/* <label htmlFor="my_modal_3"> */}
+                                  Edit
+                                  {/* </label> */}
+                                </p>
+                            </span>
+                    </span>
+                    {isEditing && (
+        <EditProjectName name={name} _id={_id} getProjects={getProjects} setIsEditing={setIsEditing}/>
+      )}
+                </td >
+            </tr >
+            {/* <EditProjectName name={name} _id={_id} getProjects={getProjects}/> */}
+        </>
+    )
 }
 
 
@@ -219,7 +259,7 @@ const ProjectDashboard = () => {
                             <tbody className='w-full '>
                                 {
                                     filteredProjects.map((project, index) => (
-                                        <Project key={index} {...project} />
+                                        <Project key={index} {...project} getProjects={getProjects} />
                                     ))
                                 }
 
