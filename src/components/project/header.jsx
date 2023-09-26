@@ -52,9 +52,13 @@ const journeys = [
     // }
 ]
 
+const capitalize = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 
 const Header = ({ id, name, journey }) => {
-    // const user = useRecoilValue(userState)
+    const user = useRecoilValue(userState)
     const credits = useRecoilValue(creditCountState)
 
 
@@ -67,7 +71,7 @@ const Header = ({ id, name, journey }) => {
         <header>
             <div className='flex flex-col lg:flex-row items-center justify-between mb-10'>
                 <h1 className='text-[20px] font-[700] w-full'>
-                    Projects / {name}
+                    {capitalize(user.firstName) + "`s"} Workspace / {name}
                 </h1>
                 <div className='flex flex-col lg:flex-row items-center justify-end w-full gap-4'>
                     <div className='flex items-center justify-center text-brand gap-2'>
@@ -85,8 +89,8 @@ const Header = ({ id, name, journey }) => {
                     <button className='bg-brand rounded-full px-4 py-2 text-white'>
                         Buy Credits
                     </button>
-                    <button className='bg-[#FFF0DF] rounded-full px-4 py-2 text-brand flex items-center gap-2'>
-                        <ArrowDownTrayIcon className='w-5 h-5' onClick={handleClick} />
+                    <button className='bg-[#FFF0DF] rounded-full px-4 py-2 text-brand flex items-center gap-2' onClick={handleClick}>
+                        <ArrowDownTrayIcon className='w-5 h-5' />
                         Download Playbook
                     </button>
                 </div>
@@ -96,7 +100,7 @@ const Header = ({ id, name, journey }) => {
                     <Journey key={j.id} {...j} selected={journey} projectId={id} />
                 ))}
             </div>
-            {showPdf && <PdfViewModal open={showPdf} onClose={handleClick}><PdfDisplay setShowPdf={setShowPdf} showPdf={showPdf} id={id} /></PdfViewModal>}
+            {showPdf && <PdfDisplay setShowPdf={setShowPdf} showPdf={showPdf} id={id} />}
         </header>
     )
 }

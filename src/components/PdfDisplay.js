@@ -10,24 +10,22 @@ import Markdown from "react-markdown";
 import { getTitleFromUrl } from "@/helpers/auth";
 import { FcDownload } from "react-icons/fc";
 import html2pdf from "html2pdf.js";
+import { useRecoilValue } from "recoil";
+import { journeyState } from "@/state/atoms/tabState";
+import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
 
 const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
+  const [currentProject, setCurrentProject] = useState([]);
+  const [downloading, setisDownloading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { getToken } = useAuth();
+  const reportTemplateRef = useRef(null);
+  // const journey = useRecoilValue(journeyState);
+
   const toggleSidebar = () => {
     setShowPdf(!showPdf);
   };
 
-  // const { currentProject } = useSelector((state) => state.project);
-  // nir
-  const [currentProject, setCurrentProject] = useState([]);
-  // nir
-  const [downloading, setisDownloading] = useState(false);
-
-  const reportTemplateRef = useRef(null);
-
-  // let html2pdf; // nir
-
-  // nir
-  const { getToken } = useAuth();
   const FetchProject = async (id) => {
     let token = await getToken();
 
@@ -39,18 +37,15 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
     });
     return res;
   };
-  // nir
 
-  // nir
   useEffect(() => {
+    setLoading(true);
     FetchProject(id).then((res) => {
       console.log(res.data.data);
       setCurrentProject(res.data.data);
     });
+    setLoading(false);
   }, []);
-
-  console.log("hello world", currentProject);
-  // nir
 
   // useEffect(() => {
   //   if (typeof window !== "undefined") {
@@ -61,6 +56,8 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
   //     });
   //   }
   // }, []);
+
+  // console.log(journey, "journey");
 
   const handleGeneratePdf = async () => {
     const contentElement = reportTemplateRef.current;
@@ -126,7 +123,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
   }, [showPdf]);
 
   return (
-    <div className="flex flex-col items-center justify-center  py-2 z-50">
+    <div className="flex flex-col items-center justify-center  py-2 z-50 ">
       {/* {showPdf && (
         <button
           className="flex text-4xl text-black items-center cursor-pointer fixed right-10 top-6 z-50"
@@ -138,11 +135,11 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
 
       <div ref={sidebarRef}>
         <div
-          className={`top-[60px] right-0 w-[35vw] bg-white p-5 text-white fixed z-5 h-full  ease-in-out duration-2000 ${
+          className={`top-0 right-0 w-[35vw] bg-white p-5 text-white fixed z-50 h-full ease-in-out duration-2000 ${
             showPdf ? "translate-x-0 " : "translate-x-full"
           }`}
         >
-          <div className="h-[80%] overflow-y-scroll w-full  text-black p-4 space-y-4  ">
+          <div className="h-[90%] overflow-y-scroll w-full  text-black p-4 space-y-4  ">
             {downloading && (
               <div className="flex flex-col items-center h-full justify-center gap-5">
                 <p>
@@ -151,6 +148,8 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                 <p> Downloading... Please wait </p>
               </div>
             )}
+            {loading && <span className="loading loading-spinner text-warning"></span>}
+
             {!downloading && (
               <div ref={reportTemplateRef}>
                 <div className="page-break html2pdf__page-break">
@@ -161,45 +160,35 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                   <h2 className="text-xl my-3 font-bold text-gray-600">
                     Journey #1 : Zero to Coming Soon{" "}
                   </h2>
-                  <h4 className="text-xl my-3 font-medium">
-                    Idea Articulation
-                  </h4>
+                  <h4 className="text-xl my-3 font-medium">Idea Articulation</h4>
                   {currentProject[0]?.journey1?.tab1.selected && (
                     <div className="flex flex-col items-start justify-start space-y-4 text-xs ">
                       <table className="table-auto ">
                         <thead>
                           <tr>
-                            <th className="px-4 py-2 border border-gray-500 bg-[#FF7F50]">
-                              Title
-                            </th>
+                            <th className="px-4 py-2 border border-gray-500 bg-[#FF7F50]">Title</th>
                             <th className="px-4 py-2 border border-gray-500 bg-[#FF7F50]">
                               Description
                             </th>
                           </tr>
                         </thead>
-                        {currentProject[0]?.journey1?.tab1?.data?.map(
-                          (item, index) => {
-                            return (
-                              // <div
-                              //   key={index}
-                              //   className="flex justify-start items-start space-x-2 "
-                              // >
-                              //   <p className="font-semibold">{item.key}</p>:<p>{item.value}</p>
-                              // </div>
+                        {currentProject[0]?.journey1?.tab1?.data?.map((item, index) => {
+                          return (
+                            // <div
+                            //   key={index}
+                            //   className="flex justify-start items-start space-x-2 "
+                            // >
+                            //   <p className="font-semibold">{item.key}</p>:<p>{item.value}</p>
+                            // </div>
 
-                              <tbody key={index}>
-                                <tr>
-                                  <td className=" px-4 py-2 border border-gray-500 ">
-                                    {item.key}
-                                  </td>
-                                  <td className=" px-4 py-2 border border-gray-500">
-                                    {item.value}
-                                  </td>
-                                </tr>
-                              </tbody>
-                            );
-                          }
-                        )}
+                            <tbody key={index}>
+                              <tr>
+                                <td className=" px-4 py-2 border border-gray-500 ">{item.key}</td>
+                                <td className=" px-4 py-2 border border-gray-500">{item.value}</td>
+                              </tr>
+                            </tbody>
+                          );
+                        })}
                       </table>
                     </div>
                   )}
@@ -213,11 +202,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                         <p>
                           <span className="font-semibold">
                             Problem Solution Fit:{" "}
-                            {
-                              currentProject[0].journey1?.tab2.data[
-                                "Executive Summary"
-                              ]
-                            }
+                            {currentProject[0].journey1?.tab2.data["Executive Summary"]}
                           </span>
                           :
                         </p>
@@ -233,20 +218,14 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                             </th>
                           </tr>
                         </thead>
-                        {currentProject[0]?.journey1?.tab2?.data["ps_list"].map(
-                          (item, index) => (
-                            <tbody key={index}>
-                              <tr>
-                                <td className="px-4 py-2 border border-gray-500">
-                                  {item?.Problem}
-                                </td>
-                                <td className="px-4 py-2 border border-gray-500">
-                                  {item?.Solution}
-                                </td>
-                              </tr>
-                            </tbody>
-                          )
-                        )}
+                        {currentProject[0]?.journey1?.tab2?.data["ps_list"].map((item, index) => (
+                          <tbody key={index}>
+                            <tr>
+                              <td className="px-4 py-2 border border-gray-500">{item?.Problem}</td>
+                              <td className="px-4 py-2 border border-gray-500">{item?.Solution}</td>
+                            </tr>
+                          </tbody>
+                        ))}
                       </table>
                     </div>
                   )}
@@ -260,30 +239,28 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
 
                       <table className="table-fixed ">
                         {currentProject[0].journey1?.tab3?.data &&
-                          Object.entries(
-                            currentProject[0].journey1?.tab3?.data
-                          ).map((item, index) => (
-                            // <div key={index} className="flex justify-start items-start space-x-2 ">
-                            //   {/* <p className="font-semibold">{item[0]}</p>:<p>{item[1]}</p> */}
-                            // </div>
-                            <tbody key={index}>
-                              <tr>
-                                <td className=" px-4 py-2 border border-gray-500 w-[200px]">
-                                  {item[0]}
-                                </td>
-                                <td className=" px-4 py-2 border border-gray-500">
-                                  {item[1]}
-                                </td>
-                              </tr>
-                            </tbody>
-                          ))}
+                          Object.entries(currentProject[0].journey1?.tab3?.data).map(
+                            (item, index) => (
+                              // <div key={index} className="flex justify-start items-start space-x-2 ">
+                              //   {/* <p className="font-semibold">{item[0]}</p>:<p>{item[1]}</p> */}
+                              // </div>
+                              <tbody key={index}>
+                                <tr>
+                                  <td className=" px-4 py-2 border border-gray-500 w-[200px]">
+                                    {item[0]}
+                                  </td>
+                                  <td className=" px-4 py-2 border border-gray-500">{item[1]}</td>
+                                </tr>
+                              </tbody>
+                            )
+                          )}
                       </table>
                     </div>
                   )}
                 </div>
 
                 <div className="html2pdf__page-break">
-                  hav {currentProject[0]?.journey1?.tab4?.selected && (
+                  {currentProject[0]?.journey1?.tab4?.selected && (
                     <div className="flex flex-col items-start justify-start text-xs space-y-4 my-4  ">
                       {/* <h4 className="text-xl my-3">Positioning and Messaging</h4> */}
                       {currentProject[0]?.journey1?.tab4?.data && (
@@ -292,38 +269,23 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                         </h1>
                       )}
                       {currentProject[0]?.journey1?.tab4?.data &&
-                        currentProject[0]?.journey1?.tab4?.data[
-                          "Positioning"
-                        ] && (
+                        currentProject[0]?.journey1?.tab4?.data["Positioning"] && (
                           <div className="flex flex-col items-start justify-start space-y-2 ">
                             <p>
-                              <span className="font-semibold">
-                                Positioning:{" "}
-                              </span>
-                              {
-                                currentProject[0]?.journey1?.tab4?.data[
-                                  "Positioning"
-                                ]
-                              }
+                              <span className="font-semibold">Positioning: </span>
+                              {currentProject[0]?.journey1?.tab4?.data["Positioning"]}
                             </p>
                           </div>
                         )}
                       {currentProject[0]?.journey1?.tab4?.data["USPs"] && (
                         <div className="flex flex-col items-start justify-start space-y-2 ">
-                          <h1 className="text-2xl font-semibold text-gray-800">
-                            USPs
-                          </h1>
-                          {currentProject[0]?.journey1?.tab4?.data["USPs"]?.map(
-                            (item, index) => (
-                              <p key={index}>
-                                <span className="text-red-500">
-                                  {index + 1}&#41;
-                                </span>{" "}
-                                &nbsp;
-                                {item}
-                              </p>
-                            )
-                          )}
+                          <h1 className="text-2xl font-semibold text-gray-800">USPs</h1>
+                          {currentProject[0]?.journey1?.tab4?.data["USPs"]?.map((item, index) => (
+                            <p key={index}>
+                              <span className="text-red-500">{index + 1}&#41;</span> &nbsp;
+                              {item}
+                            </p>
+                          ))}
                         </div>
                       )}
                       {currentProject[0]?.journey1?.tab4?.data && (
@@ -334,18 +296,12 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                       <table className="table-auto ">
                         <thead>
                           <tr>
-                            <th className="px-4 py-2 border border-gray-500 bg-pdf">
-                              Sr. No
-                            </th>
-                            <th className="px-4 py-2 border border-gray-500 bg-pdf">
-                              Feature
-                            </th>
+                            <th className="px-4 py-2 border border-gray-500 bg-pdf">Sr. No</th>
+                            <th className="px-4 py-2 border border-gray-500 bg-pdf">Feature</th>
                             <th className="px-4 py-2 border border-gray-500 bg-pdf">
                               Value Proposition
                             </th>
-                            <th className="px-4 py-2 border border-gray-500 bg-pdf">
-                              Benefit
-                            </th>
+                            <th className="px-4 py-2 border border-gray-500 bg-pdf">Benefit</th>
                           </tr>
                         </thead>
                         {currentProject[0]?.journey1?.tab4?.data &&
@@ -354,9 +310,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                           ].map((item, index) => (
                             <tbody key={index}>
                               <tr>
-                                <td className=" px-4 py-2 border border-gray-500">
-                                  {index + 1}
-                                </td>
+                                <td className=" px-4 py-2 border border-gray-500">{index + 1}</td>
                                 <td className=" px-4 py-2 border border-gray-500">
                                   {item.Feature}
                                 </td>
@@ -390,9 +344,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
 
                 {currentProject[0]?.journey1?.tab6?.selected && (
                   <div className="flex flex-col items-start justify-start space-y-4 text-xs my-4  ">
-                    <h1 className="font-bold text-2xl">
-                      Minimum Viable Product{" "}
-                    </h1>
+                    <h1 className="font-bold text-2xl">Minimum Viable Product </h1>
                     <p>
                       <Markdown className="prose text-black text-md ">
                         {currentProject[0]?.journey1?.tab6?.data}
@@ -404,9 +356,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                 <div className="html2pdf__page-break"></div>
                 {currentProject[0]?.journey1?.tab7?.selected && (
                   <div className="flex flex-col items-start justify-start space-y-4 text-xs my-4 ">
-                    <h1 className="font-bold text-2xl">
-                      Features to Monetize{" "}
-                    </h1>
+                    <h1 className="font-bold text-2xl">Features to Monetize </h1>
                     <p>
                       <Markdown className="prose text-black text-md ">
                         {currentProject[0]?.journey1?.tab7?.data}
@@ -419,11 +369,10 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                   <div className="flex flex-col items-start justify-start space-y-4  html2pdf__page-break">
                     <div className="flex flex-col items-start justify-start space-y-2 ">
                       <p className="text-gray-700">
-                        Research and Knowledge Bank provides the best resources
-                        that we could curate for you.
-                        {/* <br /> */}&nbsp; They include data banks,
-                        competitior showcasing or just more information that we
-                        believe should be useful for you as a founder.
+                        Research and Knowledge Bank provides the best resources that we could curate
+                        for you.
+                        {/* <br /> */}&nbsp; They include data banks, competitior showcasing or just
+                        more information that we believe should be useful for you as a founder.
                       </p>
                     </div>
                     {currentProject[0]?.journey1?.tab8?.data.competitors && (
@@ -432,12 +381,8 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                         <table className="table-auto ">
                           <thead>
                             <tr>
-                              <th className="px-4 py-2 border border-gray-500 bg-pdf">
-                                Sr. No
-                              </th>
-                              <th className="px-4 py-2 border border-gray-500 bg-pdf">
-                                Website
-                              </th>
+                              <th className="px-4 py-2 border border-gray-500 bg-pdf">Sr. No</th>
+                              <th className="px-4 py-2 border border-gray-500 bg-pdf">Website</th>
                               {/* {process.env.NEXT_PUBLIC_ENV === "test" && (
                             <th className="px-4 py-2 border border-gray-500 bg-pdf">Type</th>
                           )} */}
@@ -472,8 +417,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                                         {/* {item?.url}
                                          */}
 
-                                        {item?.domain ||
-                                          getTitleFromUrl(item?.url)}
+                                        {item?.domain || getTitleFromUrl(item?.url)}
 
                                         {/* {item?.url?.includes("http") ? item?.url : `https://${item?.url}`} */}
                                       </a>
@@ -498,18 +442,15 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                 <div className="html2pdf__page-break"></div>
                 {currentProject[0]?.journey1?.tab9?.selected && (
                   <div className="text-xs">
-                    <h1 className="font-bold text-2xl my-2">
-                      Business Model Canvas{" "}
-                    </h1>
+                    <h1 className="font-bold text-2xl my-2">Business Model Canvas </h1>
                     <table id="bizcanvas" cellspacing="0">
                       <tr className="">
                         <td colSpan="2" rowSpan="2" className="divCont">
                           <h4>Key Partners</h4>
-                          {currentProject[0]?.journey1?.tab9?.data[
-                            "Key Partners"
-                          ].map((item, index) => (
-                            <p
-                              className={`
+                          {currentProject[0]?.journey1?.tab9?.data["Key Partners"].map(
+                            (item, index) => (
+                              <p
+                                className={`
                       ${
                         index % 2 === 0
                           ? "bg-[#f69e53] shadow-md text-white"
@@ -518,19 +459,19 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                       text-xs cards
                       
                       `}
-                              key={index}
-                            >
-                              {item}
-                            </p>
-                          ))}
+                                key={index}
+                              >
+                                {item}
+                              </p>
+                            )
+                          )}
                         </td>
                         <td colspan="2" className="divCont">
                           <h4>Key Activities</h4>
-                          {currentProject[0]?.journey1?.tab9?.data[
-                            "Key Activities"
-                          ].map((item, index) => (
-                            <p
-                              className={`
+                          {currentProject[0]?.journey1?.tab9?.data["Key Activities"].map(
+                            (item, index) => (
+                              <p
+                                className={`
                       ${
                         index % 2 === 0
                           ? "bg-[#f69e53] shadow-md text-white"
@@ -539,19 +480,19 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                       text-xs cards
                       
                       `}
-                              key={index}
-                            >
-                              {item}
-                            </p>
-                          ))}
+                                key={index}
+                              >
+                                {item}
+                              </p>
+                            )
+                          )}
                         </td>
                         <td colspan="2" rowspan="2" className="divCont">
                           <h4>Value Proposition</h4>
-                          {currentProject[0]?.journey1?.tab9?.data[
-                            "Value Propositions"
-                          ].map((item, index) => (
-                            <p
-                              className={`
+                          {currentProject[0]?.journey1?.tab9?.data["Value Propositions"].map(
+                            (item, index) => (
+                              <p
+                                className={`
                       ${
                         index % 2 === 0
                           ? "bg-[#f69e53] shadow-md text-white"
@@ -560,19 +501,19 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                       text-xs cards
                       
                       `}
-                              key={index}
-                            >
-                              {item}
-                            </p>
-                          ))}
+                                key={index}
+                              >
+                                {item}
+                              </p>
+                            )
+                          )}
                         </td>
                         <td colspan="2" className="divCont">
                           <h4>Customer Relationship</h4>
-                          {currentProject[0]?.journey1?.tab9?.data[
-                            "Customer Relationships"
-                          ].map((item, index) => (
-                            <p
-                              className={`
+                          {currentProject[0]?.journey1?.tab9?.data["Customer Relationships"].map(
+                            (item, index) => (
+                              <p
+                                className={`
                        ${
                          index % 2 === 0
                            ? "bg-[#f69e53] shadow-md text-white"
@@ -581,19 +522,19 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                        text-xs cards
                        
                        `}
-                              key={index}
-                            >
-                              {item}
-                            </p>
-                          ))}
+                                key={index}
+                              >
+                                {item}
+                              </p>
+                            )
+                          )}
                         </td>
                         <td colspan="2" rowspan="2" className="divCont">
                           <h4>Customer Segments</h4>
-                          {currentProject[0]?.journey1?.tab9?.data[
-                            "Customer Segments"
-                          ].map((item, index) => (
-                            <p
-                              className={`
+                          {currentProject[0]?.journey1?.tab9?.data["Customer Segments"].map(
+                            (item, index) => (
+                              <p
+                                className={`
                        ${
                          index % 2 === 0
                            ? "bg-[#f69e53] shadow-md text-white"
@@ -602,22 +543,22 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                        text-xs cards
                        
                        `}
-                              key={index}
-                            >
-                              {item}
-                            </p>
-                          ))}
+                                key={index}
+                              >
+                                {item}
+                              </p>
+                            )
+                          )}
                         </td>
                       </tr>
 
                       <tr>
                         <td colspan="2" className="divCont">
                           <h4>Key Resources</h4>
-                          {currentProject[0]?.journey1?.tab9?.data[
-                            "Key Resources"
-                          ].map((item, index) => (
-                            <p
-                              className={`
+                          {currentProject[0]?.journey1?.tab9?.data["Key Resources"].map(
+                            (item, index) => (
+                              <p
+                                className={`
                        ${
                          index % 2 === 0
                            ? "bg-[#f69e53] shadow-md text-white"
@@ -626,19 +567,19 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                        text-xs cards
                        
                        `}
-                              key={index}
-                            >
-                              {item}
-                            </p>
-                          ))}
+                                key={index}
+                              >
+                                {item}
+                              </p>
+                            )
+                          )}
                         </td>
                         <td colspan="2" className="divCont">
                           <h4>Channels</h4>
-                          {currentProject[0]?.journey1?.tab9?.data[
-                            "Channels"
-                          ].map((item, index) => (
-                            <p
-                              className={`
+                          {currentProject[0]?.journey1?.tab9?.data["Channels"].map(
+                            (item, index) => (
+                              <p
+                                className={`
                        ${
                          index % 2 === 0
                            ? "bg-[#f69e53] shadow-md text-white"
@@ -647,21 +588,21 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                        text-xs cards
                        
                        `}
-                              key={index}
-                            >
-                              {item}
-                            </p>
-                          ))}
+                                key={index}
+                              >
+                                {item}
+                              </p>
+                            )
+                          )}
                         </td>
                       </tr>
                       <tr>
                         <td colspan="5" className="divCont">
                           <h4>Cost Structure</h4>
-                          {currentProject[0]?.journey1?.tab9?.data[
-                            "Cost Structure"
-                          ].map((item, index) => (
-                            <p
-                              className={`
+                          {currentProject[0]?.journey1?.tab9?.data["Cost Structure"].map(
+                            (item, index) => (
+                              <p
+                                className={`
                       ${
                         index % 2 === 0
                           ? "bg-[#f69e53] shadow-md text-white"
@@ -670,19 +611,19 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                       text-xs cards
                       
                       `}
-                              key={index}
-                            >
-                              {item}
-                            </p>
-                          ))}
+                                key={index}
+                              >
+                                {item}
+                              </p>
+                            )
+                          )}
                         </td>
                         <td colspan="5" className="divCont">
                           <h4>Revenue Streams</h4>
-                          {currentProject[0]?.journey1?.tab9?.data[
-                            "Revenue Streams"
-                          ].map((item, index) => (
-                            <p
-                              className={`
+                          {currentProject[0]?.journey1?.tab9?.data["Revenue Streams"].map(
+                            (item, index) => (
+                              <p
+                                className={`
                         ${
                           index % 2 === 0
                             ? "bg-[#f69e53] shadow-md text-white"
@@ -691,11 +632,12 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                         text-xs cards
                         
                         `}
-                              key={index}
-                            >
-                              {item}
-                            </p>
-                          ))}
+                                key={index}
+                              >
+                                {item}
+                              </p>
+                            )
+                          )}
                         </td>
                       </tr>
                     </table>
@@ -708,8 +650,8 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                   </div>
                 )}
                 {/* journey 2 */}
-                <div className="html2pdf__page-break"></div>
-                {currentProject[0]?.journey2?.tab1?.selected && (
+                {/* <div className="html2pdf__page-break"></div> */}
+                {/* {currentProject[0]?.journey2?.tab1?.selected && (
                   <div className="">
                     {currentProject[0]?.journey2?.tab3.data && (
                       <div>
@@ -719,8 +661,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                         {currentProject[0]?.journey2?.tab1?.selected && (
                           <div className="flex flex-col items-start justify-start space-y-4 text-xs     my-4 ">
                             <h1 className="font-bold text-2xl">
-                              Assembling the Founding Team: Skills, Roles, and
-                              Culture Fit
+                              Assembling the Founding Team: Skills, Roles, and Culture Fit
                             </h1>
                             <p>
                               <Markdown className="prose text-black text-md ">
@@ -736,9 +677,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                 <div className="html2pdf__page-break"></div>
                 {currentProject[0]?.journey2?.tab2?.selected && (
                   <div className="flex flex-col items-start justify-start space-y-4 text-xs     my-4 ">
-                    <h1 className="font-bold text-2xl">
-                      Introduction to Idea Validation
-                    </h1>
+                    <h1 className="font-bold text-2xl">Introduction to Idea Validation</h1>
                     <p>
                       <Markdown className="prose text-black text-md ">
                         {currentProject[0]?.journey2?.tab2?.data}
@@ -749,25 +688,24 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                 <div className="html2pdf__page-break"></div>
                 {currentProject[0]?.journey2?.tab3?.selected && (
                   <div className="flex flex-col items-start justify-start space-y-4 text-xs     my-4 ">
-                    <h1 className="font-bold text-2xl">
-                      Building a Vision and Mission Statement
-                    </h1>
+                    <h1 className="font-bold text-2xl">Building a Vision and Mission Statement</h1>
                     <p>
                       <Markdown className="prose text-black text-md ">
                         {currentProject[0]?.journey2?.tab3?.data}
                       </Markdown>
                     </p>
                   </div>
-                )}
-                <div className="html2pdf__page-break"></div>
+                )} */}
+                {/* <div className="html2pdf__page-break"></div> */}
               </div>
             )}
           </div>
           <div className=" flex justify-center items-center w-full m-auto my-4">
             <button
-              className="p-2 bg-[#FF7F50] text-black text-center rounded-md w-[80%]"
+              className="bg-[#FFF0DF] rounded-full px-4 py-4 justify-center text-brand flex items-center gap-2 w-[80%]"
               onClick={handleGeneratePdf}
             >
+              <ArrowDownTrayIcon className="w-5 h-5" />
               Download Playbook
             </button>
           </div>

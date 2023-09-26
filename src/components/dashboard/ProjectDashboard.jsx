@@ -8,8 +8,8 @@ import axios from 'axios';
 import { formatDistance } from 'date-fns';
 import { useAuth } from "@clerk/nextjs";
 import { ToastContainer, toast } from 'react-toastify';
-import NewProjectModal from './NewProjectModal';
 import EditProjectName from '../EditProjectName';
+import InputModal from '../project/InputIdeaModal';
 
 const api = process.env.NEXT_PUBLIC_URL;
 
@@ -39,7 +39,7 @@ const Project = ({ _id, name, updatedAt, createdAt, getProjects }) => {
     }
 
     const handleEdit = () => {
-        console.log('Editing ', _id);
+        // console.log('Editing ', _id);
         setIsEditing(true);
     }
 
