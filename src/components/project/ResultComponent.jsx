@@ -14,7 +14,8 @@ const CardComponent = ({ data, id, closeModal }) => {
     const router = useRouter()
 
 
-    console.log(data, "data")
+    // console.log(data, "data")
+    console.log(id, "id in card")
 
     const api = process.env.NEXT_PUBLIC_URL;
     const handleClick = async () => {
@@ -62,7 +63,7 @@ const CardComponent = ({ data, id, closeModal }) => {
 
                 });
                 closeModal()
-                router.refresh()
+                router.push(`/project/${id}?journey=1`)
             }
 
         } catch (error) {
@@ -88,7 +89,7 @@ const CardComponent = ({ data, id, closeModal }) => {
             <div className="w-full flex justify-center mb-4">
                 <button
                     style={{ zIndex: 50 }}
-                    className="lg:my-2 bg-brand rounded-md p-4 w-[200px] hover:bg-brand cursor-pointer 
+                    className="lg:my-6 bg-brand rounded-md p-4 w-[200px] hover:bg-brand cursor-pointer 
             disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-300 text-white"
                     onClick={async () => await handleClick()}
                 // disabled={currentProject?.idea_articulation?.data[1]?.value === data[1].value}

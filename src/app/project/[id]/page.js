@@ -12,6 +12,7 @@ import axios from "axios";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useRecoilValue } from "recoil";
 import { journeyState } from "@/state/atoms/tabState";
+import ResultModal from "@/components/project/ResultModal";
 
 const journey1 = [
   {
@@ -203,8 +204,11 @@ const page = ({ params, searchParams }) => {
 
   // const [data, setData] = useState(getArrayviaJourney(journey)); //nir change
   const [projectName, setProjectName] = useState("");
-  const [showInput, setShowInput] = useState(false);
-  const [choices, setChoices] = useState([]);
+  const [showResultModal, setShowResultModal] = useState(false);
+  const [choices, setChoices] = useState({
+    query: "",
+    queryResults: [],
+  });
   const api = process.env.NEXT_PUBLIC_URL;
 
   const { getToken } = useAuth();
@@ -218,26 +222,33 @@ const page = ({ params, searchParams }) => {
       },
     });
 
-    console.log(res.data, "res sss");
+    // console.log(res.data, "res sss");
 
-    if (res.data?.data?.query === "" && journey === 1) {
-      setShowInput(true);
+    let data = res.data.data;
+
+    if (data.query && data.queryResults.length === 0 && journey === 1) {
+      setChoices({
+        query: data.query,
+        queryResults: [],
+      });
+
+      setShowResultModal(true);
     }
 
-    if (
-      res.data.data?.queryResults?.length > 0 &&
-      journey === 1 &&
-      !res.data.data?.journey1?.tab1?.selected
-    ) {
-      setChoices(res.data.data.queryResults);
-      setShowInput(true);
+    if (data?.queryResults?.length > 0 && journey === 1 && !data?.journey1?.tab1?.selected) {
+      setChoices({
+        query: data.query,
+        queryResults: data.queryResults,
+      });
+
+      setShowResultModal(true);
     }
 
-    if (res.data.data?.name) {
-      setProjectName(res.data.data.name);
+    if (data?.name) {
+      setProjectName(data.name);
     }
 
-    return res.data.data;
+    return data;
   };
 
   const getTabResults = async (journey) => {
@@ -371,8 +382,14 @@ const page = ({ params, searchParams }) => {
     <div className="">
       <Header id={id} name={projectName} journey={journey} />
 
-      {showInput && (
-        <InputModal id={id} isOpen={showInput} setIsOpen={setShowInput} choices={choices} />
+      {showResultModal && (
+        <ResultModal
+          id={id}
+          choices={choices.queryResults}
+          query={choices.query}
+          isOpen={showResultModal}
+          setIsOpen={setShowResultModal}
+        />
       )}
 
       <div className="my-10 ">

@@ -9,10 +9,12 @@ await connectDb();
 export async function GET(request) {
   let api = getApi(1, 1);
 
-  console.log(api);
+  // console.log(api);
 
   const q = request.nextUrl.searchParams.get("q");
   const id = request.nextUrl.searchParams.get("id");
+
+  console.log(id, "id");
 
   try {
     let result = await axios.post(

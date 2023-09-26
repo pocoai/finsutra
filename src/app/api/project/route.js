@@ -10,7 +10,7 @@ await connectDb();
 export const GET = async (request) => {
   const { userId } = auth();
 
-  let projects = await Project.find({ uid: userId }).sort({ createdAt: -1 });
+  let projects = await Project.find({ uid: userId }).sort({ updatedAt: -1 });
 
   // console.log(projects, "projects");
 
@@ -31,6 +31,7 @@ export const POST = async (request) => {
 
   let newProject = await Project.create({
     name,
+    query: name,
     userId: user._id,
     uid: userId,
   });

@@ -4,10 +4,11 @@ import { EllipsisVerticalIcon, MagnifyingGlassIcon, PencilSquareIcon, PlusIcon, 
 import classNames from 'classnames'
 import Link from 'next/link'
 import React, { useEffect, useReducer, useState } from 'react'
-import NewProjectModal from './NewProjectModal'
+import NewProjectModal from '../project/ResultModal'
 import { useAuth } from '@clerk/nextjs'
 import axios from 'axios'
 import { formatDistance } from 'date-fns'
+import InputModal from '../project/InputIdeaModal'
 
 
 
@@ -94,7 +95,7 @@ const ProjectDashboard = () => {
     const [state, dispatch] = useReducer(projectReducer, INITIAL_STATE)
     const [search, setSearch] = useState("")
     const [filteredProjects, setFilteredProjects] = useState([]);
-
+    const [showModal, setShowModal] = useState(false);
 
 
 
@@ -174,7 +175,7 @@ const ProjectDashboard = () => {
                     />
                     <MagnifyingGlassIcon className='w-8 h-8 text-[#808182]' />
                 </div>
-                <label htmlFor="my_modal_2" className='bg-[#FFF0DF] cursor-pointer rounded-full px-4 py-2 text-brand flex items-center gap-1'>
+                <label htmlFor="my_modal_2" className='bg-[#FFF0DF] cursor-pointer rounded-full px-4 py-2 text-brand flex items-center gap-1' onClick={() => setShowModal(true)}>
                     <PlusIcon className='w-5 h-5' />
                     New Project
                 </label>
@@ -183,7 +184,7 @@ const ProjectDashboard = () => {
 
 
 
-            <div className='h-[60vh] overflow-y-scroll scrollbar-thin w-full '>
+            <div className='h-[60vh] overflow-y-scroll scrollbar-hide w-full '>
 
 
                 {
@@ -237,7 +238,8 @@ const ProjectDashboard = () => {
             </div>
 
 
-            <NewProjectModal />
+            {/* <NewProjectModal /> */}
+            {showModal && <InputModal isOpen={showModal} setIsOpen={setShowModal} />}
 
         </div>
     )

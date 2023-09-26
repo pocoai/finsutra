@@ -116,6 +116,9 @@ export async function POST(request, { params }) {
         selected: true,
       };
 
+      console.log(data, "tab1");
+
+      project.name = data.find((item) => item.key === "Name").value;
       project.journey1 = {};
       project.journey1["tab1"] = tab1;
       project.currentStage[journey] = tab;
@@ -607,189 +610,10 @@ export async function POST(request, { params }) {
   }
 
   if (journey === 2) {
-    if (tab === 1) {
-      let api = getApi(2, 1);
-
-      let pitch = project.journey1.tab1.data[1]?.value;
-      let icp = project.journey1.tab1.data[2]?.value;
-      let ind = project.journey1.tab1.data[3]?.value;
-      let ps = project.journey1.tab1.data[4]?.value;
-      let vp = project.journey1.tab1.data[5]?.value;
-
-      // console.log(pitch, icp, "pitch");
-
-      let result = await axios.post(
-        api,
-        {
-          variables: {
-            elevator_pitch: pitch,
-            ideal_customer_profile: icp,
-            industry: ind,
-            problem_statement: ps,
-            value_proposition: vp,
-          },
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-portkey-api-key": PORTKEY,
-          },
-        }
-      );
-
-      // console.log(result.data, "api results ");
-
-      if (result.data.success) {
-        let tab1 = {
-          data: result.data.data.choices[0].message.content,
-          selected: true,
-        };
-
-        await SubCredits(userId, journey, tab);
-
-        let updated_res = await Project.findByIdAndUpdate(
-          id,
-          {
-            "journey2.tab1": tab1,
-            [`currentStage.${journey}`]: tab,
-          },
-          {
-            new: true,
-          }
-        );
-
-        // console.log(updated_res, "updated_res");
-        return NextResponse.json({
-          success: true,
-          message: "project updated",
-          data: updated_res.journey2.tab1,
-        });
-      } else {
-        return new Response(null, { status: 404, statusText: "Not Found" });
-      }
-    }
-    if (tab === 2) {
-      let api = getApi(2, 2);
-
-      let pitch = project.journey1.tab1.data[1]?.value;
-      let icp = project.journey1.tab1.data[2]?.value;
-      let ind = project.journey1.tab1.data[3]?.value;
-      let ps = project.journey1.tab1.data[4]?.value;
-      let vp = project.journey1.tab1.data[5]?.value;
-
-      console.log(pitch, icp, "pitch");
-
-      let result = await axios.post(
-        api,
-        {
-          variables: {
-            elevator_pitch: pitch,
-            ideal_customer_profile: icp,
-            industry: ind,
-            problem_statement: ps,
-            value_proposition: vp,
-          },
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-portkey-api-key": PORTKEY,
-          },
-        }
-      );
-
-      // console.log(result.data, "api results ");
-
-      if (result.data.success) {
-        let tab2 = {
-          data: result.data.data.choices[0].message.content,
-          selected: true,
-        };
-        await SubCredits(userId, journey, tab);
-
-        let updated_res = await Project.findByIdAndUpdate(
-          id,
-          {
-            "journey2.tab2": tab2,
-            [`currentStage.${journey}`]: tab,
-          },
-          {
-            new: true,
-          }
-        );
-
-        // console.log(updated_res, "updated_res");
-        return NextResponse.json({
-          success: true,
-          message: "project updated",
-          data: updated_res.journey2.tab2,
-        });
-      } else {
-        return new Response(null, { status: 404, statusText: "Not Found" });
-      }
-    }
-    if (tab === 3) {
-      let api = getApi(2, 3);
-
-      let pitch = project.journey1.tab1.data[1]?.value;
-      let icp = project.journey1.tab1.data[2]?.value;
-      let ind = project.journey1.tab1.data[3]?.value;
-      let ps = project.journey1.tab1.data[4]?.value;
-      let vp = project.journey1.tab1.data[5]?.value;
-
-      console.log(pitch, icp, "pitch");
-
-      let result = await axios.post(
-        api,
-        {
-          variables: {
-            elevator_pitch: pitch,
-            ideal_customer_profile: icp,
-            industry: ind,
-            problem_statement: ps,
-            value_proposition: vp,
-          },
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-portkey-api-key": PORTKEY,
-          },
-        }
-      );
-
-      // console.log(result.data, "api results ");
-
-      if (result.data.success) {
-        let tab3 = {
-          data: result.data.data.choices[0].message.content,
-          selected: true,
-        };
-        await SubCredits(userId, journey, tab);
-        let updated_res = await Project.findByIdAndUpdate(
-          id,
-          {
-            "journey2.tab3": tab3,
-            [`currentStage.${journey}`]: tab,
-          },
-          {
-            new: true,
-          }
-        );
-
-        console.log(updated_res, "updated_res");
-        return NextResponse.json({
-          success: true,
-          message: "project updated",
-          data: updated_res.journey2.tab3,
-        });
-      } else {
-        return new Response(null, { status: 404, statusText: "Not Found" });
-      }
-    }
-    if (tab >= 4) {
+    if (tab >= 1) {
       let api = getApi(2, tab);
 
+      let name = project.journey1.tab1.data[0]?.value;
       let pitch = project.journey1.tab1.data[1]?.value;
       let icp = project.journey1.tab1.data[2]?.value;
       let ind = project.journey1.tab1.data[3]?.value;
@@ -802,6 +626,7 @@ export async function POST(request, { params }) {
         api,
         {
           variables: {
+            name: name,
             elevator_pitch: pitch,
             ideal_customer_profile: icp,
             industry: ind,
