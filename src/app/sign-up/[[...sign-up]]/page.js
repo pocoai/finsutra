@@ -38,7 +38,7 @@ export default function Page() {
         </div>
         <SignUp
           afterSignInUrl="/"
-          afterSignUpUrl="/onboarding"
+          afterSignUpUrl="/"
           appearance={{
             elements: {
               formButtonPrimary: "bg-brand hover:bg-[#EC8007]",

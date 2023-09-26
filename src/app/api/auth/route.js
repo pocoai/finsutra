@@ -3,6 +3,7 @@ import { currentUser, auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { connectDb } from "@/app/lib/connectDb";
+import { getCreditLimitByEmail, getDomainFromMail, isWorkEmail } from "@/utils/helper";
 
 await connectDb();
 
@@ -27,7 +28,9 @@ export const GET = async (request) => {
     firstName: user.firstName,
     lastName: user.lastName,
     email: user?.emailAddresses[0].emailAddress,
-    credits: 20,
+    isOrgEmail: isWorkEmail(user?.emailAddresses[0].emailAddress),
+    org: getDomainFromMail(user?.emailAddresses[0].emailAddress),
+    credits: getCreditLimitByEmail(user?.emailAddresses[0].emailAddress),
     image: user?.hasImage ? user?.imageUrl : "",
   });
 

@@ -29,11 +29,12 @@ const UserSchema = new mongoose.Schema({
         type: String,
         enum: ["add", "remove"],
       },
+      purchasePlan: String,
     },
   ],
   currentPlan: {
     type: String,
-    enum: ["free", "basic", "enterprise"],
+    enum: ["free", "basic", "enterprise", "standard", "advanced"],
     default: "free",
   },
   interests: {

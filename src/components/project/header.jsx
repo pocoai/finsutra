@@ -65,7 +65,7 @@ const Header = ({ id, name, journey }) => {
     }
     return (
         <header>
-            <div className='flex flex-col lg:flex-row items-center justify-between mb-20'>
+            <div className='flex flex-col lg:flex-row items-center justify-between mb-10'>
                 <h1 className='text-[20px] font-[700] w-full'>
                     Projects / {name}
                 </h1>

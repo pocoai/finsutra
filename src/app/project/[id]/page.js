@@ -12,69 +12,139 @@ import axios from "axios";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useRecoilValue } from "recoil";
 import { journeyState } from "@/state/atoms/tabState";
+import ResultModal from "@/components/project/ResultModal";
 
 const journey1 = [
   {
-    title: " Idea articulation",
-    description: "Please select an option from the below card",
+    title: "Idea articulation",
+    description: "Define & clarify your innovative concept.",
     loading: true,
+    locked: true,
   },
   {
-    title: " Problem Solution Fit",
-    description: "This tab is not yet processed",
+    title: "Problem Solution Fit",
+    description: "Assess product-market alignment for success.",
     loading: true,
+    locked: true,
   },
   {
-    title: " Brand Kit",
-    description: "This tab is not yet processed",
+    title: "Brand Kit",
+    description: "Establish visual & brand identity elements.",
     loading: true,
+    locked: true,
   },
   {
-    title: " Positioning and Messaging ",
-    description: "This tab is not yet processed",
+    title: "Positioning & Messaging",
+    description: "Craft compelling brand positioning.",
     loading: true,
+    locked: true,
   },
   {
-    title: " Coming Soon Page",
-    description: "This tab is not yet processed",
+    title: "Coming Soon Page",
+    description: "Tease & prepare for your product launch.",
     loading: true,
+    locked: true,
   },
   {
-    title: " Build your MVP",
-    description: "This tab is not yet processed",
+    title: "Build your MVP",
+    description: "Create a minimal viable product efficiently.",
     loading: true,
+    locked: true,
   },
   {
-    title: " Features to Monetize",
-    description: "This tab is not yet processed",
+    title: "Features to Monetize",
+    description: "Identify profit-generating product features.",
     loading: true,
+    locked: true,
   },
   {
     title: "Research & Knowledge Bank",
-    description: "This tab is not yet processed",
+    description: "Store valuable insights & information.",
     loading: true,
+    locked: true,
   },
   {
     title: "Business Model Canvas",
-    description: "This tab is not yet processed",
+    description: "Outline your business strategy & model.",
     loading: true,
+    locked: true,
   },
 ];
 
 const journey2 = [
   {
-    title: "1.1 Assembling the Founding Team: Skills, Roles, and Culture Fit",
-    description: "This tab is not yet processed",
+    title: "1.1 Assembling the Founding Team: Skills, Roles, & Culture Fit",
+    description: "Define team skills, roles, & culture fit.",
     loading: true,
   },
   {
     title: "1.2 Introduction to Idea Validation",
-    description: "This tab is not yet processed",
+    description: "Initiate idea validation processes.",
     loading: true,
   },
   {
-    title: "1.3 Building a Vision and Mission Statement",
-    description: "This tab is not yet processed",
+    title: "1.3 Building a Vision & Mission Statement",
+    description: "Create a compelling vision & mission.",
+    loading: true,
+  },
+  {
+    title: "1.4 Market Research & Analysis",
+    description: "Analyze market trends & insights.",
+    loading: true,
+  },
+  {
+    title: "1.5 Customer Identification & Segmentation",
+    description: "Identify & segment target customers.",
+    loading: true,
+  },
+  {
+    title: "1.6 Value Proposition Design",
+    description: "Craft a unique value proposition.",
+    loading: true,
+  },
+  {
+    title: "1.7 Business Model Canvas",
+    description: "Develop a business model strategy.",
+    loading: true,
+  },
+  {
+    title: "1.8 Competitive Analysis",
+    description: "Analyze competitors & their strengths.",
+    loading: true,
+  },
+  {
+    title: "2.1 Defining Project Objectives",
+    description: "Clearly define project objectives & goals.",
+    loading: true,
+  },
+  {
+    title: "2.2 Setting Key Performance Indicators (KPIs)",
+    description: "Identify & set key performance indicators (KPIs).",
+    loading: true,
+  },
+  {
+    title: "2.3 Milestones & Timelines",
+    description: "Outline project milestones & timelines.",
+    loading: true,
+  },
+  {
+    title: "2.4 Risk Assessment & Mitigation",
+    description: "Assess project risks & plan for mitigation.",
+    loading: true,
+  },
+  {
+    title: "2.5 Regulatory & Compliance Checklist",
+    description: "Create a regulatory & compliance checklist.",
+    loading: true,
+  },
+  {
+    title: "2.6 Fundraising Strategy",
+    description: "Develop a fundraising strategy & approach.",
+    loading: true,
+  },
+  {
+    title: "2.7 Contingency Planning",
+    description: "Plan for contingencies & unexpected events.",
     loading: true,
   },
 ];
@@ -132,7 +202,11 @@ const page = ({ params, searchParams }) => {
 
   // const [data, setData] = useState(getArrayviaJourney(journey));
   const [projectName, setProjectName] = useState("");
-  const [showInput, setShowInput] = useState(false);
+  const [showResultModal, setShowResultModal] = useState(false);
+  const [choices, setChoices] = useState({
+    query: "",
+    queryResults: [],
+  });
   const api = process.env.NEXT_PUBLIC_URL;
 
   const { getToken } = useAuth();
@@ -146,17 +220,33 @@ const page = ({ params, searchParams }) => {
       },
     });
 
-    console.log(res.data, "res sss");
+    // console.log(res.data, "res sss");
 
-    if (res.data?.data?.query === "" && journey === 1) {
-      setShowInput(true);
+    let data = res.data.data;
+
+    if (data.query && data.queryResults.length === 0 && journey === 1) {
+      setChoices({
+        query: data.query,
+        queryResults: [],
+      });
+
+      setShowResultModal(true);
     }
 
-    if (res.data.data?.name) {
-      setProjectName(res.data.data.name);
+    if (data?.queryResults?.length > 0 && journey === 1 && !data?.journey1?.tab1?.selected) {
+      setChoices({
+        query: data.query,
+        queryResults: data.queryResults,
+      });
+
+      setShowResultModal(true);
     }
 
-    return res.data.data;
+    if (data?.name) {
+      setProjectName(data.name);
+    }
+
+    return data;
   };
 
   const getTabResults = async (journey) => {
@@ -164,6 +254,7 @@ const page = ({ params, searchParams }) => {
     switch (journey) {
       case 1:
         data = await FetchTabResults(id, journey);
+
         console.log(data, "here");
         if (isObjEmpty(data.journey1)) {
           // check if tab is selected
@@ -189,11 +280,11 @@ const page = ({ params, searchParams }) => {
 
             const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
 
-            const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false and the previous item was also false.
+            const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false & the previous item was also false.
 
             arr.push({
               title: journey1[i].title,
-              description: selected ? "Click to view" : journey1[i].description,
+              description: journey1[i].description,
               loading: false,
               data: selected ? currentTab.data : [],
               selected: selected,
@@ -209,6 +300,7 @@ const page = ({ params, searchParams }) => {
       case 2:
         data = await FetchTabResults(id, journey);
         console.log(data, "here");
+
         if (!data.journey2 || isObjEmpty(data.journey2)) {
           // check if tab is selected
           console.log("tab not selected");
@@ -231,11 +323,11 @@ const page = ({ params, searchParams }) => {
             const currentTab = data.journey2[`tab${i + 1}`];
             const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
 
-            const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false and the previous item was also false.
+            const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false & the previous item was also false.
 
             arr.push({
               title: journey2[i].title,
-              description: selected ? "Click to view" : journey2[i].description,
+              description: journey2[i].description,
               loading: false,
               data: selected ? currentTab.data : [],
               selected: selected,
@@ -272,9 +364,9 @@ const page = ({ params, searchParams }) => {
     });
   }, [journey]);
 
-  useEffect(() => {
-    document.querySelector("#idea_modal").checked = showInput;
-  }, [showInput]);
+  // useEffect(() => {
+  //   document.querySelector("#idea_modal").checked = showInput;
+  // }, [showInput]);
 
   useEffect(() => {
     let data = getArrayviaJourney(journey);
@@ -285,10 +377,18 @@ const page = ({ params, searchParams }) => {
     <div className="">
       <Header id={id} name={projectName} journey={journey} />
 
-      <InputModal id={id} />
+      {showResultModal && (
+        <ResultModal
+          id={id}
+          choices={choices.queryResults}
+          query={choices.query}
+          isOpen={showResultModal}
+          setIsOpen={setShowResultModal}
+        />
+      )}
 
-      <div className="my-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-8  ">
+      <div className="my-10 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-8 py-10  ">
           {journeyData.length > 0 &&
             journeyData.map((item, index) => (
               <Card

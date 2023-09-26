@@ -42,7 +42,7 @@ export default function Page() {
             <SignIn
 
                 afterSignInUrl="/"
-                afterSignUpUrl="/onboarding"
+                afterSignUpUrl="/"
                 appearance={{
                     elements: {
                         formButtonPrimary:

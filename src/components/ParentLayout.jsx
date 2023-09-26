@@ -8,7 +8,8 @@ import { useAuth, useUser } from '@clerk/nextjs';
 import { useRecoilState } from 'recoil';
 import { getUserData } from '@/services/user';
 import { userState } from '@/state/atoms/userState';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const urbanist = Urbanist({
     subsets: ["latin"],
@@ -16,11 +17,13 @@ const urbanist = Urbanist({
 });
 
 const ParentLayout = ({ children }) => {
-    const [collapsed, setCollapsed] = useState(true)
+    const [collapsed, setCollapsed] = useState(false)
     const [userData, setUserState] = useRecoilState(userState);
     const { getToken } = useAuth()
 
-    const pathname = usePathname()
+    // const pathname = usePathname()
+
+    const router = useRouter()
 
 
     const getData = async () => {
@@ -34,14 +37,41 @@ const ParentLayout = ({ children }) => {
 
     useEffect(() => {
         getData()
-    }, [pathname]);
+    }, []);
+
+    let searchParams = useSearchParams()
+
+    let success = searchParams.get("success")
+    let cancelled = searchParams.get("cancelled")
+
+    success = Boolean(success);
+    cancelled = Boolean(cancelled);
+
+    useEffect(() => {
+        if (success) {
+            toast.success("Payment Successful");
+            setTimeout(() => {
+                router.push("/")
+
+            }, 2000)
+        }
+
+        if (cancelled) {
+            toast.error("Payment Failed");
+            setTimeout(() => {
+                router.push("/");
+            }, 2000)
+        }
+
+    }, [success, cancelled])
 
 
+    // console.log(userData, "userData");
 
     return (
         <div
             className={classNames({
-                "grid min-h-screen": true,
+                "grid h-screen overflow-hidden": true,
                 "grid-cols-sidebar": !collapsed,
                 "grid-cols-sidebar-collapsed": collapsed,
                 "transition-[grid-template-columns] duration-300 ease-in-out": true,
@@ -51,7 +81,7 @@ const ParentLayout = ({ children }) => {
                 <SideBar collapsed={collapsed} setCollapsed={setCollapsed} isLoaded={userData.isLoaded} user={userData} />
             }
 
-            <section className="max-w-7xl w-full mx-auto transition-all duration-1000 py-10 px-5 h-screen">
+            <section className="max-w-7xl w-full mx-auto transition-all duration-1000 py-10 px-5 h-screen overflow-y-scroll scrollbar-hide">
                 {children}
             </section>
         </div>

@@ -41,7 +41,7 @@ const UserProfile = async ({ userData }) => {
                     </span>
 
                     <span className='whitespace-nowrap'>
-                        {userData?.interests?.designation}
+                        {userData?.interests?.designation || (<p className="text-red-500"> N/A </p>)}
                     </span>
                 </p>
                 <p className='grid grid-cols-2 place-content-start'>
@@ -50,7 +50,7 @@ const UserProfile = async ({ userData }) => {
                     </span>
 
                     <span>
-                        {userData?.interests?.goal}
+                        {userData?.interests?.goal || (<p className="text-red-500"> N/A </p>)}
                     </span>
                 </p>
                 <p className='grid grid-cols-2 place-content-start'>
@@ -59,7 +59,7 @@ const UserProfile = async ({ userData }) => {
                     </span>
 
                     <span>
-                        {userData?.interests?.work}
+                        {userData?.interests?.work || (<p className="text-red-500"> N/A </p>)}
                     </span>
                 </p>
                 <p className='grid grid-cols-2 place-content-start'>
@@ -68,7 +68,7 @@ const UserProfile = async ({ userData }) => {
                     </span>
 
                     <span>
-                        {userData?.interests?.skill}
+                        {userData?.interests?.skill || (<p className="text-red-500"> N/A </p>)}
                     </span>
                 </p>
             </div>

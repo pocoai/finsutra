@@ -3,10 +3,12 @@ import ProjectDashboard from "@/components/dashboard/ProjectDashboard";
 import TopBar from "@/components/dashboard/TopBar";
 import { ClerkProvider } from "@clerk/nextjs";
 import Image from "next/image";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function Home() {
+export default function Home({}) {
+  // console.log(searchParams, "searchParams");
+
   return (
     <ClerkProvider>
       <ParentLayout>

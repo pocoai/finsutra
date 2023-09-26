@@ -1,173 +1,164 @@
 import { useAuth } from '@clerk/nextjs';
-import { PlusSmallIcon } from '@heroicons/react/24/outline'
 import axios from 'axios';
-import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import React, { useEffect, useState, Fragment } from 'react'
 import CardComponent from './ResultComponent';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import classNames from 'classnames';
+import { Urbanist } from 'next/font/google'
+import Image from 'next/image';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import ResultModal from './ResultModal';
 
-const InputModal = ({ id }) => {
+const urbanist = Urbanist({
+    subsets: ["latin"],
+    weight: ["400", "500", "700"],
+});
+
+
+const InputModal = ({ isOpen, setIsOpen }) => {
     const [query, setQuery] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [results, setResults] = useState([]);
     const { getToken } = useAuth()
+    const router = useRouter()
 
     const api = process.env.NEXT_PUBLIC_URL;
 
+    function closeModal() {
+        // if (query.trim() === '') {
+        //     alert('Please enter some text before closing.');
+        //     return;
+        // }
+        // if (loading) {
+        //     alert('Please wait...')
+        //     return;
+        // }
+        setIsOpen(false)
+    }
 
-    const closeModal = () => {
-        if (query.trim() === '') {
-            alert('Please enter some text before closing.');
-        } else {
-            setIsModalOpen(false);
-        }
-    };
-
-    useEffect(() => {
-        document.querySelector("#idea_modal").checked = isModalOpen;
-    }, [isModalOpen]);
-
-
-    const handleInput = async () => {
-
-        if (query === "") {
-            return;
-        }
-        setLoading(true);
+    function openModal() {
+        setIsOpen(true)
+    }
 
 
-        let token = await getToken();
-
-
-
+    const createNewproject = async () => {
+        const token = await getToken()
         try {
-            let res = await axios.get(`${api}/api/query?q=${query}&id=${id}`, {
+            let res = await axios.post(`${api}/api/project`, {
+                name: query,
+            }, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
+                    Authorization: `Bearer ${token}`
+                }
             })
 
             if (res.data.success) {
-                // setResults(res.data.data);
-                let data = res.data.data;
-                let arr = []
-                for (let i = 0; i < data.length; i++) {
-                    let element = data[i];
-                    let arrayOfObjects = Object.keys(element).map((key) => {
-                        return {
-                            key: key,
-                            value: element[key],
-                        };
-                    });
-
-                    if (arr.length === data.length) {
-                        break;
-                    } else {
-                        arr.push(arrayOfObjects);
-                    }
-                }
-                setResults(arr);
+                toast.success("Project created successfully")
+                router.push(`/project/${res.data.data._id}?journey=1`)
+            }
+            else {
+                return new Error(res.data.message || "Something went wrong")
             }
 
-            setLoading(false);
-
-
         } catch (error) {
-            console.log(error);
-            setLoading(false);
-            setResults([]);
+            console.log(error)
+            toast.error("Something went wrong")
+            return;
         }
+
     }
 
-    console.log(results, "res")
 
     return (
-        <div className=''>
+        <>
+            <Transition appear show={isOpen} as={Fragment}>
+                <Dialog as="div" className="relative z-10" onClose={closeModal}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-black bg-opacity-25" />
+                    </Transition.Child>
 
-            <input type="checkbox" id="idea_modal" className="modal-toggle" />
-            <div className={`modal ${isModalOpen ? 'active' : ''}`}>
-                <div className={`${results.length > 0 ? "w-[1000px] p-5 rounded-md" : "modal-box"} bg-white`}>
-                    {loading ? (
-                        <div className='flex items-center justify-center'>
-                            <span className="loading loading-spinner text-primary loading-lg"></span>
-                        </div>
-                    ) : (
-                        results.length > 0 ? (
-                            <div className='w-full'>
-                                <Swiper
-                                    navigation
-                                    pagination={{ clickable: true }}
-                                    modules={[Navigation, Pagination]}
-                                    spaceBetween={50}
-                                    slidesPerView={1}
-                                >
-                                    {/* // <div className="carousel w-full"> */}
-                                    {results.map((item, index) => {
-                                        return (
-                                            <SwiperSlide
-                                                key={""}
+                    <div className="fixed inset-0 overflow-y-auto">
+                        <div className="flex min-h-full items-center justify-center p-4 text-center">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 scale-95"
+                                enterTo="opacity-100 scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 scale-100"
+                                leaveTo="opacity-0 scale-95"
+                            >
+                                <Dialog.Panel className="w-full max-w-5xl transform overflow-y-scroll scrollbar-thin  rounded-2xl bg-white p-10 text-left align-middle shadow-xl transition-all h-full max-h-[650px]">
+                                    <div className={classNames({
+                                        'flex flex-col gap-5 items-start justify-start': true,
+                                        [`${urbanist.className}`]: true
+                                    })}>
 
-                                            >
 
-                                                <div
-                                                    className=" relative w-full flex flex-col "
-                                                    id={`slide${index}`}
-                                                    key={index}
+
+                                        <Dialog.Title
+                                            as="h3"
+                                            className="text-2xl font-medium leading-6 text-brand  "
+                                        >
+                                            Enter Business Idea
+                                        </Dialog.Title>
+
+                                        {/* className={`${results.length > 0 ? "w-[1000px] p-5 rounded-md" : ""} bg-white`} */}
+
+                                        <div className='w-full'>
+
+                                            {/* <h3 className="font-bold text-lg">Enter Business idea</h3> */}
+
+                                            <div className='flex flex-col justify-center items-center gap-5 my-5'>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Your business idea"
+                                                    className="input w-full border outline-none"
+                                                    value={query}
+                                                    onChange={(e) => setQuery(e.target.value)}
+                                                />
+                                                <button
+                                                    className='bg-[#FFF0DF] rounded-full px-4 py-2 text-brand flex items-center gap-1 hover:bg-brand hover:text-white transition-colors duration-300'
+                                                    onClick={createNewproject}
                                                 >
-                                                    <CardComponent
-                                                        data={item}
-                                                        id={id}
-                                                    // handleClick={handleClick}
+                                                    Ask Navigator
+                                                    <Image
+                                                        src="/images/pointer.png"
+                                                        height={15}
+                                                        width={15}
+                                                        alt="logo"
+                                                        style={{ objectFit: 'contain' }}
+                                                        className="ml-1"
                                                     />
-                                                </div>
-                                            </SwiperSlide>
-                                        );
-                                    })}
+                                                </button>
+                                            </div>
 
-                                </Swiper>
-                            </div>
-                        ) : (<div className='w-full'>
+                                        </div>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
 
-                            <h3 className="font-bold text-lg">Enter Business idea</h3>
-
-                            <div className='flex flex-col justify-center items-center gap-5 my-5'>
-                                <input
-                                    type="text"
-                                    placeholder="Your business idea"
-                                    className="input w-full border outline-none"
-                                    value={query}
-                                    onChange={(e) => setQuery(e.target.value)}
-                                />
-                                <button
-                                    className='bg-[#FFF0DF] rounded-full px-4 py-2 text-brand flex items-center gap-1 hover:bg-brand hover:text-white transition-colors duration-300'
-                                    onClick={handleInput}
-                                >
-                                    Ask Navigator
-                                    <Image
-                                        src="/images/pointer.png"
-                                        height={15}
-                                        width={15}
-                                        alt="logo"
-                                        style={{ objectFit: 'contain' }}
-                                        className="ml-1"
-                                    />
-                                </button>
-                            </div>
-                        </div>)
-                    )}
-                </div>
-                <label className="modal-close" htmlFor="idea_modal" onClick={closeModal}>
-                    Close
-                </label>
-            </div>
-        </div>
+            </Transition>
+        </>
     );
 };
 
 export default InputModal;
+
+

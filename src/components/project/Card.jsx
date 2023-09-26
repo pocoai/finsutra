@@ -50,6 +50,12 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
             })
             return
         }
+        else if (locked) {
+            toast.error("Tab Locked. Please process previous tabs first", {
+                position: "bottom-center",
+            })
+            return
+        }
 
         let token = await getToken();
 
@@ -70,6 +76,8 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
                     selected: true,
                 };
 
+                const nextTabIndex = tab + 1;
+
                 setJourneyData(prevState => {
                     return prevState.map((item, index) => {
                         if (index + 1 === tab) {
@@ -77,7 +85,15 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
                                 ...item,
                                 ...updatedData, // Update the specific tab with new data
                             };
-                        } else {
+                        }
+                        else if (index + 1 === nextTabIndex) {
+                            // Set the "locked" status of the next tab to false
+                            return {
+                                ...item,
+                                locked: false,
+                            };
+                        }
+                        else {
                             return item;
                         }
                     });
@@ -103,7 +119,7 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
 
     return (
         <div className={classNames({
-            "card w-[279px] h-[190px] shadow-md animate__animated animate__fadeInLeft": true,
+            "card w-[280px] h-[210px] shadow-md animate__animated animate__fadeInLeft": true,
             "bg-[#FFF0DF]": selected,
             "bg-[#F1F2F4]": !selected
         })}
@@ -123,8 +139,9 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
                     " max-w-full": title?.length > 27,
                     "text-brand": selected
                 })}>{title}</h2>
-                <p className='text-[13px]'>{
-                    selected ? 'Click to view...' : String(description).substring(0, 30) + "..."
+                <p className='text-[15px]'>{
+                    //  String(description).substring(0, 30) + "..."
+                    description
                 }</p>
                 <div className="card-actions justify-start">
 

@@ -7,7 +7,6 @@ export const userState = atom({
     userId: "",
     isLoaded: false,
     firstName: "",
-    credits: 0,
     onboarded: false,
     currentPlan: "",
     creditHistory: [],
@@ -24,9 +23,9 @@ export const creditCountState = selector({
     return user.credits;
   },
   set: ({ set }, newValue) => {
-    set(userState, {
-      ...userState,
+    set(userState, (oldUserState) => ({
+      ...oldUserState,
       credits: newValue,
-    });
+    }));
   },
 });
