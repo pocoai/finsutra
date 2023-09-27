@@ -71,7 +71,14 @@ export async function GET(request, { params }) {
       .lean();
 
     if (!project) {
-      return new Response(null, { status: 404, statusText: "Not Found" });
+      return NextResponse.json(
+        {
+          success: false,
+          error: "not_found",
+        },
+        { status: 404, statusText: "Not Found" }
+      );
+      // return NextResponse.redirect(new URL("/", request.url));
     }
   }
 

@@ -27,6 +27,30 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content={metadata.description} />
         <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
+        <script
+          id="microclarity"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+          (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", 'ho9v6g4itm');`,
+          }}
+        />
+
+        {/* buglog */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(d, s) {
+      s = d.createElement('script');
+      s.src = 'https://api.buglog.io/website/${process.env.NEXT_PUBLIC_BUGLOG}/code';
+      s.async = 1;
+      d.head.appendChild(s);
+    })(document);`,
+          }}
+        />
       </head>
       <body>
         <RecoilRoot>{children}</RecoilRoot>

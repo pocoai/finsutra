@@ -2,17 +2,18 @@
 
 import Header from "@/components/project/header";
 // import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import Card from "@/components/project/Card";
 import InputModal from "@/components/project/InputIdeaModal";
 import { useEffect, useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import axios from "axios";
-
+import { useRouter } from "next/navigation";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useRecoilValue } from "recoil";
 import { journeyState } from "@/state/atoms/tabState";
 import ResultModal from "@/components/project/ResultModal";
+import { toast } from "react-toastify";
 
 const journey1 = [
   {
@@ -76,76 +77,91 @@ const journey2 = [
     title: "1.1 Assembling the Founding Team: Skills, Roles, & Culture Fit",
     description: "Define team skills, roles, & culture fit.",
     loading: true,
+    chapter: 1,
   },
   {
     title: "1.2 Introduction to Idea Validation",
     description: "Initiate idea validation processes.",
     loading: true,
+    chapter: 1,
   },
   {
     title: "1.3 Building a Vision & Mission Statement",
     description: "Create a compelling vision & mission.",
     loading: true,
+    chapter: 1,
   },
   {
     title: "1.4 Market Research & Analysis",
     description: "Analyze market trends & insights.",
     loading: true,
+    chapter: 1,
   },
   {
     title: "1.5 Customer Identification & Segmentation",
     description: "Identify & segment target customers.",
     loading: true,
+    chapter: 1,
   },
   {
     title: "1.6 Value Proposition Design",
     description: "Craft a unique value proposition.",
     loading: true,
+    chapter: 1,
   },
   {
     title: "1.7 Business Model Canvas",
     description: "Develop a business model strategy.",
     loading: true,
+    chapter: 1,
   },
   {
     title: "1.8 Competitive Analysis",
     description: "Analyze competitors & their strengths.",
     loading: true,
+    chapter: 1,
   },
   {
     title: "2.1 Defining Project Objectives",
     description: "Clearly define project objectives & goals.",
     loading: true,
+    chapter: 2,
   },
   {
     title: "2.2 Setting Key Performance Indicators (KPIs)",
     description: "Identify & set key performance indicators (KPIs).",
     loading: true,
+    chapter: 2,
   },
   {
     title: "2.3 Milestones & Timelines",
     description: "Outline project milestones & timelines.",
     loading: true,
+    chapter: 2,
   },
   {
     title: "2.4 Risk Assessment & Mitigation",
     description: "Assess project risks & plan for mitigation.",
     loading: true,
+    chapter: 2,
   },
   {
     title: "2.5 Regulatory & Compliance Checklist",
     description: "Create a regulatory & compliance checklist.",
     loading: true,
+    chapter: 2,
   },
   {
     title: "2.6 Fundraising Strategy",
     description: "Develop a fundraising strategy & approach.",
     loading: true,
+    chapter: 2,
   },
   {
     title: "2.7 Contingency Planning",
     description: "Plan for contingencies & unexpected events.",
     loading: true,
+    chapter: 2,
   },
 ];
 
@@ -171,6 +187,20 @@ const journey3 = [
     loading: true,
   },
 ];
+
+const groupJourneyDataByChapter = (journeyData) => {
+  const groupedData = {};
+
+  journeyData.forEach((item) => {
+    const chapter = item.chapter;
+    if (!groupedData[chapter]) {
+      groupedData[chapter] = [];
+    }
+    groupedData[chapter].push(item);
+  });
+
+  return groupedData;
+};
 
 const getArrayviaJourney = (journey) => {
   switch (journey) {
@@ -208,6 +238,8 @@ const page = ({ params, searchParams }) => {
     queryResults: [],
   });
   const api = process.env.NEXT_PUBLIC_URL;
+
+  const router = useRouter();
 
   const { getToken } = useAuth();
   const FetchTabResults = async (id, journey) => {
@@ -255,11 +287,9 @@ const page = ({ params, searchParams }) => {
       case 1:
         data = await FetchTabResults(id, journey);
 
-        console.log(data, "here");
+        // console.log(data, "here");
         if (isObjEmpty(data.journey1)) {
           // check if tab is selected
-          // console.log("tab not selected");
-          console.log("tab not selected");
           const updatedJourney1 = journey1.map((item, index) => {
             // Set locked to false only for the first item
             if (index === 0) {
@@ -332,6 +362,7 @@ const page = ({ params, searchParams }) => {
               data: selected ? currentTab.data : [],
               selected: selected,
               locked: locked,
+              chapter: journey2[i].chapter,
             });
 
             prevSelected = selected; // Update the 'prevSelected' variable for the next iteration.
@@ -357,21 +388,44 @@ const page = ({ params, searchParams }) => {
   };
 
   useEffect(() => {
-    getTabResults(journey).then((res) => {
-      // console.log(res, "getTabResults");
-      // setData(res);
-      setJourneyData(res);
-    });
+    let data = getArrayviaJourney(journey);
+    setJourneyData(data);
   }, [journey]);
+
+  useEffect(() => {
+    if (!id) {
+      router.push("/");
+    }
+
+    getTabResults(journey)
+      .then((res) => {
+        // console.log(res, "getTabResults");
+        // setData(res);
+        setJourneyData(res);
+      })
+      .catch((err) => {
+        setJourneyData((prev) => {
+          return prev.map((item) => {
+            return {
+              ...item,
+              locked: true,
+              loading: false,
+            };
+          });
+        });
+
+        if (!err?.response?.data?.success || err.response.status === 404) {
+          toast.error("Internal Server Error");
+          return router.push("/");
+        }
+      });
+  }, [journey, id]);
 
   // useEffect(() => {
   //   document.querySelector("#idea_modal").checked = showInput;
   // }, [showInput]);
 
-  useEffect(() => {
-    let data = getArrayviaJourney(journey);
-    setJourneyData(data);
-  }, []);
+  const groupedJourneyData = groupJourneyDataByChapter(journeyData);
 
   return (
     <div className="">
@@ -388,8 +442,9 @@ const page = ({ params, searchParams }) => {
       )}
 
       <div className="my-10 ">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-8 py-10  ">
-          {journeyData.length > 0 &&
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-4 py-10  ">
+          {journey === 1 &&
+            journeyData.length > 0 &&
             journeyData.map((item, index) => (
               <Card
                 title={item.title}
@@ -403,6 +458,29 @@ const page = ({ params, searchParams }) => {
                 tab={index + 1}
                 id={id}
               />
+            ))}
+
+          {journey === 2 &&
+            journeyData.map((item, index) => (
+              <div key={index} className="">
+                {index === 0 || item.chapter !== journeyData[index - 1].chapter ? (
+                  <h2 className="text-brand text-xl font-bold p-2">Chapter {item.chapter}</h2>
+                ) : (
+                  <div className="py-6"></div>
+                )}
+                <Card
+                  title={item.title}
+                  description={item.description}
+                  key={index}
+                  selected={item.selected}
+                  loading={item.loading}
+                  data={item.data}
+                  journey={journey}
+                  locked={item.locked}
+                  tab={index + 1}
+                  id={id}
+                />
+              </div>
             ))}
         </div>
       </div>

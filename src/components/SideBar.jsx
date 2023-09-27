@@ -186,9 +186,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
         else if (route.includes("/pricing")) {
             setSelected(2)
         }
-        else {
-            setSelected(3)
-        }
+
     }, [route])
 
     return (
@@ -229,16 +227,23 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                     >
                         <Link href={"/"}>
                             {!collapsed ?
+                                <div className="relative">
+                                    <Image
+                                        src="/images/logo.png"
+                                        height={30}
+                                        width={107}
+                                        alt="logo"
+                                        style={{ objectFit: 'contain' }}
+                                        className=""
+                                    />
+                                    <span className="absolute right-0 -bottom-5">
+                                        <sub className="text-xs font-bold">
+                                            v 1.0
+                                        </sub>
+                                    </span>
+                                </div>
 
-
-                                <Image
-                                    src="/images/logo.png"
-                                    height={30}
-                                    width={107}
-                                    alt="logo"
-                                    style={{ objectFit: 'contain' }}
-                                    className=""
-                                /> : (
+                                : (
                                     <Image
                                         src="/images/pointer.png"
                                         height={31}
@@ -250,6 +255,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                                 )
                             }
                         </Link>
+
                         <button
                             className="p-1 my-2 outline-none"
                             onClick={() => setCollapsed(!collapsed)}
@@ -274,7 +280,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
 
                                     })}>
                                         <Image
-                                            src={user?.image || "/images/user.png"}
+                                            src={user?.image || ClerkUser?.imageUrl || "/images/user.png"}
                                             height={40}
                                             width={40}
                                             alt="logo"
