@@ -118,7 +118,7 @@ export const creditPricing = [
   {
     tab: "journey2_tab11",
     journey: 2,
-    name: "Milestones and Timelines",
+    name: "Milestones & Timelines",
     amount: 2,
   },
   {
@@ -143,6 +143,42 @@ export const creditPricing = [
     tab: "journey2_tab15",
     journey: 2,
     name: "Contingency Planning",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab16",
+    journey: 2,
+    name: "Hiring & Team Building",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab17",
+    journey: 2,
+    name: "Budgeting & Forecasting",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab18",
+    journey: 2,
+    name: "Office Space, Equipment, etc.",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab19",
+    journey: 2,
+    name: "Software & Tools",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab20",
+    journey: 2,
+    name: "Outsourcing vs. In-house",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab21",
+    journey: 2,
+    name: "Time Management & Productivity Tools",
     amount: 2,
   },
 ];

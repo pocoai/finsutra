@@ -62,6 +62,18 @@ export const getApi = (journey, tab) => {
         return `https://api.portkey.ai/v1/prompts/50a8c4a8-c29b-4165-a60a-40b34d70e155/generate`;
       case 15:
         return `https://api.portkey.ai/v1/prompts/7ba1bfe2-47b7-49a6-803b-4fbda7e7d8d4/generate`;
+      case 16:
+        return `https://api.portkey.ai/v1/prompts/2949f02a-0fd5-46d0-a80a-0a06e75a101e/generate`;
+      case 17:
+        return `https://api.portkey.ai/v1/prompts/6265cafb-769e-4b62-8c40-4c3f0168364e/generate`;
+      case 18:
+        return `https://api.portkey.ai/v1/prompts/30cc3437-0a83-45ff-9613-035ed265cdf5/generate`;
+      case 19:
+        return `https://api.portkey.ai/v1/prompts/6a41b8f2-0707-4069-9cde-ad5e87334be8/generate`;
+      case 20:
+        return `https://api.portkey.ai/v1/prompts/3e098b0c-3e8c-4945-be70-b3dddd09b651/generate`;
+      case 21:
+        return `https://api.portkey.ai/v1/prompts/63726fc8-863b-40f4-a284-315ba5a8f65c/generate`;
     }
   }
 };

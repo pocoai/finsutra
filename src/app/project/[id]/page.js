@@ -163,6 +163,43 @@ const journey2 = [
     loading: true,
     chapter: 2,
   },
+
+  {
+    title: "3.1 HR: Hiring and Team Building",
+    description: "Recruit and build your team effectively.",
+    loading: true,
+    chapter: 3,
+  },
+  {
+    title: "3.2 Financial Resources - Budgeting and Forecasting",
+    description: "Create budgets and financial forecasts.",
+    loading: true,
+    chapter: 3,
+  },
+  {
+    title: "3.3 Physical Resources: Office Space, Equipment, etc.",
+    description: "Secure office space and essential equipment.",
+    loading: true,
+    chapter: 3,
+  },
+  {
+    title: "3.4 Digital Resources: Software and Tools",
+    description: "Select and implement digital software and tools.",
+    loading: true,
+    chapter: 3,
+  },
+  {
+    title: "3.5 Outsourcing vs. In-house: Making Strategic Decisions",
+    description: "Make strategic decisions on outsourcing vs. in-house tasks.",
+    loading: true,
+    chapter: 3,
+  },
+  {
+    title: "3.6 Time Management and Productivity Tools",
+    description: "Manage time effectively using productivity tools.",
+    loading: true,
+    chapter: 3,
+  },
 ];
 
 const journey3 = [
@@ -463,11 +500,11 @@ const page = ({ params, searchParams }) => {
           {journey === 2 &&
             journeyData.map((item, index) => (
               <div key={index} className="">
-                {index === 0 || item.chapter !== journeyData[index - 1].chapter ? (
+                {/* {index === 0 || item.chapter !== journeyData[index - 1].chapter ? (
                   <h2 className="text-brand text-xl font-bold p-2">Chapter {item.chapter}</h2>
                 ) : (
                   <div className="py-6"></div>
-                )}
+                )} */}
                 <Card
                   title={item.title}
                   description={item.description}
