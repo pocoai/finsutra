@@ -516,29 +516,11 @@ const page = ({ params, searchParams }) => {
         />
       )}
 
-      <div className="my-10 ">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-4 py-10  ">
-          {journey === 1 &&
-            journeyData.length > 0 &&
-            journeyData.map((item, index) => (
-              <Card
-                title={item.title}
-                description={item.description}
-                key={index}
-                selected={item.selected}
-                loading={item.loading}
-                data={item.data}
-                journey={journey}
-                locked={item.locked}
-                tab={index + 1}
-                id={id}
-              />
-            ))}
-
-          {/* {journey === 2 &&
-            journeyData.map((item, index) => (
-              <div key={index} className="">
-                
+      <div className="mt-10 mb-5">
+        {journey === 1 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-4 py-10  ">
+            {journeyData.length > 0 &&
+              journeyData.map((item, index) => (
                 <Card
                   title={item.title}
                   description={item.description}
@@ -551,42 +533,41 @@ const page = ({ params, searchParams }) => {
                   tab={index + 1}
                   id={id}
                 />
-              </div>
-            ))} */}
-        </div>
-        <div>
-          {journey === 2 && (
-            <div>
-              {chapters.map((item, index) => (
-                <div key={index}>
-                  <h1 className="px-4 text-black text-xl font-medium">
-                    Chapter {item.id}: {item.name}
-                  </h1>
-                  <hr className="mt-2" />
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-4 py-5  ">
-                    {journeyData
-                      .filter((chapter) => chapter.chapter === item.id)
-                      .map((chapterItem, chapterIndex) => (
-                        <Card
-                          title={chapterItem.title}
-                          description={chapterItem.description}
-                          key={chapterIndex}
-                          selected={chapterItem.selected}
-                          loading={chapterItem.loading}
-                          data={chapterItem.data}
-                          journey={journey}
-                          locked={chapterItem.locked}
-                          tab={chapterIndex + 1}
-                          id={id}
-                        />
-                      ))}
-                  </div>
-                </div>
               ))}
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
+
+      {journey === 2 && (
+        <div>
+          {chapters.map((item, index) => (
+            <div key={index}>
+              <h1 className="px-4 text-black text-xl font-medium">
+                Chapter {item.id}: {item.name}
+              </h1>
+              <hr className="mt-2" />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-4 py-5  ">
+                {journeyData
+                  .filter((chapter) => chapter.chapter === item.id)
+                  .map((chapterItem, chapterIndex) => (
+                    <Card
+                      title={chapterItem.title}
+                      description={chapterItem.description}
+                      key={chapterIndex}
+                      selected={chapterItem.selected}
+                      loading={chapterItem.loading}
+                      data={chapterItem.data}
+                      journey={journey}
+                      locked={chapterItem.locked}
+                      tab={chapterIndex + 1}
+                      id={id}
+                    />
+                  ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
