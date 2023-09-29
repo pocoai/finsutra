@@ -27,6 +27,8 @@ export const getApi = (journey, tab) => {
         return `https://api.promptbook.in/j1/tab8`;
       case 9:
         return `https://api.portkey.ai/v1/prompts/70ab27c2-fdf2-4af4-a389-c2690f989b3f/generate`;
+      case 10:
+        return `https://api.portkey.ai/v1/prompts/556843a6-fdeb-4ef6-815e-2c358c7609ca/generate`;
     }
   }
   if (journey === 2) {
@@ -74,6 +76,20 @@ export const getApi = (journey, tab) => {
         return `https://api.portkey.ai/v1/prompts/3e098b0c-3e8c-4945-be70-b3dddd09b651/generate`;
       case 21:
         return `https://api.portkey.ai/v1/prompts/63726fc8-863b-40f4-a284-315ba5a8f65c/generate`;
+      case 22:
+        return `https://api.portkey.ai/v1/prompts/00a7cd93-efba-4420-8d98-30ab07afa31f/generate`;
+      case 23:
+        return `https://api.portkey.ai/v1/prompts/0ff6543c-d967-416a-a1bf-7421d89478f3/generate`;
+      case 24:
+        return `https://api.portkey.ai/v1/prompts/68aa509e-a942-45f8-9f9b-125e1d59bbfa/generate`;
+      case 25:
+        return `https://api.portkey.ai/v1/prompts/180ad7b6-beec-43db-9652-06c239aee21b/generate`;
+      case 26:
+        return `https://api.portkey.ai/v1/prompts/84477fbe-aff1-4b1c-8ec8-0c1b80149941/generate`;
+      case 27:
+        return `https://api.portkey.ai/v1/prompts/c0f0700a-03bf-4335-acb5-47f7627842da/generate`;
+      case 28:
+        return `https://api.portkey.ai/v1/prompts/f3d53251-24fa-4ca8-8e63-e0f04e51cc55/generate`;
     }
   }
 };

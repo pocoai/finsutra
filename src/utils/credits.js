@@ -56,6 +56,12 @@ export const creditPricing = [
     amount: 5,
   },
   {
+    tab: "journey1_tab10",
+    journey: 1,
+    name: "Financial Statement",
+    amount: 5,
+  },
+  {
     tab: "journey2_tab1",
     journey: 2,
     name: "Assembling the Founding Team",
@@ -179,6 +185,48 @@ export const creditPricing = [
     tab: "journey2_tab21",
     journey: 2,
     name: "Time Management & Productivity Tools",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab22",
+    journey: 2,
+    name: "Product Development",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab23",
+    journey: 2,
+    name: "Pilot Sales",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab24",
+    journey: 2,
+    name: "Marketing & Sales",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab25",
+    journey: 2,
+    name: "Customer Success",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab26",
+    journey: 2,
+    name: "Financial Management",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab27",
+    journey: 2,
+    name: "Customer Service & Rentention",
+    amount: 2,
+  },
+  {
+    tab: "journey2_tab28",
+    journey: 2,
+    name: "Interative Process",
     amount: 2,
   },
 ];

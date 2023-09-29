@@ -2,14 +2,15 @@
 
 import Slide1 from "@/components/onboarding/slide1";
 import Slide2 from "@/components/onboarding/slide2";
+import { userState } from "@/state/atoms/userState";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 
 const Page = () => {
   const [activeSlide, setActiveSlide] = useState(1);
-  const { user, isLoaded } = useUser();
-
+  const user = useRecoilValue(userState);
   const scrollTo = (id) => {
     setActiveSlide(id);
   };

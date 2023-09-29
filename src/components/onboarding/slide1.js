@@ -3,6 +3,8 @@ import Image from "next/image";
 import React from "react";
 
 const Slide1 = ({ scrollTo, id, hidden, activeSlide, user }) => {
+  console.log("user", user);
+
   return (
     <div
       className={`${hidden ? "hidden" : "w-full flex flex-col items-center justify-center"} ${

@@ -70,6 +70,12 @@ const journey1 = [
     loading: true,
     locked: true,
   },
+  {
+    title: "Financial Statement",
+    description: "Forecast your financial projections.",
+    loading: true,
+    locked: true,
+  },
 ];
 
 const journey2 = [
@@ -165,26 +171,26 @@ const journey2 = [
   },
 
   {
-    title: "3.1 HR: Hiring and Team Building",
-    description: "Recruit and build your team effectively.",
+    title: "3.1 HR: Hiring & Team Building",
+    description: "Recruit & build your team effectively.",
     loading: true,
     chapter: 3,
   },
   {
-    title: "3.2 Financial Resources - Budgeting and Forecasting",
-    description: "Create budgets and financial forecasts.",
+    title: "3.2 Financial Resources - Budgeting & Forecasting",
+    description: "Create budgets & financial forecasts.",
     loading: true,
     chapter: 3,
   },
   {
     title: "3.3 Physical Resources: Office Space, Equipment, etc.",
-    description: "Secure office space and essential equipment.",
+    description: "Secure office space & essential equipment.",
     loading: true,
     chapter: 3,
   },
   {
-    title: "3.4 Digital Resources: Software and Tools",
-    description: "Select and implement digital software and tools.",
+    title: "3.4 Digital Resources: Software & Tools",
+    description: "Select & implement digital software & tools.",
     loading: true,
     chapter: 3,
   },
@@ -195,33 +201,71 @@ const journey2 = [
     chapter: 3,
   },
   {
-    title: "3.6 Time Management and Productivity Tools",
+    title: "3.6 Time Management & Productivity Tools",
     description: "Manage time effectively using productivity tools.",
     loading: true,
     chapter: 3,
   },
+  {
+    title: "4.1 Product Development",
+    description: "From Idea to Minimum Viable Product (MVP)",
+    loading: true,
+    chapter: 4,
+  },
+  {
+    title: "4.2 Pilot Sales",
+    description: "Testing the Market & Adjusting the Product.",
+    loading: true,
+    chapter: 4,
+  },
+  {
+    title: "4.3 Marketing & Sales Strategy",
+    description: "Plan your marketing & sales approach.",
+    loading: true,
+    chapter: 4,
+  },
+  {
+    title: "4.4 Building a Customer Success Team",
+    description: "Create a team for customer success.",
+    loading: true,
+    chapter: 4,
+  },
+  {
+    title: "4.5 Financial Management",
+    description: "Manage your financial resources effectively.",
+    loading: true,
+    chapter: 4,
+  },
+  {
+    title: "4.6 Customer Service & Retention",
+    description: "Focus on customer service & retention strategies.",
+    loading: true,
+    chapter: 4,
+  },
+  {
+    title: "4.7 Iterative Process",
+    description: "Implement iterative development processes.",
+    loading: true,
+    chapter: 4,
+  },
 ];
 
-const journey3 = [
+const chapters = [
   {
-    title: "Channel Management",
-    description: "This tab is not yet processed",
-    loading: true,
+    id: 1,
+    name: "Architectural Plan",
   },
   {
-    title: "Social Media Management",
-    description: "This tab is not yet processed",
-    loading: true,
+    id: 2,
+    name: "Project Plan",
   },
   {
-    title: "Influencer or Not ?",
-    description: "This tab is not yet processed",
-    loading: true,
+    id: 3,
+    name: "Resource Allocation Plan",
   },
   {
-    title: "SEO Strategy",
-    description: "This tab is not yet processed",
-    loading: true,
+    id: 4,
+    name: "Product Development Plan",
   },
 ];
 
@@ -497,14 +541,10 @@ const page = ({ params, searchParams }) => {
               />
             ))}
 
-          {journey === 2 &&
+          {/* {journey === 2 &&
             journeyData.map((item, index) => (
               <div key={index} className="">
-                {/* {index === 0 || item.chapter !== journeyData[index - 1].chapter ? (
-                  <h2 className="text-brand text-xl font-bold p-2">Chapter {item.chapter}</h2>
-                ) : (
-                  <div className="py-6"></div>
-                )} */}
+                
                 <Card
                   title={item.title}
                   description={item.description}
@@ -518,7 +558,39 @@ const page = ({ params, searchParams }) => {
                   id={id}
                 />
               </div>
-            ))}
+            ))} */}
+        </div>
+        <div>
+          {journey === 2 && (
+            <div>
+              {chapters.map((item, index) => (
+                <div key={index}>
+                  <h1 className="px-4 text-black text-xl font-medium">
+                    Chapter {item.id}: {item.name}
+                  </h1>
+                  <hr />
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-4 py-5  ">
+                    {journeyData
+                      .filter((chapter) => chapter.chapter === item.id)
+                      .map((chapterItem, chapterIndex) => (
+                        <Card
+                          title={chapterItem.title}
+                          description={chapterItem.description}
+                          key={chapterIndex}
+                          selected={chapterItem.selected}
+                          loading={chapterItem.loading}
+                          data={chapterItem.data}
+                          journey={journey}
+                          locked={chapterItem.locked}
+                          tab={chapterIndex + 1}
+                          id={id}
+                        />
+                      ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

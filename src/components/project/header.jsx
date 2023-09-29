@@ -36,7 +36,7 @@ const Journey = ({ selected, id, name, projectId }) => {
 const journeys = [
     {
         id: 1,
-        name: "Zero-to-Coming Soon",
+        name: "Zero-to-Seed",
     },
     {
         id: 2,

@@ -1,6 +1,7 @@
 
 import { currentUser } from '@clerk/nextjs'
 import Image from 'next/image'
+import Link from 'next/link';
 import React from 'react'
 
 const UserProfile = async ({ userData }) => {
@@ -72,9 +73,9 @@ const UserProfile = async ({ userData }) => {
                     </span>
                 </p>
             </div>
-            <button className='bg-brand rounded-full px-4 py-2 font-semibold text-white'>
+            <Link href="/onboarding" prefetch={false} className='bg-brand rounded-full px-4 py-2 font-semibold text-white'>
                 Edit Profile
-            </button>
+            </Link>
         </div>
     )
 }

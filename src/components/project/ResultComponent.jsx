@@ -15,7 +15,7 @@ const CardComponent = ({ data, id, closeModal }) => {
 
 
     // console.log(data, "data")
-    console.log(id, "id in card")
+    // console.log(id, "id in card")
 
     const api = process.env.NEXT_PUBLIC_URL;
     const handleClick = async () => {
@@ -34,7 +34,7 @@ const CardComponent = ({ data, id, closeModal }) => {
             })
 
 
-            console.log(res, "res")
+            // console.log(res, "res")
 
             if (res.data.success) {
                 let state = {

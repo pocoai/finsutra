@@ -107,6 +107,10 @@ export async function POST(request, { params }) {
   }
 
   if (journey === 1) {
+    let name = project.journey1.tab1.data[0]?.value;
+    let pitch = project.journey1.tab1.data[1]?.value;
+    let icp = project.journey1.tab1.data[2]?.value;
+
     if (tab === 1) {
       if (!data) {
         return new Response(
@@ -142,9 +146,6 @@ export async function POST(request, { params }) {
     if (tab === 2) {
       let api = getApi(1, 2);
 
-      let pitch = project.journey1.tab1.data[1]?.value;
-      let icp = project.journey1.tab1.data[2]?.value;
-
       console.log(pitch, icp, "pitch");
 
       try {
@@ -152,6 +153,7 @@ export async function POST(request, { params }) {
           api,
           {
             variables: {
+              name,
               elevator_pitch: pitch,
               ideal_customer_profile: icp,
             },
@@ -204,16 +206,12 @@ export async function POST(request, { params }) {
     if (tab === 3) {
       let api = getApi(1, 3);
 
-      let pitch = project.journey1.tab1.data[1]?.value;
-      let icp = project.journey1.tab1.data[2]?.value;
-
-      console.log(pitch, icp, "pitch");
-
       try {
         let result = await axios.post(
           api,
           {
             variables: {
+              name,
               elevator_pitch: pitch,
               ideal_customer_profile: icp,
             },
@@ -265,9 +263,6 @@ export async function POST(request, { params }) {
     if (tab === 4) {
       let api = getApi(1, 4);
 
-      let pitch = project.journey1.tab1.data[1]?.value;
-      let icp = project.journey1.tab1.data[2]?.value;
-
       console.log(pitch, icp, "pitch");
 
       try {
@@ -275,6 +270,7 @@ export async function POST(request, { params }) {
           api,
           {
             variables: {
+              name,
               elevator_pitch: pitch,
               ideal_customer_profile: icp,
             },
@@ -322,16 +318,12 @@ export async function POST(request, { params }) {
     if (tab === 5) {
       let api = getApi(1, 5);
 
-      let pitch = project.journey1.tab1.data[1]?.value;
-      let icp = project.journey1.tab1.data[2]?.value;
-
-      console.log(pitch, icp, "pitch");
-
       try {
         let result = await axios.post(
           api,
           {
             variables: {
+              name,
               elevator_pitch: pitch,
               ideal_customer_profile: icp,
             },
@@ -379,9 +371,6 @@ export async function POST(request, { params }) {
     }
     if (tab === 6) {
       let api = getApi(1, 6);
-
-      let pitch = project.journey1.tab1.data[1]?.value;
-      let icp = project.journey1.tab1.data[2]?.value;
       let brand_guidelines = project.journey1.tab3.data["Branding Guidelines Summary"] || "";
       console.log(pitch, icp, "pitch");
 
@@ -390,6 +379,7 @@ export async function POST(request, { params }) {
           api,
           {
             variables: {
+              name,
               elevator_pitch: pitch,
               ideal_customer_profile: icp,
               brand_guidelines,
@@ -440,9 +430,6 @@ export async function POST(request, { params }) {
     if (tab === 7) {
       let api = getApi(1, 7);
 
-      let pitch = project.journey1.tab1.data[1]?.value;
-      let icp = project.journey1.tab1.data[2]?.value;
-
       let psfit = project.journey1.tab2.data.ps_list;
 
       let solutions = "";
@@ -459,6 +446,7 @@ export async function POST(request, { params }) {
           api,
           {
             variables: {
+              name,
               elevator_pitch: pitch,
               ideal_customer_profile: icp,
               solutions,
@@ -509,17 +497,12 @@ export async function POST(request, { params }) {
     if (tab === 8) {
       let api = getApi(1, 8);
 
-      let pitch = project.journey1.tab1.data[1]?.value;
-      let icp = project.journey1.tab1.data[2]?.value;
-
       try {
         let result = await axios.get(`${api}?x=${pitch}&y=${icp}`, {
           headers: {
             "Content-Type": "application/json",
           },
         });
-
-        console.log(result.data, "api results ");
 
         if (result.data.success) {
           let tab8 = {
@@ -557,16 +540,12 @@ export async function POST(request, { params }) {
     if (tab === 9) {
       let api = getApi(1, 9);
 
-      let pitch = project.journey1.tab1.data[1]?.value;
-      let icp = project.journey1.tab1.data[2]?.value;
-
-      // console.log(pitch, icp, "pitch");
-
       try {
         let result = await axios.post(
           api,
           {
             variables: {
+              name,
               elevator_pitch: pitch,
               ideal_customer_profile: icp,
             },
@@ -605,6 +584,72 @@ export async function POST(request, { params }) {
             success: true,
             message: "project updated",
             data: updated_res.journey1.tab9,
+          });
+        } else {
+          return new Response(null, { status: 404, statusText: "Not Found" });
+        }
+      } catch (error) {
+        console.log(error);
+        return new Response(null, { status: 400, statusText: "Internal Server Error" });
+      }
+    }
+
+    if (tab === 10) {
+      let api = getApi(1, 10);
+      let psfit = project.journey1.tab2.data.ps_list;
+
+      let solutions = "";
+      for (let i = 0; i < psfit.length; i++) {
+        let d = psfit[i]["Solution"];
+
+        solutions = solutions + d + "\n";
+      }
+
+      try {
+        let result = await axios.post(
+          api,
+          {
+            variables: {
+              name,
+              elevator_pitch: pitch,
+              ideal_customer_profile: icp,
+              solutions,
+            },
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-portkey-api-key": PORTKEY,
+            },
+          }
+        );
+
+        // console.log(result.data, "api results ");
+
+        if (result.data.success) {
+          let tab10 = {
+            data: result.data.data.choices[0].message.content,
+            selected: true,
+          };
+
+          await SubCredits(userId, journey, tab);
+
+          let updated_res = await Project.findByIdAndUpdate(
+            id,
+            {
+              "journey1.tab10": tab10,
+              [`currentStage.${journey}`]: tab,
+            },
+            {
+              new: true,
+            }
+          );
+
+          // console.log(updated_res, "updated_res");
+          return NextResponse.json({
+            success: true,
+            message: "project updated",
+            data: updated_res.journey1.tab10,
           });
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });

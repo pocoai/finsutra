@@ -173,7 +173,9 @@ const ResultModal = ({ id, isOpen, setIsOpen, choices, query }) => {
                                     {
                                         loading ? (
 
-                                            <span className="loading loading-spinner text-warning"></span>
+                                            <div className='w-full h-full flex items-center justify-center'>
+                                                <span className="loading loading-spinner text-warning"></span>
+                                            </div>
 
                                         ) : (<div className='w-full '>
                                             <Swiper

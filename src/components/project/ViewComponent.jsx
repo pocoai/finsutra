@@ -1,3 +1,4 @@
+import { useRouter, useSearchParams } from 'next/navigation';
 import Markdown from 'react-markdown'
 
 
@@ -7,6 +8,18 @@ const ViewComponent = ({
     journey,
     closeModal,
 }) => {
+
+
+    const searchParams = useSearchParams();
+    // const router = useRouter()
+
+    const handleReselection = () => {
+
+        searchParams.set("reselect", "true")
+
+
+        closeModal()
+    }
 
 
     if (journey === 1) {
@@ -457,17 +470,14 @@ const ViewComponent = ({
                             );
                         })}
                     </table>
-                    {/* {currentProject?.queryResults?.content?.length > 0 && (
-              <p
-                className="text-center text-md w-full text-red-600 cursor-pointer"
-                onClick={async () => {
-                  await handleReselection();
-                  closeModal();
-                }}
-              >
-                Continue with a different option ?
-              </p>
-            )} */}
+
+                    <p
+                        className="text-center text-md w-full text-red-600 cursor-pointer"
+                        onClick={handleReselection}
+                    >
+                        Continue with a different option ?
+                    </p>
+
                 </div>
             );
     }
