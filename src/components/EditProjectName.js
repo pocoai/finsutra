@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { PlusSmallIcon } from '@heroicons/react/24/outline';
+import { PlusSmallIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { useAuth } from '@clerk/nextjs'
 
 const EditProjectName = ({name, _id, getProjects, setIsEditing}) => {
@@ -56,21 +56,37 @@ const EditProjectName = ({name, _id, getProjects, setIsEditing}) => {
       getProjects();
 
   }
+  
+  useEffect(() => {
+    // Add an event listener to handle clicks outside the modal
+    const handleClickOutside = (event) => {
+      const modal = document.querySelector('.modal-box');
+      if (modal && !modal.contains(event.target)) {
+        setIsEditing(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [setIsEditing]);
 
     return (
         <div className="inset-0 fixed flex justify-center items-center">
             {/* <input type="checkbox" id="my_modal_3" className="modal-toggle" /> */}
-            <div >
-                <div className="modal-box bg-white">
+            <div className="w-[500px]">
+                <div className="modal-box bg-white ">
                     {loading ? (
                         <div className="flex items-center justify-center">
                             <span className="loading loading-ring loading-md"></span>
                         </div>
                     ) : (
                         <div className="w-full h-full">
-                          <div className="flex justify-around">
+                          <div className="flex w-full m-0 p-0 justify-between items-center">
                             <h3 className="font-bold text-lg">Edit project name</h3>
-                            <span onClick={()=>setIsEditing(false)} className="text-red-500 font-bold">X</span>
+                            <span onClick={()=>setIsEditing(false)} className="text-red-500 font-bold cursor-pointer"><XCircleIcon className="h-5 w-6 font-bold" /></span>
                             </div>
                             <div className="flex flex-col justify-center items-center gap-5 my-5">
                                 <input
