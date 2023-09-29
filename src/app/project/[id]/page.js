@@ -21,60 +21,70 @@ const journey1 = [
     description: "Define & clarify your innovative concept.",
     loading: true,
     locked: true,
+    tab: 1,
   },
   {
     title: "Problem Solution Fit",
     description: "Assess product-market alignment for success.",
     loading: true,
     locked: true,
+    tab: 2,
   },
   {
     title: "Brand Kit",
     description: "Establish visual & brand identity elements.",
     loading: true,
     locked: true,
+    tab: 3,
   },
   {
     title: "Positioning & Messaging",
     description: "Craft compelling brand positioning.",
     loading: true,
     locked: true,
+    tab: 4,
   },
   {
     title: "Coming Soon Page",
     description: "Tease & prepare for your product launch.",
     loading: true,
     locked: true,
+    tab: 5,
   },
   {
     title: "Build your MVP",
     description: "Create a minimal viable product efficiently.",
     loading: true,
     locked: true,
+    tab: 6,
   },
   {
     title: "Features to Monetize",
     description: "Identify profit-generating product features.",
     loading: true,
     locked: true,
+    tab: 7,
   },
   {
     title: "Research & Knowledge Bank",
     description: "Store valuable insights & information.",
     loading: true,
     locked: true,
+    tab: 8,
   },
   {
     title: "Business Model Canvas",
     description: "Outline your business strategy & model.",
     loading: true,
     locked: true,
+    tab: 9,
   },
   {
     title: "Financial Statement",
     description: "Forecast your financial projections.",
     loading: true,
     locked: true,
+    tab: 10,
   },
 ];
 
@@ -84,90 +94,105 @@ const journey2 = [
     description: "Define team skills, roles, & culture fit.",
     loading: true,
     chapter: 1,
+    tab: 1,
   },
   {
     title: "1.2 Introduction to Idea Validation",
     description: "Initiate idea validation processes.",
     loading: true,
     chapter: 1,
+    tab: 2,
   },
   {
     title: "1.3 Building a Vision & Mission Statement",
     description: "Create a compelling vision & mission.",
     loading: true,
     chapter: 1,
+    tab: 3,
   },
   {
     title: "1.4 Market Research & Analysis",
     description: "Analyze market trends & insights.",
     loading: true,
     chapter: 1,
+    tab: 4,
   },
   {
     title: "1.5 Customer Identification & Segmentation",
     description: "Identify & segment target customers.",
     loading: true,
     chapter: 1,
+    tab: 5,
   },
   {
     title: "1.6 Value Proposition Design",
     description: "Craft a unique value proposition.",
     loading: true,
     chapter: 1,
+    tab: 6,
   },
   {
     title: "1.7 Business Model Canvas",
     description: "Develop a business model strategy.",
     loading: true,
     chapter: 1,
+    tab: 7,
   },
   {
     title: "1.8 Competitive Analysis",
     description: "Analyze competitors & their strengths.",
     loading: true,
     chapter: 1,
+    tab: 8,
   },
   {
     title: "2.1 Defining Project Objectives",
     description: "Clearly define project objectives & goals.",
     loading: true,
     chapter: 2,
+    tab: 9,
   },
   {
     title: "2.2 Setting Key Performance Indicators (KPIs)",
     description: "Identify & set key performance indicators (KPIs).",
     loading: true,
     chapter: 2,
+    tab: 10,
   },
   {
     title: "2.3 Milestones & Timelines",
     description: "Outline project milestones & timelines.",
     loading: true,
     chapter: 2,
+    tab: 11,
   },
   {
     title: "2.4 Risk Assessment & Mitigation",
     description: "Assess project risks & plan for mitigation.",
     loading: true,
     chapter: 2,
+    tab: 12,
   },
   {
     title: "2.5 Regulatory & Compliance Checklist",
     description: "Create a regulatory & compliance checklist.",
     loading: true,
     chapter: 2,
+    tab: 13,
   },
   {
     title: "2.6 Fundraising Strategy",
     description: "Develop a fundraising strategy & approach.",
     loading: true,
     chapter: 2,
+    tab: 14,
   },
   {
     title: "2.7 Contingency Planning",
     description: "Plan for contingencies & unexpected events.",
     loading: true,
     chapter: 2,
+    tab: 15,
   },
 
   {
@@ -175,78 +200,92 @@ const journey2 = [
     description: "Recruit & build your team effectively.",
     loading: true,
     chapter: 3,
+    tab: 16,
   },
   {
     title: "3.2 Financial Resources - Budgeting & Forecasting",
     description: "Create budgets & financial forecasts.",
     loading: true,
     chapter: 3,
+    tab: 17,
   },
   {
     title: "3.3 Physical Resources: Office Space, Equipment, etc.",
     description: "Secure office space & essential equipment.",
     loading: true,
     chapter: 3,
+    tab: 18,
   },
   {
     title: "3.4 Digital Resources: Software & Tools",
     description: "Select & implement digital software & tools.",
     loading: true,
     chapter: 3,
+    tab: 19,
   },
   {
     title: "3.5 Outsourcing vs. In-house: Making Strategic Decisions",
     description: "Make strategic decisions on outsourcing vs. in-house tasks.",
     loading: true,
     chapter: 3,
+    tab: 20,
   },
   {
     title: "3.6 Time Management & Productivity Tools",
     description: "Manage time effectively using productivity tools.",
     loading: true,
     chapter: 3,
+    tab: 21,
   },
   {
     title: "4.1 Product Development",
     description: "From Idea to Minimum Viable Product (MVP)",
     loading: true,
     chapter: 4,
+    tab: 22,
   },
   {
     title: "4.2 Pilot Sales",
     description: "Testing the Market & Adjusting the Product.",
     loading: true,
     chapter: 4,
+    tab: 23,
   },
   {
     title: "4.3 Marketing & Sales Strategy",
     description: "Plan your marketing & sales approach.",
     loading: true,
     chapter: 4,
+    tab: 24,
   },
   {
     title: "4.4 Building a Customer Success Team",
     description: "Create a team for customer success.",
     loading: true,
     chapter: 4,
+    tab: 25,
   },
   {
     title: "4.5 Financial Management",
     description: "Manage your financial resources effectively.",
     loading: true,
     chapter: 4,
+    tab: 26,
   },
   {
     title: "4.6 Customer Service & Retention",
     description: "Focus on customer service & retention strategies.",
     loading: true,
     chapter: 4,
+    tab: 27,
   },
+
   {
     title: "4.7 Iterative Process",
     description: "Implement iterative development processes.",
     loading: true,
     chapter: 4,
+    tab: 28,
   },
 ];
 
@@ -289,8 +328,6 @@ const getArrayviaJourney = (journey) => {
       return journey1;
     case 2:
       return journey2;
-    case 3:
-      return journey3;
     default:
       return journey1;
   }
@@ -411,6 +448,7 @@ const page = ({ params, searchParams }) => {
               data: selected ? currentTab.data : [],
               selected: selected,
               locked: locked,
+              tab: journey1[i].tab,
             });
 
             prevSelected = selected; // Update the 'prevSelected' variable for the next iteration.
@@ -455,6 +493,7 @@ const page = ({ params, searchParams }) => {
               selected: selected,
               locked: locked,
               chapter: journey2[i].chapter,
+              tab: journey2[i].tab,
             });
 
             prevSelected = selected; // Update the 'prevSelected' variable for the next iteration.
@@ -530,7 +569,7 @@ const page = ({ params, searchParams }) => {
                   data={item.data}
                   journey={journey}
                   locked={item.locked}
-                  tab={index + 1}
+                  tab={item.tab}
                   id={id}
                 />
               ))}
@@ -559,7 +598,7 @@ const page = ({ params, searchParams }) => {
                       data={chapterItem.data}
                       journey={journey}
                       locked={chapterItem.locked}
-                      tab={chapterIndex + 1}
+                      tab={chapterItem.tab}
                       id={id}
                     />
                   ))}
