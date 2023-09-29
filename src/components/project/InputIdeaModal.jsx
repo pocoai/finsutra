@@ -66,7 +66,7 @@ const InputModal = ({ isOpen, setIsOpen }) => {
             }
 
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             toast.error("Something went wrong")
             return;
         }
@@ -129,6 +129,11 @@ const InputModal = ({ isOpen, setIsOpen }) => {
                                                     className="input w-full border outline-none"
                                                     value={query}
                                                     onChange={(e) => setQuery(e.target.value)}
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === "Enter") {
+                                                            createNewproject()
+                                                        }
+                                                    }}
                                                 />
                                                 <button
                                                     className='bg-[#FFF0DF] rounded-full px-4 py-2 text-brand flex items-center gap-1 hover:bg-brand hover:text-white transition-colors duration-300'

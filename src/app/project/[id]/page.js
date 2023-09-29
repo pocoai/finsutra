@@ -308,20 +308,6 @@ const chapters = [
   },
 ];
 
-const groupJourneyDataByChapter = (journeyData) => {
-  const groupedData = {};
-
-  journeyData.forEach((item) => {
-    const chapter = item.chapter;
-    if (!groupedData[chapter]) {
-      groupedData[chapter] = [];
-    }
-    groupedData[chapter].push(item);
-  });
-
-  return groupedData;
-};
-
 const getArrayviaJourney = (journey) => {
   switch (journey) {
     case 1:
@@ -422,7 +408,7 @@ const page = ({ params, searchParams }) => {
           const updatedJourney1 = journey1.map((item, index) => {
             // Set locked to false only for the first item
             if (index === 0) {
-              return { ...item, data: null, locked: false, loading: false };
+              return { ...item, data: null, locked: true, loading: false };
             }
             // Keep other properties unchanged
             return { ...item, data: null, locked: true, loading: false };
@@ -459,11 +445,11 @@ const page = ({ params, searchParams }) => {
 
       case 2:
         data = await FetchTabResults(id, journey);
-        console.log(data, "here");
+        // console.log(data, "here");
 
         if (!data.journey2 || isObjEmpty(data.journey2)) {
           // check if tab is selected
-          console.log("tab not selected");
+          // console.log("tab not selected");
           const updatedJourney2 = journey2.map((item, index) => {
             // Set locked to false only for the first item
             if (index === 0) {

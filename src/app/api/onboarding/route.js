@@ -11,7 +11,7 @@ export const POST = async (request) => {
 
   const { interests } = await request.json();
 
-  console.log(interests);
+  // console.log(interests);
 
   let userdata;
 

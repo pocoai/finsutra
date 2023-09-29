@@ -3,7 +3,7 @@ import Image from "next/image";
 import React from "react";
 
 const Slide1 = ({ scrollTo, id, hidden, activeSlide, user }) => {
-  console.log("user", user);
+  // console.log("user", user);
 
   return (
     <div

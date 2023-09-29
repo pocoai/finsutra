@@ -25,7 +25,7 @@ export const POST = async (request) => {
     case "checkout.session.completed":
       const checkoutSessionCompleted = event.data.object;
 
-      console.log(checkoutSessionCompleted, "checkoutSessionCompleted");
+      // console.log(checkoutSessionCompleted, "checkoutSessionCompleted");
 
       let sessionid = checkoutSessionCompleted.id;
       let Stripe = stripe(process.env.STRIPE_SECRET_KEY);
@@ -75,7 +75,7 @@ export const POST = async (request) => {
               type: "add",
             });
 
-            console.log(user, "user data saved");
+            // console.log(user, "user data saved");
 
             await user.save();
           } else {

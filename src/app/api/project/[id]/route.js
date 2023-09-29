@@ -29,7 +29,7 @@ const SubCredits = async (userId, journey, tab) => {
 
   await user.save();
 
-  console.log("credits of user", user.credits);
+  // console.log("credits of user", user.credits);
 
   return true;
 };
@@ -96,20 +96,23 @@ export async function POST(request, { params }) {
   const journey = parseInt(request.nextUrl.searchParams.get("journey"));
   const tab = parseInt(request.nextUrl.searchParams.get("tab"));
 
+  console.log(id, journey, tab);
   let result;
 
   const { data } = await request.json();
 
   let project = await Project.findById(id);
 
+  console.log(project);
+
   if (!project) {
     return new Response(null, { status: 404, statusText: "Not Found" });
   }
 
   if (journey === 1) {
-    let name = project.journey1.tab1.data[0]?.value;
-    let pitch = project.journey1.tab1.data[1]?.value;
-    let icp = project.journey1.tab1.data[2]?.value;
+    let name = project?.journey1?.tab1?.data[0]?.value;
+    let pitch = project?.journey1?.tab1?.data[1]?.value;
+    let icp = project?.journey1?.tab1?.data[2]?.value;
 
     if (tab === 1) {
       if (!data) {
@@ -127,7 +130,7 @@ export async function POST(request, { params }) {
         selected: true,
       };
 
-      console.log(data, "tab1");
+      // console.log(data, "tab1");
 
       project.name = data.find((item) => item.key === "Name").value;
       project.journey1 = {};
@@ -146,7 +149,7 @@ export async function POST(request, { params }) {
     if (tab === 2) {
       let api = getApi(1, 2);
 
-      console.log(pitch, icp, "pitch");
+      // console.log(pitch, icp, "pitch");
 
       try {
         let result = await axios.post(
@@ -263,7 +266,7 @@ export async function POST(request, { params }) {
     if (tab === 4) {
       let api = getApi(1, 4);
 
-      console.log(pitch, icp, "pitch");
+      // console.log(pitch, icp, "pitch");
 
       try {
         let result = await axios.post(
@@ -283,7 +286,7 @@ export async function POST(request, { params }) {
           }
         );
 
-        console.log(result.data, "api results ");
+        // console.log(result.data, "api results ");
 
         if (result.data.success) {
           let tab4 = {
@@ -372,7 +375,7 @@ export async function POST(request, { params }) {
     if (tab === 6) {
       let api = getApi(1, 6);
       let brand_guidelines = project.journey1.tab3.data["Branding Guidelines Summary"] || "";
-      console.log(pitch, icp, "pitch");
+      // console.log(pitch, icp, "pitch");
 
       try {
         let result = await axios.post(

@@ -5,6 +5,7 @@ import "animate.css"
 import axios from 'axios';
 import { getUserData } from '@/services/user';
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
 
 
@@ -32,18 +33,18 @@ const TopBar = async () => {
                 <div className='flex items-center justify-center text-brand gap-2'>
                     <Image
                         src={`/images/orangecoin.svg`}
-                        height={20}
-                        width={20}
+                        height={40}
+                        width={40}
                         alt="logo"
-                        className=""
+                        className="w-auto h-auto"
                     />
                     <p>
                         Remaining Credits: {user?.credits}
                     </p>
                 </div>
-                <button className='bg-brand rounded-full px-4 py-2 text-white'>
+                <Link href={"/pricing"} prefetch={false} className='bg-brand rounded-full px-4 py-2 text-white'>
                     Buy Credits
-                </button>
+                </Link>
             </div>
         </div>
     )

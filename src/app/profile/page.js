@@ -11,7 +11,7 @@ const page = async () => {
 
   let userData = await getUserData(token);
 
-  console.log(userData, "userData in pr");
+  // console.log(userData, "userData in pr");
 
   return (
     <div className="grid grid-cols-2 place-items-center place-content-center h-full">

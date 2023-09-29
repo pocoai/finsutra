@@ -108,7 +108,10 @@ const ResultModal = ({ id, isOpen, setIsOpen, choices, query, reselect }) => {
     }, [choices])
 
     function closeModal() {
-
+        if (loading) {
+            alert("Please wait while we are fetching results!")
+            return;
+        }
 
         setIsOpen(false)
     }

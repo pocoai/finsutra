@@ -17,7 +17,7 @@ const urbanist = Urbanist({
 
 const ViewModal = ({ isOpen, setIsOpen, title, journey, tab, data }) => {
 
-    console.log(data, tab, journey, "in View modal")
+    // console.log(data, tab, journey, "in View modal")
 
     function closeModal() {
         setIsOpen(false)

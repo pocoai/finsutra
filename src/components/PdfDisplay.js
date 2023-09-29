@@ -41,7 +41,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
   useEffect(() => {
     setLoading(true);
     FetchProject(id).then((res) => {
-      console.log(res.data.data);
+      // console.log(res.data.data);
       setCurrentProject(res.data.data);
     });
     setLoading(false);

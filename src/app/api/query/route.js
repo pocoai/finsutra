@@ -14,7 +14,7 @@ export async function GET(request) {
   const q = request.nextUrl.searchParams.get("q");
   const id = request.nextUrl.searchParams.get("id");
 
-  console.log(id, "id");
+  // console.log(id, "id");
 
   try {
     let result = await axios.post(
@@ -31,17 +31,17 @@ export async function GET(request) {
         },
       }
     );
-    console.log(result.data, "result");
+    // console.log(result.data, "result");
 
     if (result.data.success) {
       let project = await Project.findById(id);
 
-      console.log(q, "q");
+      // console.log(q, "q");
 
       project.query = q;
       project.queryResults = getContent(result);
 
-      console.log(project, "project");
+      // console.log(project, "project");
 
       await project.save();
       return NextResponse.json({

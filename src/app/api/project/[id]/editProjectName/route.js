@@ -7,21 +7,21 @@ import { connectDb } from "@/app/lib/connectDb";
 
 await connectDb();
 
-export async function PATCH(request, {params}){
-    const { value } = await request.json();
-    const id = params.id;
+export async function PATCH(request, { params }) {
+  const { value } = await request.json();
+  const id = params.id;
 
-    try {
-        let updatedProject = await Project.findByIdAndUpdate(
-            { _id: id },
-            {name: value},
-            {new: true}
-            );
-        return NextResponse.json({
-            success: true, 
-            data: updatedProject
-        })
-    } catch (error) {
-        console.error(error)
-    }
+  try {
+    let updatedProject = await Project.findByIdAndUpdate(
+      { _id: id },
+      { name: value },
+      { new: true }
+    );
+    return NextResponse.json({
+      success: true,
+      data: updatedProject,
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }

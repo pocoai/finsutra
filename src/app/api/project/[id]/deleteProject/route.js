@@ -7,16 +7,16 @@ import { connectDb } from "@/app/lib/connectDb";
 
 await connectDb();
 
-export async function DELETE(request, {params}){
-    const id = params.id;
+export async function DELETE(request, { params }) {
+  const id = params.id;
 
-    try {
-        let project = await Project.findByIdAndDelete({ _id: id });
-        return NextResponse.json({
-            success: true, 
-            data: project
-        })
-    } catch (error) {
-        console.error(error)
-    }
+  try {
+    let project = await Project.findByIdAndDelete({ _id: id });
+    return NextResponse.json({
+      success: true,
+      data: project,
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }

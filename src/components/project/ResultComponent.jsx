@@ -36,7 +36,7 @@ const CardComponent = ({ data, id, closeModal, reselect, query, choices }) => {
             }
         })
 
-        console.log(res, "res in reselct")
+        // console.log(res, "res in reselct")
 
         if (res.data.success) {
             toast.success("Project created successfully")
@@ -82,6 +82,7 @@ const CardComponent = ({ data, id, closeModal, reselect, query, choices }) => {
                             if (index + 1 === 1) {
                                 return {
                                     ...item,
+                                    locked: false,
                                     ...state, // Update the specific tab with new data
                                 };
                             }
@@ -103,6 +104,7 @@ const CardComponent = ({ data, id, closeModal, reselect, query, choices }) => {
 
             } catch (error) {
                 console.log(error)
+                toast.error("Internal Server Error")
             }
         }
 

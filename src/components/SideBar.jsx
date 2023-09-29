@@ -31,11 +31,11 @@ const SideCard = ({ image, name, selected, id, collapsed, link }) => {
             {/* <div > */}
             <Image
                 src={image}
-                height={20}
-                width={20}
+                height={40}
+                width={40}
                 alt="logo"
 
-                className=""
+                className="w-auto h-auto"
             />
             <span className={classNames({
                 " text-[16px] transition-all overflow-hidden whitespace-no-wrap": true,
@@ -53,12 +53,12 @@ const SideCard = ({ image, name, selected, id, collapsed, link }) => {
     )
 }
 
-const ProfileButtons = ({ collapsed, onClick, image, name, link }) => {
+const ProfileButtons = ({ collapsed, onClick, image, name, link, target }) => {
     if (link) {
         return (
 
 
-            <Link href={link} target="_blank" prefetch={false} className={classNames({
+            <Link href={link} target={target} prefetch={false} className={classNames({
                 "flex items-center gap-3 text-lg w-full rounded-xl cursor-pointer ": true,
                 "justify-start  px-4 py-2 ": !collapsed,
                 "justify-center p-3": collapsed,
@@ -139,18 +139,22 @@ const profilebuttons = [
         image: "/images/profile.svg",
         name: "My Profile",
         link: "/profile",
+        target: "_self"
 
     },
     {
         image: "/images/release.svg",
         name: "Release Notes",
-        link: "https://favcynavigator.canny.io/changelog/"
+        link: "https://favcynavigator.canny.io/changelog/",
+        target: "_blank"
+
 
     },
     {
         image: "/images/roadmap.svg",
         name: "Product Roadmap",
         link: "https://favcynavigator.canny.io/",
+        target: "_blank"
 
     },
     // {
@@ -273,35 +277,35 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                     })}>
                         {
                             isLoaded ? (
-                                <Link href={"/profile"}>
+
+                                <div className={classNames({
+                                    "flex items-center gap-2": true
+
+
+                                })}>
+                                    <Image
+                                        src={user?.image || ClerkUser?.imageUrl || "/images/user.png"}
+                                        height={40}
+                                        width={40}
+                                        alt="logo"
+                                        style={{ objectFit: 'contain' }}
+                                        className="rounded-full"
+                                    />
                                     <div className={classNames({
-                                        "flex items-center gap-2": true
-
-
+                                        "font-medium transition-all overflow-hidden": true,
+                                        "hidden": collapsed
                                     })}>
-                                        <Image
-                                            src={user?.image || ClerkUser?.imageUrl || "/images/user.png"}
-                                            height={40}
-                                            width={40}
-                                            alt="logo"
-                                            style={{ objectFit: 'contain' }}
-                                            className="rounded-full"
-                                        />
-                                        <div className={classNames({
-                                            "font-medium transition-all overflow-hidden": true,
-                                            "hidden": collapsed
-                                        })}>
-                                            <p className='text-[#373D41] text-[16px]'>
-                                                {user?.firstName}
-                                            </p>
-                                            <span className='text-[#ADB0B6] text-[14px]'>
-                                                {user?.interests?.work}
-                                            </span>
-                                        </div>
-
-
+                                        <p className='text-[#373D41] text-[16px]'>
+                                            {user?.firstName}
+                                        </p>
+                                        <span className='text-[#ADB0B6] text-[14px]'>
+                                            {user?.interests?.work}
+                                        </span>
                                     </div>
-                                </Link>
+
+
+                                </div>
+
                             ) : (
                                 <Skeleton width={40} height={40} circle={true} baseColor="#ADB0B6" highlightColor="#F1F2F4" />
                             )

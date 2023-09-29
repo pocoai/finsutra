@@ -77,18 +77,18 @@ const Header = ({ id, name, journey }) => {
                     <div className='flex items-center justify-center text-brand gap-2'>
                         <Image
                             src={`/images/orangecoin.svg`}
-                            height={20}
-                            width={20}
+                            height={40}
+                            width={40}
                             alt="logo"
-                            className=""
+                            className="h-auto w-auto"
                         />
                         <p>
                             Remaining Credits: {credits}
                         </p>
                     </div>
-                    <button className='bg-brand rounded-full px-4 py-2 text-white'>
+                    <Link href="/pricing" prefetch={false} className='bg-brand rounded-full px-4 py-2 text-white'>
                         Buy Credits
-                    </button>
+                    </Link>
                     <button className='bg-[#FFF0DF] rounded-full px-4 py-2 text-brand flex items-center gap-2' onClick={handleClick}>
                         <ArrowDownTrayIcon className='w-5 h-5' />
                         Download Playbook

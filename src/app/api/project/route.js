@@ -27,7 +27,7 @@ export const POST = async (request) => {
 
   const { name } = await request.json();
 
-  console.log(name);
+  // console.log(name);
 
   let newProject = await Project.create({
     name,

@@ -33,9 +33,9 @@ const Project = ({ _id, name, updatedAt, createdAt, getProjects }) => {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#FD8A09',
             confirmButtonText: 'Yes, delete it!'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-                if(ProjectDelete()){
+                if (ProjectDelete()) {
                     getProjects();
                     Swal.fire({
                         title: 'Deleted',
@@ -43,30 +43,30 @@ const Project = ({ _id, name, updatedAt, createdAt, getProjects }) => {
                         confirmButtonColor: '#FD8A09',
                         confirmButtonText: 'Ok'
                     })
-                }else{
+                } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Something went wrong!'
-                      })
+                    })
                 }
             }
-          })
+        })
 
-        const ProjectDelete = async() => {
+        const ProjectDelete = async () => {
             let token = await getToken();
-        const res = await axios.delete(`${api}/api/project/${id}/deleteProject`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        if (res.data.success) {
-            return true;
-        } else {
-            return false;
+            const res = await axios.delete(`${api}/api/project/${id}/deleteProject`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (res.data.success) {
+                return true;
+            } else {
+                return false;
+            }
         }
-        } 
     }
 
     const handleEdit = () => {
@@ -77,7 +77,7 @@ const Project = ({ _id, name, updatedAt, createdAt, getProjects }) => {
     return (
         <>
             <tr className='w-full my-2'>
-                <Link href={`/project/${_id}?journey=1`} prefetch={true} ><td className='col-span-2 py-3'>{name}</td></Link>
+                <Link href={`/project/${_id}?journey=1`} prefetch={false} ><td className='col-span-2 py-3'>{name}</td></Link>
                 <td className='py-3'>{formatDistance(new Date(updatedAt), new Date(), { addSuffix: true })}</td>
                 <td className='py-3'>{formatDistance(new Date(createdAt), new Date(), { addSuffix: true })}</td>
                 <td className="dropdown dropdown-end">
@@ -195,7 +195,7 @@ const ProjectDashboard = () => {
 
 
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             dispatch({ type: "FETCH_ERROR", payload: "Something went wrong" })
             return;
         }
