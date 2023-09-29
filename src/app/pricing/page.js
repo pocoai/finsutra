@@ -163,8 +163,8 @@ const page = () => {
       </div> */}
       {/* <div className=""> */}
       <stripe-pricing-table
-        pricing-table-id="prctbl_1NtsghSCdCYBdIKOmPKRYvuV"
-        publishable-key={process.env.publishable_key}
+        pricing-table-id={process.env.NEXT_PUBLIC_PRICING_TABLE_ID}
+        publishable-key={process.env.NEXT_PUBLIC_PUBLISHABLE_KEY}
         client-reference-id={userId}
         className="w-full space-x-4 space-y-4"
       ></stripe-pricing-table>
