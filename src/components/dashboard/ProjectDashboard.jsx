@@ -10,6 +10,7 @@ import { useAuth } from "@clerk/nextjs";
 import { ToastContainer, toast } from 'react-toastify';
 import EditProjectName from '../EditProjectName';
 import InputModal from '../project/InputIdeaModal';
+import Swal from 'sweetalert2';
 
 const api = process.env.NEXT_PUBLIC_URL;
 
@@ -23,7 +24,37 @@ const Project = ({ _id, name, updatedAt, createdAt, getProjects }) => {
 
     const { getToken } = useAuth();
     const handleDelete = async (id) => {
-        let token = await getToken();
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#FD8A09',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                if(ProjectDelete()){
+                    getProjects();
+                    Swal.fire({
+                        title: 'Deleted',
+                        text: 'Your file has been deleted.',
+                        confirmButtonColor: '#FD8A09',
+                        confirmButtonText: 'Ok'
+                    })
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!'
+                      })
+                }
+            }
+          })
+
+        const ProjectDelete = async() => {
+            let token = await getToken();
         const res = await axios.delete(`${api}/api/project/${id}/deleteProject`, {
             headers: {
                 "Content-Type": "application/json",
@@ -31,11 +62,11 @@ const Project = ({ _id, name, updatedAt, createdAt, getProjects }) => {
             },
         });
         if (res.data.success) {
-            toast.success('project deleted');
-            getProjects();
+            return true;
         } else {
-            toast.error('something went wrong');
+            return false;
         }
+        } 
     }
 
     const handleEdit = () => {
