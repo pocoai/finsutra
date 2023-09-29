@@ -164,7 +164,7 @@ const page = () => {
       {/* <div className=""> */}
       <stripe-pricing-table
         pricing-table-id="prctbl_1NtsghSCdCYBdIKOmPKRYvuV"
-        publishable-key="pk_test_51NlnQuSCdCYBdIKOIroKsfGeyYDm8oqmXUjn5wKfpoacs0eClOwt1Kt3w5UE0fWeqrcCq1G7dJhIGcJmhtUqTwf7009oO9GCrl"
+        publishable-key={process.env.publishable_key}
         client-reference-id={userId}
         className="w-full space-x-4 space-y-4"
       ></stripe-pricing-table>
