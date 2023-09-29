@@ -309,6 +309,8 @@ const page = ({ params, searchParams }) => {
 
   let journey = parseInt(searchParams?.journey) || 1;
 
+  let reselect = Boolean(searchParams?.reselect);
+
   const [journeyData, setJourneyData] = useRecoilState(journeyState);
 
   // const [data, setData] = useState(getArrayviaJourney(journey));
@@ -323,7 +325,7 @@ const page = ({ params, searchParams }) => {
   const router = useRouter();
 
   const { getToken } = useAuth();
-  const FetchTabResults = async (id, journey) => {
+  const FetchTabResults = async (id, journey, reselect) => {
     let token = await getToken();
 
     let res = await axios.get(`${api}/api/project/${id}?journey=${journey}`, {
@@ -355,6 +357,15 @@ const page = ({ params, searchParams }) => {
       setShowResultModal(true);
     }
 
+    if (reselect && journey === 1 && data?.queryResults?.length > 0) {
+      setChoices({
+        query: data.query,
+        queryResults: data.queryResults,
+      });
+
+      setShowResultModal(true);
+    }
+
     if (data?.name) {
       setProjectName(data.name);
     }
@@ -366,7 +377,7 @@ const page = ({ params, searchParams }) => {
     let data;
     switch (journey) {
       case 1:
-        data = await FetchTabResults(id, journey);
+        data = await FetchTabResults(id, journey, reselect);
 
         // console.log(data, "here");
         if (isObjEmpty(data.journey1)) {
@@ -451,18 +462,6 @@ const page = ({ params, searchParams }) => {
 
           return arr;
         }
-
-      case 3:
-        return journey3.map((item, index) => {
-          if (index < 1) {
-            item.selected = true;
-          } else {
-            item.selected = false;
-          }
-
-          return item;
-        });
-
       default:
         return [];
     }
@@ -500,13 +499,7 @@ const page = ({ params, searchParams }) => {
           return router.push("/");
         }
       });
-  }, [journey, id]);
-
-  // useEffect(() => {
-  //   document.querySelector("#idea_modal").checked = showInput;
-  // }, [showInput]);
-
-  const groupedJourneyData = groupJourneyDataByChapter(journeyData);
+  }, [journey, id, reselect]);
 
   return (
     <div className="">
@@ -519,6 +512,7 @@ const page = ({ params, searchParams }) => {
           query={choices.query}
           isOpen={showResultModal}
           setIsOpen={setShowResultModal}
+          reselect={reselect}
         />
       )}
 
@@ -568,7 +562,7 @@ const page = ({ params, searchParams }) => {
                   <h1 className="px-4 text-black text-xl font-medium">
                     Chapter {item.id}: {item.name}
                   </h1>
-                  <hr />
+                  <hr className="mt-2" />
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-4 py-5  ">
                     {journeyData
                       .filter((chapter) => chapter.chapter === item.id)

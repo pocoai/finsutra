@@ -38,7 +38,7 @@ const urbanist = Urbanist({
 // }
 
 
-const ResultModal = ({ id, isOpen, setIsOpen, choices, query }) => {
+const ResultModal = ({ id, isOpen, setIsOpen, choices, query, reselect }) => {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -212,6 +212,9 @@ const ResultModal = ({ id, isOpen, setIsOpen, choices, query }) => {
                                                                     data={item}
                                                                     id={id}
                                                                     closeModal={closeModal}
+                                                                    reselect={reselect}
+                                                                    query={query}
+                                                                    choices={choices}
                                                                 // handleClick={handleClick}
                                                                 />
                                                             </div>

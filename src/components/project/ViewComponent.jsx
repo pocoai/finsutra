@@ -1,4 +1,4 @@
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Markdown from 'react-markdown'
 
 
@@ -7,17 +7,15 @@ const ViewComponent = ({
     tab,
     journey,
     closeModal,
+
 }) => {
 
 
-    const searchParams = useSearchParams();
-    // const router = useRouter()
-
+    const router = useRouter();
+    const pathname = usePathname();
     const handleReselection = () => {
-
-        searchParams.set("reselect", "true")
-
-
+        const query = `?journey=${journey}&reselect=true`;
+        router.push(`${pathname}${query}`);
         closeModal()
     }
 
@@ -471,12 +469,14 @@ const ViewComponent = ({
                         })}
                     </table>
 
+
                     <p
                         className="text-center text-md w-full text-red-600 cursor-pointer"
                         onClick={handleReselection}
                     >
                         Continue with a different option ?
                     </p>
+
 
                 </div>
             );

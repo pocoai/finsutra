@@ -21,6 +21,10 @@ const ProjectSchema = new mongoose.Schema(
       3: Number,
       4: Number,
     },
+    reselect: {
+      type: Boolean,
+      default: false,
+    },
     journey1: mongoose.Schema.Types.Mixed,
     journey2: mongoose.Schema.Types.Mixed,
     journey3: mongoose.Schema.Types.Mixed,

@@ -6,7 +6,9 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useSetRecoilState } from "recoil";
 
-const CardComponent = ({ data, id, closeModal }) => {
+
+
+const CardComponent = ({ data, id, closeModal, reselect, query, choices }) => {
 
     const { getToken } = useAuth()
     const setJourneyData = useSetRecoilState(journeyState)
@@ -18,58 +20,97 @@ const CardComponent = ({ data, id, closeModal }) => {
     // console.log(id, "id in card")
 
     const api = process.env.NEXT_PUBLIC_URL;
-    const handleClick = async () => {
 
+    const createNewProjectAfterReselection = async () => {
 
         let token = await getToken()
-        try {
 
-            let res = await axios.post(`${api}/api/project/${id}?journey=1&tab=1`, {
-                data
-            }, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                }
-            })
-
-
-            // console.log(res, "res")
-
-            if (res.data.success) {
-                let state = {
-                    ...res.data.data,
-                    selected: true
-                }
-
-                setJourneyData(prevState => {
-                    return prevState.map((item, index) => {
-                        if (index + 1 === 1) {
-                            return {
-                                ...item,
-                                ...state, // Update the specific tab with new data
-                            };
-                        }
-                        else if (index + 1 === 2) {
-                            return {
-                                ...item,
-                                locked: false,
-                            };
-                        }
-                        else {
-                            return item;
-                        }
-                    });
-
-                });
-                closeModal()
-                router.push(`/project/${id}?journey=1`)
+        let res = await axios.post(`${api}/api/project/reselect`, {
+            data: data,
+            query,
+            choices,
+        }, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
             }
+        })
 
-        } catch (error) {
-            console.log(error)
+        console.log(res, "res in reselct")
+
+        if (res.data.success) {
+            toast.success("Project created successfully")
+            router.push(`/project/${res.data.data._id}?journey=1`)
+            return;
+        }
+        else {
+            return new Error(res.data.message || "Something went wrong")
         }
     }
+
+    const handleClick = async () => {
+
+        let token = await getToken()
+
+        if (reselect) {
+            await createNewProjectAfterReselection()
+            return;
+        }
+        else {
+            try {
+
+                let res = await axios.post(`${api}/api/project/${id}?journey=1&tab=1`, {
+                    data
+                }, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+
+
+                // console.log(res, "res")
+
+                if (res.data.success) {
+                    let state = {
+                        ...res.data.data,
+                        selected: true
+                    }
+
+                    setJourneyData(prevState => {
+                        return prevState.map((item, index) => {
+                            if (index + 1 === 1) {
+                                return {
+                                    ...item,
+                                    ...state, // Update the specific tab with new data
+                                };
+                            }
+                            else if (index + 1 === 2) {
+                                return {
+                                    ...item,
+                                    locked: false,
+                                };
+                            }
+                            else {
+                                return item;
+                            }
+                        });
+
+                    });
+                    closeModal()
+                    router.push(`/project/${id}?journey=1`)
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+
+    }
+
+
+
 
 
     return (
