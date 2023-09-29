@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.journey-end {
+  page-break-after: always;
+}
+
+.tab-end {
+  page-break-after: always;
+}
+
 #bizcanvas td {
     vertical-align: top;
     height: 200px;
