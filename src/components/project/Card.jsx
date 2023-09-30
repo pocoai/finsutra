@@ -80,7 +80,7 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
 
                 setJourneyData(prevState => {
                     return prevState.map((item, index) => {
-                        if (index + 1 === tab) {
+                        if (item.tab === tab) {
                             return {
                                 ...item,
                                 ...updatedData, // Update the specific tab with new data
