@@ -65,13 +65,13 @@ const journey1 = [
     locked: true,
     tab: 7,
   },
-  // {
-  //   title: "Research & Knowledge Bank",
-  //   description: "Store valuable insights & information.",
-  //   loading: true,
-  //   locked: true,
-  //   tab: 8,
-  // },
+  {
+    title: "Research & Knowledge Bank",
+    description: "Store valuable insights & information.",
+    loading: true,
+    locked: true,
+    tab: 8,
+  },
   {
     title: "Business Model Canvas",
     description: "Outline your business strategy & model.",
