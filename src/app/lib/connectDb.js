@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 let cachedConnection;
 
 export const connectDb = async () => {
-  const env = process.env.NODE_ENV;
+  const env = process.env.NEXT_PUBLIC_NODE_ENV;
 
   if (cachedConnection) {
     console.log(`Using existing DB connection to ${env}`);
