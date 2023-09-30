@@ -421,7 +421,7 @@ const page = ({ params, searchParams }) => {
           let prevSelected = false; // Initialize a variable to keep track of the previous item's 'selected' value.
           let currentTab;
           for (let i = 0; i < journey1.length; i++) {
-            currentTab = data.journey1[`tab${i + 1}`];
+            currentTab = data.journey1[`tab${journey1[i].tab}`];
 
             const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
 
@@ -466,7 +466,7 @@ const page = ({ params, searchParams }) => {
           let prevSelected = false; // Initialize a variable to keep track of the previous item's 'selected' value.
 
           for (let i = 0; i < journey2.length; i++) {
-            const currentTab = data.journey2[`tab${i + 1}`];
+            const currentTab = data.journey2[`tab${journey2[i].tab}`];
             const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
 
             const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false & the previous item was also false.
