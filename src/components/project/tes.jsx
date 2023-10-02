@@ -64,7 +64,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
     const contentElement = reportTemplateRef.current;
 
     const customWidth = 500;
-    const customHeight = 800;
+    const customHeight = 1000;
 
     const pdf = new jsPDF({
       orientation: "portrait",
@@ -144,7 +144,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                   <h1 className="text-xl my-3 font-bold">
                     Project Name : {currentProject[0]?.name}
                   </h1>
-               
+                  {jsPDF.page}
                   <h2 className="my-3 text-lg font-bold text-gray-600">
                     Journey #1 : Zero to Coming Soon{" "}
                   </h2>
@@ -192,6 +192,9 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                     </div>
                   )}
                 </div>
+                {[...Array(22)].map((_, index) => (
+                  <br key={index} />
+                ))}
 
                 <div className="page-break my-5 " id="page">
                   <h4 className="text-[16px] my-3">Problem Solution Fit</h4>
@@ -240,6 +243,10 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                   )}
                 </div>
 
+                {[...Array(10)].map((_, index) => (
+                  <br key={index} />
+                ))}
+
                 {/* <div class="page-break"></div> */}
                 <div className="">
                   {currentProject[0]?.journey1?.tab3?.selected && (
@@ -269,6 +276,10 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                     </div>
                   )}
                 </div>
+
+                {[...Array(2)].map((_, index) => (
+                  <br key={index} />
+                ))}
 
                 <div className="html2pdf__page-break">
                   {currentProject[0]?.journey1?.tab4?.selected && (
@@ -364,6 +375,10 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
 
                 <div className="html2pdf__page-break"></div>
 
+                {[...Array(25)].map((_, index) => (
+                  <br key={index} />
+                ))}
+
                 {currentProject[0]?.journey1?.tab5?.selected && (
                   <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4  ">
                     <p>
@@ -373,6 +388,10 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                     </p>
                   </div>
                 )}
+
+                {[...Array(17)].map((_, index) => (
+                  <br key={index} />
+                ))}
 
                 <div className="html2pdf__page-break"></div>
 
@@ -389,6 +408,9 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                   </div>
                 )}
 
+                {[...Array(1)].map((_, index) => (
+                  <br key={index} />
+                ))}
 
                 <div className="html2pdf__page-break"></div>
                 {currentProject[0]?.journey1?.tab7?.selected && (
@@ -403,7 +425,9 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                     </p>
                   </div>
                 )}
-
+                {[...Array(9)].map((_, index) => (
+                  <br key={index} />
+                ))}
                 <div className="html2pdf__page-break"></div>
                 {currentProject[0]?.journey1?.tab8?.selected && (
                   <div className="flex flex-col items-start justify-start space-y-4  html2pdf__page-break">
@@ -486,7 +510,9 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                   </div>
                 )}
                 <div className="html2pdf__page-break"></div>
-     
+                {[...Array(3)].map((_, index) => (
+                  <br key={index} />
+                ))}
                 {currentProject[0]?.journey1?.tab9?.selected && (
                   <div className="text-[9px]">
                     <h1 className="font-bold text-[16px] my-2">
@@ -645,7 +671,9 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                           ))}
                         </td>
                       </tr>
-               
+                      {[...Array(9)].map((_, index) => (
+                          <br key={index} />
+                        ))}
                       <tr>
                         <td colspan="5" className="divCont">
                           <h4>Cost Structure</h4>
