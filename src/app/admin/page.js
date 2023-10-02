@@ -37,7 +37,7 @@ const page = () => {
       return;
     }
     let password = prompt("Enter the passowrd");
-    if (!password || password.toString() !== "favcy") {
+    if (!password || password.toString() !== "favcy@favcy") {
       alert("Wrong password");
       return router.push("/");
     }
@@ -47,7 +47,7 @@ const page = () => {
   };
 
   useEffect(() => {
-    adminLogin();
+    typeof window !== undefined && adminLogin();
   }, []);
 
   if (isLoading) {
