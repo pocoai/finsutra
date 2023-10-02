@@ -129,7 +129,8 @@ const sidecards = [
         id: 3,
         name: "Minigator",
         image: "/images/minigator.svg",
-        link: "/minigator"
+        // link: "/minigator"
+        link: "https://minigator.vercel.app/"
     }
 ]
 

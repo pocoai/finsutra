@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .page-break {
-  page-break-inside: avoid;
+  page-break-inside: always;
 }
 
 #bizcanvas td {

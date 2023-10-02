@@ -9,11 +9,13 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import Markdown from "react-markdown";
 import { getTitleFromUrl } from "@/helpers/auth";
 import { FcDownload } from "react-icons/fc";
-import html2pdf from "html2pdf.js";
 import { useRecoilValue } from "recoil";
 import { journeyState } from "@/state/atoms/tabState";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/solid";
-import jsPDF from "jspdf";
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import htmlToPdfMake from 'html-to-pdfmake';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
   const [currentProject, setCurrentProject] = useState([]);
@@ -21,7 +23,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
   const [loading, setLoading] = useState(false);
   const { getToken } = useAuth();
   const reportTemplateRef = useRef(null);
-  // const journey = useRecoilValue(journeyState);
 
   const toggleSidebar = () => {
     setShowPdf(!showPdf);
@@ -48,45 +49,24 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
     setLoading(false);
   }, []);
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     // Import and use html2pdf only on the client-side
-  //     import("html2pdf.js").then((html2pdfModule) => {
-  //       html2pdf = html2pdfModule.default; // Assuming html2pdf.js exports default
-  //       // Use html2pdf here
-  //     });
-  //   }
-  // }, []);
-
-  // console.log(journey, "journey");
-
   const handleGeneratePdf = async () => {
     const contentElement = reportTemplateRef.current;
 
-    const customWidth = 500;
-    const customHeight = 800;
+    const pdfContent = htmlToPdfMake(contentElement.innerHTML);
 
-    const pdf = new jsPDF({
-      orientation: "portrait",
-      unit: "px",
-      format: [customWidth, customHeight],
-    });
+    pdfContent.forEach((section, index) => {
+      if (index !== 0) {
 
-    const pdfOptions = {
-      margin: 20,
-    };
-
-    try {
-      if (typeof window !== "undefined") {
-        pdf.html(contentElement, pdfOptions).then(() => {
-          pdf.save(`${currentProject[0]?.name}.pdf`);
-        });
+        section.pageBreak = 'before';
       }
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-    }
+    });
+  
+    const pdfDoc = pdfMake.createPdf({ content: pdfContent });
+  
+    pdfDoc.download(`${currentProject[0]?.name}.pdf`);
     setisDownloading(false);
   };
+  
 
   const sidebarRef = useRef(null);
 
@@ -110,15 +90,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
 
   return (
     <div className="flex flex-col items-center justify-center  py-2 z-50 ">
-      {/* {showPdf && (
-        <button
-          className="flex text-4xl text-black items-center cursor-pointer fixed right-10 top-6 z-50"
-          onClick={() => setShowPdf(!showPdf)}
-        >
-          x
-        </button>
-      )} */}
-
       <div ref={sidebarRef}>
         <div
           className={`top-0 right-0 w-[35vw] bg-white p-5 text-white fixed z-50 h-full ease-in-out duration-2000 ${
@@ -151,16 +122,15 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                   <h4 className="text-[16px] my-3 font-medium">
                     Idea Articulation
                   </h4>
-                  {/* dsd */}
                   {currentProject[0]?.journey1?.tab1.selected && (
                     <div className="flex flex-col items-start justify-start space-y-4 text-[9px] ">
                       <table className="table-auto ">
                         <thead>
                           <tr>
-                            <th className="px-4 py-2 border border-gray-500 bg-[#FF7F50]">
+                            <th className="px-4 py-2 border border-gray-500" style={{backgroundColor: '#FF7F50'}}>
                               Title
                             </th>
-                            <th className="px-4 py-2 border border-gray-500 bg-[#FF7F50]">
+                            <th className="px-4 py-2 border border-gray-500 bg-[#FF7F50]" style={{backgroundColor: '#FF7F50' }}>
                               Description
                             </th>
                           </tr>
@@ -168,13 +138,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                         {currentProject[0]?.journey1?.tab1?.data?.map(
                           (item, index) => {
                             return (
-                              // <div
-                              //   key={index}
-                              //   className="flex justify-start items-start space-x-2 "
-                              // >
-                              //   <p className="font-semibold">{item.key}</p>:<p>{item.value}</p>
-                              // </div>
-
                               <tbody key={index}>
                                 <tr>
                                   <td className=" px-4 py-2 border border-gray-500 ">
@@ -192,7 +155,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                     </div>
                   )}
                 </div>
-
                 <div className="page-break my-5 " id="page">
                   <h4 className="text-[16px] my-3">Problem Solution Fit</h4>
                   {currentProject[0]?.journey1?.tab2?.selected && (
@@ -213,10 +175,10 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                       <table className="table-auto">
                         <thead>
                           <tr>
-                            <th className="px-4 py-2 border border-gray-500 bg-[#FF7F50]">
+                            <th className="px-4 py-2 border border-gray-500 bg-[#FF7F50]"  style={{backgroundColor: '#FF7F50' }}>
                               Problem
                             </th>
-                            <th className="px-4 py-2 border border-gray-500 bg-[#FF7F50]">
+                            <th className="px-4 py-2 border border-gray-500 bg-[#FF7F50]"  style={{backgroundColor: '#FF7F50' }}>
                               Solution
                             </th>
                           </tr>
@@ -239,8 +201,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                     </div>
                   )}
                 </div>
-
-                {/* <div class="page-break"></div> */}
                 <div className="">
                   {currentProject[0]?.journey1?.tab3?.selected && (
                     <div className="flex flex-col items-start justify-start space-y-4 text-[9px]  ">
@@ -304,7 +264,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                           {currentProject[0]?.journey1?.tab4?.data["USPs"]?.map(
                             (item, index) => (
                               <p key={index}>
-                                <span className="text-red-500">
+                                <span className="text-red-500"  style={{color: 'red' }}>
                                   {index + 1}&#41;
                                 </span>{" "}
                                 &nbsp;
@@ -362,8 +322,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                   )}
                 </div>
 
-                <div className="html2pdf__page-break"></div>
-
                 {currentProject[0]?.journey1?.tab5?.selected && (
                   <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4  ">
                     <p>
@@ -373,8 +331,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                     </p>
                   </div>
                 )}
-
-                <div className="html2pdf__page-break"></div>
 
                 {currentProject[0]?.journey1?.tab6?.selected && (
                   <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4  ">
@@ -389,8 +345,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                   </div>
                 )}
 
-
-                <div className="html2pdf__page-break"></div>
                 {currentProject[0]?.journey1?.tab7?.selected && (
                   <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4 ">
                     <h1 className="font-bold text-[16px]">
@@ -404,7 +358,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                   </div>
                 )}
 
-                <div className="html2pdf__page-break"></div>
                 {currentProject[0]?.journey1?.tab8?.selected && (
                   <div className="flex flex-col items-start justify-start space-y-4  html2pdf__page-break">
                     <div className="flex flex-col items-start justify-start space-y-2 ">
@@ -457,6 +410,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                                         style={{
                                           width: "200px",
                                           whiteSpace: "nowrap",
+                                          color: 'orange'
                                         }}
                                       >
                                         {/* {item?.url}
@@ -485,7 +439,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                     )}
                   </div>
                 )}
-                <div className="html2pdf__page-break"></div>
      
                 {currentProject[0]?.journey1?.tab9?.selected && (
                   <div className="text-[9px]">
@@ -503,7 +456,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                               className={`
                       ${
                         index % 2 === 0
-                          ? "bg-[#f69e53] shadow-md text-white"
+                          ? "bg-[#f69e53] shadow-md text-white" 
                           : " bg-[#f9ece0] shadow-md text-black"
                       }
                       text-[9px] cards py-3 
@@ -699,54 +652,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                     </div>
                   </div>
                 )}
-                {/* journey 2 */}
-                {/* <div className="html2pdf__page-break"></div> */}
-                {/* {currentProject[0]?.journey2?.tab1?.selected && (
-                  <div className="">
-                    {currentProject[0]?.journey2?.tab3.data && (
-                      <div>
-                        <h2 className="text-xl my-3 font-bold text-gray-600">
-                          Journey #2: Favcy Venture Manual
-                        </h2>
-                        {currentProject[0]?.journey2?.tab1?.selected && (
-                          <div className="flex flex-col items-start justify-start space-y-4 text-xs     my-4 ">
-                            <h1 className="font-bold text-2xl">
-                              Assembling the Founding Team: Skills, Roles, and Culture Fit
-                            </h1>
-                            <p>
-                              <Markdown className="prose text-black text-md ">
-                                {currentProject[0]?.journey2?.tab1?.data}
-                              </Markdown>
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )}
-                <div className="html2pdf__page-break"></div>
-                {currentProject[0]?.journey2?.tab2?.selected && (
-                  <div className="flex flex-col items-start justify-start space-y-4 text-xs     my-4 ">
-                    <h1 className="font-bold text-2xl">Introduction to Idea Validation</h1>
-                    <p>
-                      <Markdown className="prose text-black text-md ">
-                        {currentProject[0]?.journey2?.tab2?.data}
-                      </Markdown>
-                    </p>
-                  </div>
-                )}
-                <div className="html2pdf__page-break"></div>
-                {currentProject[0]?.journey2?.tab3?.selected && (
-                  <div className="flex flex-col items-start justify-start space-y-4 text-xs     my-4 ">
-                    <h1 className="font-bold text-2xl">Building a Vision and Mission Statement</h1>
-                    <p>
-                      <Markdown className="prose text-black text-md ">
-                        {currentProject[0]?.journey2?.tab3?.data}
-                      </Markdown>
-                    </p>
-                  </div>
-                )} */}
-                {/* <div className="html2pdf__page-break"></div> */}
               </div>
             )}
           </div>
@@ -761,24 +666,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
           </div>
         </div>
       </div>
-
-      {/* <div className="pdf-display-wrapper">
-      <div
-        className={`fixed inset-y-0 right-0 bg-gray-100 w-[400px] duration-2000 transform z-50 ${
-          showPdf ? "translate-x-0" : "translate-x-full"
-        }`}
-        style={{
-          transitionProperty: "transform",
-          transitionTimingFunction: "ease-out",
-        }}
-        ref={sidebarRef}
-      >
-      
-        <div className="w-full h-screen">
-          <iframe src={`${pdf}#zoom=${50}`} title="PDF Viewer" width="100%" height="100%" /> 
-        </div>
-      </div>
-    </div> */}
     </div>
   );
 };
