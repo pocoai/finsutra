@@ -599,14 +599,8 @@ export async function POST(request, { params }) {
 
     if (tab === 10) {
       let api = getApi(1, 10);
-      let psfit = project.journey1.tab2.data.ps_list;
 
-      let solutions = "";
-      for (let i = 0; i < psfit.length; i++) {
-        let d = psfit[i]["Solution"];
-
-        solutions = solutions + d + "\n";
-      }
+      let summary = project?.journey1?.tab9?.data?.BMC_summary;
 
       try {
         let result = await axios.post(
@@ -614,9 +608,7 @@ export async function POST(request, { params }) {
           {
             variables: {
               name,
-              elevator_pitch: pitch,
-              ideal_customer_profile: icp,
-              solutions,
+              business_model_canvas_summary: summary,
             },
           },
           {
