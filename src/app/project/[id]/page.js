@@ -15,7 +15,7 @@ import { journeyState } from "@/state/atoms/tabState";
 import ResultModal from "@/components/project/ResultModal";
 import { toast } from "react-toastify";
 
-const journey1 = [
+export const journey1 = [
   {
     title: "Idea articulation",
     description: "Define & clarify your innovative concept.",
@@ -88,7 +88,7 @@ const journey1 = [
   },
 ];
 
-const journey2 = [
+export const journey2 = [
   {
     title: "1.1 Assembling the Founding Team: Skills, Roles, & Culture Fit",
     description: "Define team skills, roles, & culture fit.",
@@ -289,7 +289,7 @@ const journey2 = [
   },
 ];
 
-const chapters = [
+export const chapters = [
   {
     id: 1,
     name: "Architectural Plan",
