@@ -47,7 +47,7 @@ const page = () => {
   };
 
   useEffect(() => {
-    typeof window !== undefined && adminLogin();
+    typeof window !== "undefined" && adminLogin();
   }, []);
 
   if (isLoading) {
@@ -58,7 +58,7 @@ const page = () => {
     );
   }
 
-  console.log(users);
+  // console.log(users);
 
   return (
     isAdmin && (

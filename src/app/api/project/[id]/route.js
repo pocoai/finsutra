@@ -132,7 +132,7 @@ export async function POST(request, { params }) {
 
       // console.log(data, "tab1");
 
-      project.name = data.find((item) => item.key === "Name").value;
+      project.name = data.find((item) => item.key === "Name").value || "";
       project.journey1 = {};
       project.journey1["tab1"] = tab1;
       project.currentStage[journey] = tab;
@@ -660,14 +660,19 @@ export async function POST(request, { params }) {
     if (tab >= 1) {
       let api = getApi(2, tab);
 
-      let name = project.journey1.tab1.data[0]?.value;
-      let pitch = project.journey1.tab1.data[1]?.value;
-      let icp = project.journey1.tab1.data[2]?.value;
-      let ind = project.journey1.tab1.data[3]?.value;
-      let ps = project.journey1.tab1.data[4]?.value;
-      let vp = project.journey1.tab1.data[5]?.value;
+      let name = project.journey1.tab1.data.find((item) => item.key === "Name")?.value || "";
+      let pitch =
+        project.journey1.tab1.data.find((item) => item.key === "Elevator Pitch")?.value || "";
+      let icp =
+        project.journey1.tab1.data.find((item) => item.key === "Ideal Customer Profile (ICP)")
+          ?.value || "";
+      let ind = project.journey1.tab1.data.find((item) => item.key === "Industry")?.value || "";
+      let ps =
+        project.journey1.tab1.data.find((item) => item.key === "Problem Statement")?.value || "";
+      let vp =
+        project.journey1.tab1.data.find((item) => item.key === "Value Proposition")?.value || "";
 
-      console.log(pitch, icp, "pitch");
+      console.log(pitch, icp, name, ind, ps, vp, "pitch,icp,name,ind,ps,vp");
 
       let result = await axios.post(
         api,

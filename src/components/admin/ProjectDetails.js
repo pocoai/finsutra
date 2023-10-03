@@ -46,7 +46,7 @@ const ProjectDetails = ({ project }) => {
     let data = [];
 
     for (let i = 0; i < journey1.length; i++) {
-      if (project?.journey1[`tab${journey1[i].tab}`]?.selected) {
+      if (project.journey1 && project?.journey1[`tab${journey1[i].tab}`]?.selected) {
         data.push({
           data: project?.journey1[`tab${journey1[i].tab}`]?.data,
           journey: 1,
@@ -56,7 +56,7 @@ const ProjectDetails = ({ project }) => {
         });
       }
 
-      if (project?.journey2[`tab${journey2[i].tab}`]?.selected) {
+      if (project.journey2 && project?.journey2[`tab${journey2[i].tab}`]?.selected) {
         data.push({
           data: project?.journey2[`tab${journey2[i].tab}`]?.data,
           journey: 2,
@@ -70,7 +70,7 @@ const ProjectDetails = ({ project }) => {
     setData(data);
   }, [project]);
 
-  console.log(data, "data");
+  // console.log(data, "data");
 
   return (
     <AccordionList>
