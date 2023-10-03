@@ -1,6 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Cardo&family=Lora&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+@font-face {
+  font-family: 'Circular';
+  src: url('../../public/fonts/Circular/CircularStd-Book.otf') format('opentype');
+
+}
+
+@keyframes spin {
+  to {
+      transform: rotate(360deg);
+  }
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+
+#pdf-controls {
+  display: none;
+}
+
 
 .page-break {
   page-break-inside: always;
@@ -38,3 +61,52 @@
     
   }
   
+  .ant-card-body {
+    height: 10rem;
+  }
+  
+  .ant-card .ant-card-meta {
+    height: 7rem;
+  }
+  
+  .ant-card .ant-card-meta-detail {
+    font-size: 1.3rem;
+  }
+  
+  .ant-card .ant-card-meta-title {
+    font-size: 1.4rem;
+    color: black;
+  }
+  
+  .noscrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .swiper-button-next,
+  .swiper-rtl .swiper-button-prev {
+    right: var(--swiper-navigation-sides-offset, 5px) !important;
+    left: auto !important;
+  }
+  .swiper-button-prev,
+  .swiper-rtl .swiper-button-next {
+    left: var(--swiper-navigation-sides-offset, 0px) !important ;
+    right: auto;
+  }
+  .swiper-button-prev {
+    --swiper-navigation-size: 30px !important;
+  
+    color: black !important;
+  }
+  
+  .swiper-button-next {
+    --swiper-navigation-size: 30px !important;
+    color: #000 !important;
+  }
+  .swiper-pagination-bullet-active {
+    background-color: #000 !important;
+  }
+  .swiper-horizontal > .swiper-pagination-bullets,
+  .swiper-pagination-bullets.swiper-pagination-horizontal,
+  .swiper-pagination-custom,
+  .swiper-pagination-fraction {
+    bottom: var(--swiper-pagination-bottom, -5px) !important;
+  }

@@ -1,7 +1,8 @@
+'use client'
+
 import React, { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
-import { toast } from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 
 import Loader from "./Loader";
@@ -11,11 +12,13 @@ import ChatRender from "./ChatRender";
 import { getDoc, getFileChat, getResponse, uploadPDFClient } from "@/helpers/apiRequests";
 import { getProjectData, setLinks } from "@/firebase/apiRequests";
 import { createPDF } from "@/utils";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const UploadAndChat = ({ id }) => {
+const UploadAndChat = ({ id, setFileName }) => {
   const router = useRouter();
-  // const { indexname: indexnameQuery } = router.query;
-  const indexnameQuery = undefined; //fix these
+  const { indexname: indexnameQuery } = useSearchParams();
+  // const indexnameQuery = undefined; //fix these
 
   const [file, setFile] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,15 +28,14 @@ const UploadAndChat = ({ id }) => {
   const [messages, setMessages] = useState([]);
   const textValue = useRef(null);
 
+  setFileName(file?.name?.replace(/.pdf$/, ''));
+
   const fetchDataAndCreateFile = async (id) => {
     try {
       let currentProject = await getProjectData(id);
 
       console.log(currentProject, "currentProject");
 
-      // let fileContent = createPDF(currentProject);
-
-      // console.log(fileContent, "fileContent");
 
       setBusy(true);
       const formData = new FormData();
@@ -119,6 +121,7 @@ const UploadAndChat = ({ id }) => {
 
   const handleCopy = () => {
     const link = `${window.location.host}/chat/${indexname}`;
+    console.log(link)
     navigator.clipboard
       .writeText(link)
       .then(() => {
@@ -247,6 +250,16 @@ const UploadAndChat = ({ id }) => {
 
   return (
     <div className="w-full h-[80vh] flex flex-col overflow-x-hidden pb-5">
+      {indexname !== null && (
+          <div className="text-end mt-2 mb-2"  onClick={handleCopy}>
+            <button
+              type="button"
+              className="h-10 px-3 text-white rounded-lg bg-red-400 hover:bg-red-500 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400 transition-all duration-150"
+            >
+              Share Link
+            </button> 
+          </div>
+        )}
       <div className="flex flex-col items-center justify-center grow w-full h-[calc(100%-68px)]">
         <div className="w-full h-full border rounded-md shadow-md flex divide-x">
           <div className="w-1/2">
@@ -344,18 +357,8 @@ const UploadAndChat = ({ id }) => {
             </div>
           </div>
         </div>
-        {indexname !== null && (
-          <div className="text-center mt-2">
-            <button
-              type="button"
-              onClick={handleCopy}
-              className="h-10 px-3 text-white rounded-lg bg-red-400 hover:bg-red-500 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400 transition-all duration-150"
-            >
-              Share Link
-            </button>
-          </div>
-        )}
       </div>
+      <ToastContainer/>
     </div>
   );
 };

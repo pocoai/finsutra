@@ -1,12 +1,12 @@
 import React from "react";
 
-import UploadAndChat from "@/components/minigator/UploadAndChat";
+import UploadAndChat from "@/components/UploadAndChat";
 
-const App = ({ id }) => {
-  return <UploadAndChat id={id}/>;
+const Page = ({ id }) => {
+  return <UploadAndChat id={id} />;
 };
 
-export default App;
+export default Page;
 
 //  get id using server side rendering
 

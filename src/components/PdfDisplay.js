@@ -445,7 +445,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                     <h1 className="font-bold text-[16px] my-2">
                       Business Model Canvas{" "}
                     </h1>
-                    <table id="bizcanvas" cellspacing="0">
+                    <table id="bizcanvas" cellspacing="0" >
                       <tr className="">
                         <td colSpan="2" rowSpan="2" className="divCont">
                           <h4>Key Partners</h4>
@@ -575,30 +575,9 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                               {item}
                             </p>
                           ))}
-                        </td>
-                        <td colspan="2" className="divCont">
-                          <h4>Channels</h4>
-                          {currentProject[0]?.journey1?.tab9?.data[
-                            "Channels"
-                          ].map((item, index) => (
-                            <p
-                              className={`
-                       ${
-                         index % 2 === 0
-                           ? "bg-[#f69e53] shadow-md text-white"
-                           : " bg-[#f9ece0] shadow-md text-black"
-                       }
-                       text-[9px] cards  py-3 
-                       
-                       `}
-                              key={index}
-                            >
-                              {item}
-                            </p>
-                          ))}
+                          
                         </td>
                       </tr>
-               
                       <tr>
                         <td colspan="5" className="divCont">
                           <h4>Cost Structure</h4>
@@ -643,6 +622,31 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
                           ))}
                         </td>
                       </tr>
+                      <table>
+                      <tr>
+                      <td colspan="2" className="divCont">
+                          <h4>Channels</h4>
+                          {currentProject[0]?.journey1?.tab9?.data[
+                            "Channels"
+                          ].map((item, index) => (
+                            <p
+                              className={`
+                       ${
+                         index % 2 === 0
+                           ? "bg-[#f69e53] shadow-md text-white"
+                           : " bg-[#f9ece0] shadow-md text-black"
+                       }
+                       text-[9px] cards  py-3 
+                       
+                       `}
+                              key={index}
+                            >
+                              {item}
+                            </p>
+                          ))}
+                        </td>
+                      </tr>
+                    </table>
                     </table>
                     <div className="flex flex-col items-start mt-5 p-2">
                       <h1>Summary :</h1>

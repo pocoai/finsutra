@@ -20,7 +20,9 @@ export default function RootLayout({ children }) {
     // <html lang="en">
     <div>
       <ClerkProvider>
-        <ParentLayout>{children}</ParentLayout>
+        <ParentLayout>
+          {children}
+        </ParentLayout>
       </ClerkProvider>
     </div>
     // </html>
