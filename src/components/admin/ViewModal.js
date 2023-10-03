@@ -1,7 +1,8 @@
+"use client";
+
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { AccordionList, Accordion, AccordionHeader, AccordionBody } from "@tremor/react";
-
 import { getProjects } from "@/helpers/admin";
 import ProjectDetails from "./ProjectDetails";
 
