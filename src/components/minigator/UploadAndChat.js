@@ -15,9 +15,9 @@ import { createPDF } from "@/utils";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const UploadAndChat = ({ id, setFileName }) => {
+const UploadAndChat = ({ id, setFileName, indexnameQuery }) => {
   const router = useRouter();
-  const { indexname: indexnameQuery } = useSearchParams();
+  // console.log(indexnameQuery)
   // const indexnameQuery = undefined; //fix these
 
   const [file, setFile] = useState(null);
@@ -28,7 +28,7 @@ const UploadAndChat = ({ id, setFileName }) => {
   const [messages, setMessages] = useState([]);
   const textValue = useRef(null);
 
-  setFileName(file?.name?.replace(/.pdf$/, ''));
+  setFileName(file?.name?.replace(/.pdf$/, '')||file?.replace(/.pdf$/, ''));
 
   const fetchDataAndCreateFile = async (id) => {
     try {
@@ -87,6 +87,7 @@ const UploadAndChat = ({ id, setFileName }) => {
   };
 
   const fetchFile = async () => {
+  
     if (!indexnameQuery) return;
     setIndexname(indexnameQuery);
     setBusy(true);
@@ -100,6 +101,8 @@ const UploadAndChat = ({ id, setFileName }) => {
         toast.error("Internal Server Error.Try Again");
       } else {
         setFile(res?.response[0]);
+        console.log('hello',file)
+        setFileName(file?.replace(/.pdf$/, ''))
       }
     }
     setBusy(false);
@@ -120,8 +123,8 @@ const UploadAndChat = ({ id, setFileName }) => {
   }, [indexnameQuery]);
 
   const handleCopy = () => {
-    const link = `${window.location.host}/chat/${indexname}`;
-    console.log(link)
+    const link = `${window.location.host}/minigator/chat/${indexname}`;
+    // console.log(link)
     navigator.clipboard
       .writeText(link)
       .then(() => {
@@ -140,7 +143,7 @@ const UploadAndChat = ({ id, setFileName }) => {
 
     const res = await getResponse(indexname, textValue.current.value);
 
-    console.log(res, "res");
+    // console.log(res, "res");
 
     if (res) {
       if (
@@ -251,10 +254,11 @@ const UploadAndChat = ({ id, setFileName }) => {
   return (
     <div className="w-full h-[80vh] flex flex-col overflow-x-hidden pb-5">
       {indexname !== null && (
-          <div className="text-end mt-2 mb-2"  onClick={handleCopy}>
+          <div className="text-end mt-2 mb-2">
             <button
               type="button"
-              className="h-10 px-3 text-white rounded-lg bg-red-400 hover:bg-red-500 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400 transition-all duration-150"
+              className="h-10 px-3 text-white rounded-lg bg-[#FD8A09] disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400 transition-all duration-150"
+              onClick={handleCopy}
             >
               Share Link
             </button> 
@@ -274,7 +278,7 @@ const UploadAndChat = ({ id, setFileName }) => {
                   <div className="flex items-center justify-center w-full h-full">
                     <label
                       htmlFor="file"
-                      className="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:text-red-400 hover:shadow-xl"
+                      className="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:text-[#FD8A09] hover:shadow-xl"
                     >
                       <svg
                         className="w-8 h-8"
