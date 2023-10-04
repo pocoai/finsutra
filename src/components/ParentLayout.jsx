@@ -19,7 +19,7 @@ const urbanist = Urbanist({
 const ParentLayout = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false)
     const [userData, setUserState] = useRecoilState(userState);
-    const { getToken } = useAuth()
+    const { getToken, isSignedIn, isLoaded } = useAuth()
 
     // const pathname = usePathname()
 
@@ -36,8 +36,10 @@ const ParentLayout = ({ children }) => {
     }
 
     useEffect(() => {
-        getData()
-    }, []);
+        if (isSignedIn && isLoaded) {
+            getData()
+        }
+    }, [isSignedIn, isLoaded]);
 
     let searchParams = useSearchParams()
 

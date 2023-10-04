@@ -169,7 +169,7 @@ const ProjectDashboard = () => {
 
 
 
-    let { getToken } = useAuth()
+    let { getToken, isSignedIn } = useAuth()
     const api = process.env.NEXT_PUBLIC_URL;
 
     const getProjects = async () => {
@@ -203,8 +203,10 @@ const ProjectDashboard = () => {
 
 
     useEffect(() => {
-        getProjects()
-    }, [])
+        if (isSignedIn) {
+            getProjects()
+        }
+    }, [isSignedIn])
 
 
     useEffect(() => {
