@@ -20,6 +20,7 @@ const ParentLayout = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false)
     const [userData, setUserState] = useRecoilState(userState);
     const { getToken, isSignedIn, isLoaded } = useAuth()
+    const [pageLoading, setPageLoading] = useState(true)
 
     // const pathname = usePathname()
 
@@ -36,10 +37,16 @@ const ParentLayout = ({ children }) => {
     }
 
     useEffect(() => {
-        if (isSignedIn && isLoaded) {
+        if (typeof window !== "undefined") {
+            setPageLoading(false)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (isSignedIn && !pageLoading) {
             getData()
         }
-    }, [isSignedIn, isLoaded]);
+    }, [isSignedIn, pageLoading]);
 
     let searchParams = useSearchParams()
 
@@ -68,25 +75,30 @@ const ParentLayout = ({ children }) => {
     }, [success, cancelled])
 
 
-    // console.log(userData, "userData");
+    console.log(userData, "userData");
 
     return (
-        <div
-            className={classNames({
-                "grid h-screen overflow-hidden": true,
-                "grid-cols-sidebar": !collapsed,
-                "grid-cols-sidebar-collapsed": collapsed,
-                "transition-[grid-template-columns] duration-300 ease-in-out": true,
-                [`${urbanist.className}`]: true,
-            })}>
+        <>
             {
-                <SideBar collapsed={collapsed} setCollapsed={setCollapsed} isLoaded={userData.isLoaded} user={userData} />
+                !pageLoading && <div
+                    className={classNames({
+                        "grid h-screen overflow-hidden": true,
+                        "grid-cols-sidebar": !collapsed,
+                        "grid-cols-sidebar-collapsed": collapsed,
+                        "transition-[grid-template-columns] duration-300 ease-in-out": true,
+                        [`${urbanist.className}`]: true,
+                    })}>
+                    {
+                        <SideBar collapsed={collapsed} setCollapsed={setCollapsed} isLoaded={userData.isLoaded} user={userData} />
+                    }
+
+                    <section className="max-w-7xl w-full mx-auto transition-all duration-1000 py-10 px-5 h-screen overflow-y-scroll scrollbar-hide">
+                        {children}
+                    </section>
+                </div>
             }
 
-            <section className="max-w-7xl w-full mx-auto transition-all duration-1000 py-10 px-5 h-screen overflow-y-scroll scrollbar-hide">
-                {children}
-            </section>
-        </div>
+        </>
     )
 }
 

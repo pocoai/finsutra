@@ -175,14 +175,14 @@ const ProjectDashboard = () => {
     const getProjects = async () => {
         dispatch({ type: "FETCH_START" })
         try {
-            let token = await getToken()
+            // let token = await getToken()
 
-            console.log(token, "token while getting")
+            // console.log(token, "token while getting")
 
             let res = await axios.get(`${api}/api/project`, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
+                    // Authorization: `Bearer ${token}`
                 }
             })
 
