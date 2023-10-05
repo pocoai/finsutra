@@ -14,6 +14,10 @@ import { useRecoilValue } from "recoil";
 import { journeyState } from "@/state/atoms/tabState";
 import ResultModal from "@/components/project/ResultModal";
 import { toast } from "react-toastify";
+import ChapterCard from "@/components/project/ChapterCard";
+import { getCreditViaTab } from "@/utils/credits";
+import Display from "@/components/project/Display";
+import { chapterState } from "@/state/atoms/chapterState";
 
 export const journey1 = [
   {
@@ -293,18 +297,22 @@ export const chapters = [
   {
     id: 1,
     name: "Architectural Plan",
+    description: "Design the architectural framework of your project.",
   },
   {
     id: 2,
     name: "Project Plan",
+    description: "Create a detailed plan for executing your project.",
   },
   {
     id: 3,
     name: "Resource Allocation Plan",
+    description: "Allocate resources efficiently for your project's success.",
   },
   {
     id: 4,
     name: "Product Development Plan",
+    description: "Plan the development process of your product or service.",
   },
 ];
 
@@ -326,6 +334,23 @@ function isObjEmpty(obj) {
 
   return Object.keys(obj).length === 0;
 }
+const getTabsArrayFromChapter = (chapter) => {
+  let tabsArray = [];
+
+  journey2
+    .filter((item) => item.chapter === chapter)
+    .map((item) => {
+      tabsArray.push({
+        tab: item.tab,
+        name: item.title,
+        loading: false,
+        selected: false,
+        data: "",
+      });
+    });
+
+  return tabsArray;
+};
 
 const page = ({ params, searchParams }) => {
   const { id } = params;
@@ -335,6 +360,8 @@ const page = ({ params, searchParams }) => {
   let reselect = Boolean(searchParams?.reselect);
 
   const [journeyData, setJourneyData] = useRecoilState(journeyState);
+
+  const [chapterData, setChapterData] = useRecoilState(chapterState);
 
   // const [data, setData] = useState(getArrayviaJourney(journey));
   const [projectName, setProjectName] = useState("");
@@ -402,9 +429,7 @@ const page = ({ params, searchParams }) => {
       case 1:
         data = await FetchTabResults(id, journey, reselect);
 
-        // console.log(data, "here");
         if (isObjEmpty(data.journey1)) {
-          // check if tab is selected
           const updatedJourney1 = journey1.map((item, index) => {
             // Set locked to false only for the first item
             if (index === 0) {
@@ -450,42 +475,100 @@ const page = ({ params, searchParams }) => {
         if (!data.journey2 || isObjEmpty(data.journey2)) {
           // check if tab is selected
           // console.log("tab not selected");
-          const updatedJourney2 = journey2.map((item, index) => {
+          // const updatedJourney2 = journey2.map((item, index) => {
+          //   // Set locked to false only for the first item
+          //   if (index === 0) {
+          //     return { ...item, locked: false, loading: false };
+          //   }
+          //   // Keep other properties unchanged
+          //   return { ...item, locked: true, loading: false };
+          // });
+
+          const updatedChapter = chapters.map((item, index) => {
             // Set locked to false only for the first item
             if (index === 0) {
-              return { ...item, locked: false, loading: false };
+              return {
+                id: 1,
+                locked: false,
+                loading: false,
+                selected: false,
+                tabsCompleted: getTabsArrayFromChapter(1),
+                name: item.name,
+                description: item.description,
+              };
             }
             // Keep other properties unchanged
-            return { ...item, locked: true, loading: false };
+            return {
+              id: index + 1,
+              locked: true,
+              loading: false,
+              selected: false,
+              tabsCompleted: getTabsArrayFromChapter(index + 1),
+              name: item.name,
+              description: item.description,
+            };
           });
 
-          return updatedJourney2;
+          return updatedChapter;
         } else {
           // console.log("tab selected");
           let arr = [];
-          let prevSelected = false; // Initialize a variable to keep track of the previous item's 'selected' value.
 
-          for (let i = 0; i < journey2.length; i++) {
-            const currentTab = data.journey2[`tab${journey2[i].tab}`];
-            const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
+          for (let i = 0; i < chapters.length; i++) {
+            let tabs = getTabsArrayFromChapter(chapters[i].id);
+            let prevSelected = true;
+            for (let j = 0; j < tabs.length; j++) {
+              let tabData = data.journey2[`tab${tabs[j].tab}`]?.data;
+              let tabSelected = data.journey2[`tab${tabs[j].tab}`]?.selected;
 
-            const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false & the previous item was also false.
+              if (!tabSelected) {
+                prevSelected = false;
+              }
 
-            arr.push({
-              title: journey2[i].title,
-              description: journey2[i].description,
+              tabs[j].data = tabData;
+              tabs[j].selected = tabSelected;
+              tabs[j] = {
+                ...tabs[j],
+                loading: false,
+              };
+            }
+
+            let obj = {
+              id: chapters[i].id,
+              locked: false,
               loading: false,
-              data: selected ? currentTab.data : [],
-              selected: selected,
-              locked: locked,
-              chapter: journey2[i].chapter,
-              tab: journey2[i].tab,
-            });
+              selected: prevSelected,
+              tabsCompleted: tabs,
+              name: chapters[i].name,
+              description: chapters[i].description,
+            };
 
-            prevSelected = selected; // Update the 'prevSelected' variable for the next iteration.
+            arr.push(obj);
           }
-
           return arr;
+
+          // for (let i = 0; i < journey2.length; i++) {
+          //   const currentTab = data.journey2[`tab${journey2[i].tab}`];
+          //   const currentChapter = journey2[i].chapter;
+          //   const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
+
+          //   const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false & the previous item was also false.
+
+          //   arr.push({
+          //     title: journey2[i].title,
+          //     description: journey2[i].description,
+          //     loading: false,
+          //     data: selected ? currentTab.data : [],
+          //     selected: selected,
+          //     locked: locked,
+          //     chapter: journey2[i].chapter,
+          //     tab: journey2[i].tab,
+          //   });
+
+          //   prevSelected = selected; // Update the 'prevSelected' variable for the next iteration.
+          // }
+
+          // return arr;
         }
       default:
         return [];
@@ -506,18 +589,35 @@ const page = ({ params, searchParams }) => {
       .then((res) => {
         // console.log(res, "getTabResults");
         // setData(res);
-        setJourneyData(res);
+
+        if (journey === 1) {
+          setJourneyData(res);
+        } else {
+          setChapterData(res);
+        }
       })
       .catch((err) => {
-        setJourneyData((prev) => {
-          return prev.map((item) => {
-            return {
-              ...item,
-              locked: true,
-              loading: false,
-            };
+        if (journey === 1) {
+          setJourneyData((prev) => {
+            return prev.map((item) => {
+              return {
+                ...item,
+                locked: true,
+                loading: false,
+              };
+            });
           });
-        });
+        } else if (journey === 2) {
+          setChapterData((prev) => {
+            return prev.map((item) => {
+              return {
+                ...item,
+                locked: true,
+                loading: false,
+              };
+            });
+          });
+        }
 
         if (!err?.response?.data?.success || err.response.status === 404) {
           toast.error("Internal Server Error");
@@ -525,6 +625,8 @@ const page = ({ params, searchParams }) => {
         }
       });
   }, [journey, id, reselect]);
+
+  console.log(chapters, "chapterData");
 
   return (
     <div className="">
@@ -563,7 +665,7 @@ const page = ({ params, searchParams }) => {
         )}
       </div>
 
-      {journey === 2 && (
+      {/* {journey === 2 && (
         <div>
           {chapters.map((item, index) => (
             <div key={index}>
@@ -591,6 +693,25 @@ const page = ({ params, searchParams }) => {
               </div>
             </div>
           ))}
+        </div>
+      )} */}
+
+      {journey === 2 && (
+        <div class="grid grid-cols-4">
+          <div class="col-span-1 flex flex-col gap-5 justify-center items-center">
+            {chapterData.map((item, index) => (
+              <ChapterCard
+                selected={item.selected}
+                locked={item.locked}
+                name={item.name}
+                chapter={item.id}
+                description={item.description}
+                key={item.id}
+                loading={item.loading}
+              />
+            ))}
+          </div>
+          <div class="col-span-3">{/* <Display /> */}</div>
         </div>
       )}
     </div>
