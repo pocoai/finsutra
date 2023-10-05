@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import Image from 'next/image'
 import React, { useState } from 'react'
 
-const ChapterCard = ({ selected, name, loading, locked, description, credits, chapter }) => {
+const ChapterCard = ({ selected, name, loading, locked, description, chapter, setCurrentChapter, tabsCompleted }) => {
 
     const [cardLoading, setCardLoading] = useState(loading);
 
@@ -53,12 +53,14 @@ const ChapterCard = ({ selected, name, loading, locked, description, credits, ch
 
 
                     {
-                        cardLoading ? <span className="loading loading-bars loading-sm"></span> : <button
+                        cardLoading ? <span className="loading loading-bars loading-sm"></span> : <p
                             className={classNames({
-                                " rounded-full px-4 py-2 text-white text-[13px]": true,
+                                " rounded-full px-4 text-center py-2 text-white text-[13px]": true,
                                 "bg-brand": selected,
                                 "bg-[#808182]": !selected
-                            })}>{selected ? "View Details" : (
+                            })}>{selected ? <button onClick={() => setCurrentChapter(tabsCompleted)}>
+                                View Details
+                            </button> : (
                                 <div className='flex items-center gap-2 w-full'>
 
                                     <Image src="/images/whitecoin.svg" height={20} width={20} alt="coin" />
@@ -67,7 +69,7 @@ const ChapterCard = ({ selected, name, loading, locked, description, credits, ch
                                         {getChapterCredits(chapter)} credits
                                     </p>
                                 </div>
-                            )}  </button>
+                            )}  </p>
                     }
 
                 </div>

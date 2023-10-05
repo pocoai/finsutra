@@ -363,6 +363,8 @@ const page = ({ params, searchParams }) => {
 
   const [chapterData, setChapterData] = useRecoilState(chapterState);
 
+  const [currentChapter, setCurrentChapter] = useState([]);
+
   // const [data, setData] = useState(getArrayviaJourney(journey));
   const [projectName, setProjectName] = useState("");
   const [showResultModal, setShowResultModal] = useState(false);
@@ -697,7 +699,7 @@ const page = ({ params, searchParams }) => {
       )} */}
 
       {journey === 2 && (
-        <div class="grid grid-cols-4">
+        <div class="grid grid-cols-4 h-screen">
           <div class="col-span-1 flex flex-col gap-5 justify-center items-center">
             {chapterData.map((item, index) => (
               <ChapterCard
@@ -708,10 +710,14 @@ const page = ({ params, searchParams }) => {
                 description={item.description}
                 key={item.id}
                 loading={item.loading}
+                tabsCompleted={item.tabsCompleted}
+                setCurrentChapter={setCurrentChapter}
               />
             ))}
           </div>
-          <div class="col-span-3">{/* <Display /> */}</div>
+          <div class="col-span-3 h-screen">
+            <Display tabsCompleted={currentChapter} />
+          </div>
         </div>
       )}
     </div>
