@@ -92,7 +92,7 @@ const Slide2 = ({ hidden, activeSlide }) => {
       );
 
       if (response.data.success) {
-        console.log(response.data.data, "data");
+        // console.log(response.data.data, "data");
         return response.data;
       }
     } catch (error) {

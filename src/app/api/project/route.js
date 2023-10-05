@@ -10,7 +10,7 @@ await connectDb();
 export const GET = async (request) => {
   const { userId } = auth();
 
-  console.log(userId, "userId");
+  // console.log(userId, "userId");
 
   let projects = await Project.find({ uid: userId }).sort({ updatedAt: -1 });
 

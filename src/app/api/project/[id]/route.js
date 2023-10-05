@@ -96,14 +96,14 @@ export async function POST(request, { params }) {
   const journey = parseInt(request.nextUrl.searchParams.get("journey"));
   const tab = parseInt(request.nextUrl.searchParams.get("tab"));
 
-  console.log(id, journey, tab);
+  // console.log(id, journey, tab);
   let result;
 
   const { data } = await request.json();
 
   let project = await Project.findById(id);
 
-  console.log(project);
+  // console.log(project);
 
   if (!project) {
     return new Response(null, { status: 404, statusText: "Not Found" });
@@ -248,7 +248,7 @@ export async function POST(request, { params }) {
             }
           );
 
-          console.log(updated_res, "updated_res");
+          // console.log(updated_res, "updated_res");
           return NextResponse.json({
             success: true,
             message: "project updated",
