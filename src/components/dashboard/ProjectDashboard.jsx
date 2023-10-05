@@ -169,13 +169,15 @@ const ProjectDashboard = () => {
 
 
 
-    let { getToken, isSignedIn } = useAuth()
+    let { getToken, isSignedIn, isLoaded } = useAuth()
     const api = process.env.NEXT_PUBLIC_URL;
 
     const getProjects = async () => {
         dispatch({ type: "FETCH_START" })
         try {
             let token = await getToken()
+
+            console.log(token, "token while getting")
 
             let res = await axios.get(`${api}/api/project`, {
                 headers: {
@@ -203,10 +205,10 @@ const ProjectDashboard = () => {
 
 
     useEffect(() => {
-        if (isSignedIn) {
+        if (isSignedIn && isLoaded) {
             getProjects()
         }
-    }, [isSignedIn])
+    }, [isSignedIn, isLoaded])
 
 
     useEffect(() => {

@@ -42,6 +42,7 @@ export default function Page() {
             <SignIn
 
                 afterSignInUrl="/"
+                redirectUrl="/"
                 afterSignUpUrl="/"
                 appearance={{
                     elements: {
