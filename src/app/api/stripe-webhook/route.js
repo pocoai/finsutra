@@ -2,7 +2,7 @@ import { connectDb } from "@/app/lib/connectDb";
 import User from "@/models/User";
 import stripe from "stripe";
 
-connectDb();
+await connectDb();
 
 export const POST = async (request) => {
   let event = await request.json();

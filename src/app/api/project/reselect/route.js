@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 const { connectDb } = require("@/app/lib/connectDb");
 
-connectDb();
+await connectDb();
 
 export const POST = async (request, { params }) => {
   const { userId } = auth();

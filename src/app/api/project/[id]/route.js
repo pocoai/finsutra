@@ -8,7 +8,6 @@ import { connectDb } from "@/app/lib/connectDb";
 import { getCreditViaTab } from "@/utils/credits";
 import User from "@/models/User";
 
-await connectDb();
 const journey2 = [
   {
     title: "1.1 Assembling the Founding Team: Skills, Roles, & Culture Fit",
@@ -209,6 +208,8 @@ const journey2 = [
     tab: 28,
   },
 ];
+
+await connectDb();
 
 const SubCredits = async (userId, journey, tab) => {
   let user = await User.findOne({ userId });
