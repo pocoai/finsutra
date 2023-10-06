@@ -326,6 +326,8 @@ const getArrayviaJourney = (journey) => {
       return journey1;
     case 2:
       return chapters;
+    case 3:
+      return journey2;
     default:
       return journey1;
   }
@@ -554,6 +556,49 @@ const page = ({ params, searchParams }) => {
           }
           return arr;
         }
+      case 3:
+        data = await FetchTabResults(id, journey, reselect);
+
+        if (isObjEmpty(data.journey3)) {
+          const updatedJourney = journey2.map((item, index) => {
+            // Set locked to false only for the first item
+            if (index === 0) {
+              return { ...item, data: null, locked: false, loading: false };
+            }
+            // Keep other properties unchanged
+            return { ...item, data: null, locked: true, loading: false };
+          });
+
+          return updatedJourney;
+        } else {
+          // console.log("tab selected");
+          let arr = [];
+          let prevSelected = false; // Initialize a variable to keep track of the previous item's 'selected' value.
+          let currentTab;
+          for (let i = 0; i < journey2.length; i++) {
+            currentTab = data.journey3[`tab${journey2[i].tab}`];
+
+            const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
+
+            const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false & the previous item was also false.
+
+            arr.push({
+              title: journey2[i].title,
+              description: journey2[i].description,
+              loading: false,
+              data: selected ? currentTab.data : [],
+              selected: selected,
+              locked: locked,
+              tab: journey2[i].tab,
+              chapter: journey2[i].chapter,
+            });
+
+            prevSelected = selected; // Update the 'prevSelected' variable for the next iteration.
+          }
+
+          return arr;
+        }
+
       default:
         return [];
     }
@@ -577,7 +622,7 @@ const page = ({ params, searchParams }) => {
         // console.log(res, "getTabResults");
         // setData(res);
 
-        if (journey === 1) {
+        if (journey === 1 || journey === 3) {
           setJourneyData(res);
         } else {
           console.log(res, "here in chap");
@@ -585,7 +630,7 @@ const page = ({ params, searchParams }) => {
         }
       })
       .catch((err) => {
-        if (journey === 1) {
+        if (journey === 1 || journey === 3) {
           setJourneyData((prev) => {
             return prev.map((item) => {
               return {
@@ -614,7 +659,8 @@ const page = ({ params, searchParams }) => {
       });
   }, [journey, id, reselect]);
 
-  console.log(chapterData, "chapterData");
+  // console.log(chapterData, "chapterData");
+  // console.log(journeyData)
 
   return (
     <div className="">
@@ -703,6 +749,37 @@ const page = ({ params, searchParams }) => {
           <div class="col-span-3 h-screen">
             <Display tabsCompleted={currentChapter} />
           </div>
+        </div>
+      )}
+
+      {journey === 3 && (
+        <div>
+          {chapters.map((item, index) => (
+            <div key={index}>
+              <h1 className="px-4 text-black text-xl font-medium">
+                Chapter {item.id}: {item.name}
+              </h1>
+              <hr className="mt-2" />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-4 py-5  ">
+                {journeyData
+                  .filter((chapter) => chapter.chapter === item.id)
+                  .map((chapterItem, chapterIndex) => (
+                    <Card
+                      title={chapterItem.title}
+                      description={chapterItem.description}
+                      key={chapterIndex}
+                      selected={chapterItem.selected}
+                      loading={chapterItem.loading}
+                      data={chapterItem.data}
+                      journey={journey}
+                      locked={chapterItem.locked}
+                      tab={chapterItem.tab}
+                      id={id}
+                    />
+                  ))}
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>

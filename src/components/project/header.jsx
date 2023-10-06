@@ -42,10 +42,10 @@ const journeys = [
         id: 2,
         name: "Favcy Venture Manual",
     },
-    // {
-    //     id: 3,
-    //     name: "Brand Marketing and Venture Strategy",
-    // },
+    {
+        id: 3,
+        name: "Favcy Jobs To be done",
+    },
     // {
     //     id: 4,
     //     name: "Post-Product Growth",
