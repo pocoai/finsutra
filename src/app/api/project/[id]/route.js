@@ -323,7 +323,7 @@ export async function POST(request, { params }) {
 
   let project = await Project.findById(id);
 
-  console.log(project);
+  // console.log(project);
 
   if (!project) {
     return new Response(null, { status: 404, statusText: "Not Found" });
@@ -964,7 +964,7 @@ export async function POST(request, { params }) {
       );
     }
 
-    console.log(name, content.slice(0, 80), "varaibles");
+    // console.log(name, content.slice(0, 80), "varaibles");
 
     try {
       let result = await axios.post(
@@ -983,7 +983,7 @@ export async function POST(request, { params }) {
         }
       );
 
-      console.log(result.data, "j3 tab");
+      // console.log(result.data, "j3 tab");
 
       if (result.data.success) {
         let tabData = {
