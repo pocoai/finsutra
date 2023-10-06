@@ -298,21 +298,25 @@ export const chapters = [
     id: 1,
     name: "Architectural Plan",
     description: "Design the architectural framework of your project.",
+    loading: true,
   },
   {
     id: 2,
     name: "Project Plan",
     description: "Create a detailed plan for executing your project.",
+    loading: true,
   },
   {
     id: 3,
     name: "Resource Allocation Plan",
     description: "Allocate resources efficiently for your project's success.",
+    loading: true,
   },
   {
     id: 4,
     name: "Product Development Plan",
     description: "Plan the development process of your product or service.",
+    loading: true,
   },
 ];
 
@@ -321,7 +325,7 @@ const getArrayviaJourney = (journey) => {
     case 1:
       return journey1;
     case 2:
-      return journey2;
+      return chapters;
     default:
       return journey1;
   }
@@ -518,14 +522,16 @@ const page = ({ params, searchParams }) => {
 
           for (let i = 0; i < chapters.length; i++) {
             let tabs = getTabsArrayFromChapter(chapters[i].id);
-            let prevSelected = true;
+            // let prevSelected = false;
             for (let j = 0; j < tabs.length; j++) {
               let tabData = data.journey2[`tab${tabs[j].tab}`]?.data;
               let tabSelected = data.journey2[`tab${tabs[j].tab}`]?.selected;
 
-              if (!tabSelected) {
-                prevSelected = false;
-              }
+              // if (!tabSelected) {
+              //   prevSelected = false;
+              // } else {
+              //   prevSelected = true;
+              // }
 
               tabs[j].data = tabData;
               tabs[j].selected = tabSelected;
@@ -539,7 +545,6 @@ const page = ({ params, searchParams }) => {
               id: chapters[i].id,
               locked: false,
               loading: false,
-              selected: prevSelected,
               tabsCompleted: tabs,
               name: chapters[i].name,
               description: chapters[i].description,
@@ -548,29 +553,6 @@ const page = ({ params, searchParams }) => {
             arr.push(obj);
           }
           return arr;
-
-          // for (let i = 0; i < journey2.length; i++) {
-          //   const currentTab = data.journey2[`tab${journey2[i].tab}`];
-          //   const currentChapter = journey2[i].chapter;
-          //   const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
-
-          //   const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false & the previous item was also false.
-
-          //   arr.push({
-          //     title: journey2[i].title,
-          //     description: journey2[i].description,
-          //     loading: false,
-          //     data: selected ? currentTab.data : [],
-          //     selected: selected,
-          //     locked: locked,
-          //     chapter: journey2[i].chapter,
-          //     tab: journey2[i].tab,
-          //   });
-
-          //   prevSelected = selected; // Update the 'prevSelected' variable for the next iteration.
-          // }
-
-          // return arr;
         }
       default:
         return [];
@@ -580,6 +562,9 @@ const page = ({ params, searchParams }) => {
   useEffect(() => {
     let data = getArrayviaJourney(journey);
     setJourneyData(data);
+    if (journey === 2) {
+      setChapterData(data);
+    }
   }, [journey]);
 
   useEffect(() => {
@@ -595,6 +580,7 @@ const page = ({ params, searchParams }) => {
         if (journey === 1) {
           setJourneyData(res);
         } else {
+          console.log(res, "here in chap");
           setChapterData(res);
         }
       })
@@ -628,7 +614,7 @@ const page = ({ params, searchParams }) => {
       });
   }, [journey, id, reselect]);
 
-  console.log(chapters, "chapterData");
+  console.log(chapterData, "chapterData");
 
   return (
     <div className="">
@@ -700,10 +686,9 @@ const page = ({ params, searchParams }) => {
 
       {journey === 2 && (
         <div class="grid grid-cols-4 h-screen">
-          <div class="col-span-1 flex flex-col gap-5 justify-center items-center">
+          <div class="col-span-1 flex flex-col gap-5 justify-start items-start pb-10">
             {chapterData.map((item, index) => (
               <ChapterCard
-                selected={item.selected}
                 locked={item.locked}
                 name={item.name}
                 chapter={item.id}
