@@ -955,10 +955,10 @@ export async function POST(request, { params }) {
     if (project?.journey2[`tab${tab}`]?.selected) {
       content = project.journey2[`tab${tab}`]?.data;
     } else {
-      return new NextResponse(
+      return NextResponse.json(
         {
           success: false,
-          message: "Please complete the previous tab in journey 2",
+          message: `Please complete the ${name} in journey 2`,
         },
         { status: 400, statusText: "Internal Server Error" }
       );

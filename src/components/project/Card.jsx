@@ -101,15 +101,14 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
                 });
             }
             else {
-                toast.error("Internal Server Error")
-                // console.log(res)
+                toast.error(res?.data?.message || "Internal Server Error")
             }
 
 
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             // console.log(error.response.data, "err res")
-            toast.error("Internal Server Error")
+            toast.error(error?.response?.data?.message || "Internal Server Error")
         }
         setCardLoading(false)
 

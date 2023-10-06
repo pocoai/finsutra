@@ -325,7 +325,7 @@ const getArrayviaJourney = (journey) => {
     case 1:
       return journey1;
     case 2:
-      return chapters;
+      return journey2;
     case 3:
       return journey2;
     default:
@@ -458,7 +458,12 @@ const page = ({ params, searchParams }) => {
 
             const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
 
-            const locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false & the previous item was also false.
+            let locked = !(selected || prevSelected);
+            // 'locked' is true if 'selected' is false & the previous item was also false.
+
+            if (journey1[i].tab > 7) {
+              locked = false;
+            }
 
             arr.push({
               title: journey1[i].title,
@@ -477,83 +482,124 @@ const page = ({ params, searchParams }) => {
         }
 
       case 2:
-        data = await FetchTabResults(id, journey);
+        // data = await FetchTabResults(id, journey);
         // console.log(data, "here");
 
-        if (!data.journey2 || isObjEmpty(data.journey2)) {
-          // check if tab is selected
-          // console.log("tab not selected");
-          // const updatedJourney2 = journey2.map((item, index) => {
-          //   // Set locked to false only for the first item
-          //   if (index === 0) {
-          //     return { ...item, locked: false, loading: false };
-          //   }
-          //   // Keep other properties unchanged
-          //   return { ...item, locked: true, loading: false };
-          // });
+        // if (!data.journey2 || isObjEmpty(data.journey2)) {
+        //   // check if tab is selected
+        //   // console.log("tab not selected");
+        //   // const updatedJourney2 = journey2.map((item, index) => {
+        //   //   // Set locked to false only for the first item
+        //   //   if (index === 0) {
+        //   //     return { ...item, locked: false, loading: false };
+        //   //   }
+        //   //   // Keep other properties unchanged
+        //   //   return { ...item, locked: true, loading: false };
+        //   // });
 
-          const updatedChapter = chapters.map((item, index) => {
+        //   const updatedChapter = chapters.map((item, index) => {
+        //     // Set locked to false only for the first item
+        //     if (index === 0) {
+        //       return {
+        //         id: 1,
+        //         locked: false,
+        //         loading: false,
+        //         selected: false,
+        //         tabsCompleted: getTabsArrayFromChapter(1),
+        //         name: item.name,
+        //         description: item.description,
+        //       };
+        //     }
+        //     // Keep other properties unchanged
+        //     return {
+        //       id: index + 1,
+        //       locked: true,
+        //       loading: false,
+        //       selected: false,
+        //       tabsCompleted: getTabsArrayFromChapter(index + 1),
+        //       name: item.name,
+        //       description: item.description,
+        //     };
+        //   });
+
+        //   return updatedChapter;
+        // } else {
+        //   // console.log("tab selected");
+        //   let arr = [];
+
+        //   for (let i = 0; i < chapters.length; i++) {
+        //     let tabs = getTabsArrayFromChapter(chapters[i].id);
+        //     // let prevSelected = false;
+        //     for (let j = 0; j < tabs.length; j++) {
+        //       let tabData = data.journey2[`tab${tabs[j].tab}`]?.data;
+        //       let tabSelected = data.journey2[`tab${tabs[j].tab}`]?.selected;
+
+        //       // if (!tabSelected) {
+        //       //   prevSelected = false;
+        //       // } else {
+        //       //   prevSelected = true;
+        //       // }
+
+        //       tabs[j].data = tabData;
+        //       tabs[j].selected = tabSelected;
+        //       tabs[j] = {
+        //         ...tabs[j],
+        //         loading: false,
+        //       };
+        //     }
+
+        //     let obj = {
+        //       id: chapters[i].id,
+        //       locked: false,
+        //       loading: false,
+        //       tabsCompleted: tabs,
+        //       name: chapters[i].name,
+        //       description: chapters[i].description,
+        //     };
+
+        //     arr.push(obj);
+        //   }
+        //   return arr;
+        // }
+        data = await FetchTabResults(id, journey, reselect);
+
+        if (isObjEmpty(data.journey2)) {
+          const updatedJourney = journey2.map((item, index) => {
             // Set locked to false only for the first item
             if (index === 0) {
-              return {
-                id: 1,
-                locked: false,
-                loading: false,
-                selected: false,
-                tabsCompleted: getTabsArrayFromChapter(1),
-                name: item.name,
-                description: item.description,
-              };
+              return { ...item, data: null, locked: false, loading: false };
             }
             // Keep other properties unchanged
-            return {
-              id: index + 1,
-              locked: true,
-              loading: false,
-              selected: false,
-              tabsCompleted: getTabsArrayFromChapter(index + 1),
-              name: item.name,
-              description: item.description,
-            };
+            return { ...item, data: null, locked: true, loading: false };
           });
 
-          return updatedChapter;
+          return updatedJourney;
         } else {
           // console.log("tab selected");
           let arr = [];
+          let prevSelected = false; // Initialize a variable to keep track of the previous item's 'selected' value.
+          let currentTab;
+          for (let i = 0; i < journey2.length; i++) {
+            currentTab = data.journey2[`tab${journey2[i].tab}`];
 
-          for (let i = 0; i < chapters.length; i++) {
-            let tabs = getTabsArrayFromChapter(chapters[i].id);
-            // let prevSelected = false;
-            for (let j = 0; j < tabs.length; j++) {
-              let tabData = data.journey2[`tab${tabs[j].tab}`]?.data;
-              let tabSelected = data.journey2[`tab${tabs[j].tab}`]?.selected;
+            const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
 
-              // if (!tabSelected) {
-              //   prevSelected = false;
-              // } else {
-              //   prevSelected = true;
-              // }
+            let locked = !(selected || prevSelected); // 'locked' is true if 'selected' is false & the previous item was also false.
 
-              tabs[j].data = tabData;
-              tabs[j].selected = tabSelected;
-              tabs[j] = {
-                ...tabs[j],
-                loading: false,
-              };
-            }
-
-            let obj = {
-              id: chapters[i].id,
-              locked: false,
+            arr.push({
+              title: journey2[i].title,
+              description: journey2[i].description,
               loading: false,
-              tabsCompleted: tabs,
-              name: chapters[i].name,
-              description: chapters[i].description,
-            };
+              data: selected ? currentTab.data : [],
+              selected: selected,
+              locked: locked,
+              tab: journey2[i].tab,
+              chapter: journey2[i].chapter,
+            });
 
-            arr.push(obj);
+            prevSelected = selected; // Update the 'prevSelected' variable for the next iteration.
           }
+
           return arr;
         }
       case 3:
@@ -607,9 +653,9 @@ const page = ({ params, searchParams }) => {
   useEffect(() => {
     let data = getArrayviaJourney(journey);
     setJourneyData(data);
-    if (journey === 2) {
-      setChapterData(data);
-    }
+    // if (journey === 2) {
+    //   setChapterData(data);
+    // }
   }, [journey]);
 
   useEffect(() => {
@@ -622,35 +668,35 @@ const page = ({ params, searchParams }) => {
         // console.log(res, "getTabResults");
         // setData(res);
 
-        if (journey === 1 || journey === 3) {
-          setJourneyData(res);
-        } else {
-          console.log(res, "here in chap");
-          setChapterData(res);
-        }
+        // if (journey === 1 || journey === 3) {
+        setJourneyData(res);
+        // } else {
+        //   console.log(res, "here in chap");
+        //   setChapterData(res);
+        // }
       })
       .catch((err) => {
-        if (journey === 1 || journey === 3) {
-          setJourneyData((prev) => {
-            return prev.map((item) => {
-              return {
-                ...item,
-                locked: true,
-                loading: false,
-              };
-            });
+        // if (journey === 1 || journey === 3) {
+        setJourneyData((prev) => {
+          return prev.map((item) => {
+            return {
+              ...item,
+              locked: true,
+              loading: false,
+            };
           });
-        } else if (journey === 2) {
-          setChapterData((prev) => {
-            return prev.map((item) => {
-              return {
-                ...item,
-                locked: true,
-                loading: false,
-              };
-            });
-          });
-        }
+        });
+        // } else if (journey === 2) {
+        //   setChapterData((prev) => {
+        //     return prev.map((item) => {
+        //       return {
+        //         ...item,
+        //         locked: true,
+        //         loading: false,
+        //       };
+        //     });
+        //   });
+        // }
 
         if (!err?.response?.data?.success || err.response.status === 404) {
           toast.error("Internal Server Error");
@@ -699,7 +745,7 @@ const page = ({ params, searchParams }) => {
         )}
       </div>
 
-      {/* {journey === 2 && (
+      {journey === 2 && (
         <div>
           {chapters.map((item, index) => (
             <div key={index}>
@@ -728,9 +774,9 @@ const page = ({ params, searchParams }) => {
             </div>
           ))}
         </div>
-      )} */}
+      )}
 
-      {journey === 2 && (
+      {/* {journey === 2 && (
         <div class="grid grid-cols-4 h-screen">
           <div class="col-span-1 flex flex-col gap-5 justify-start items-start pb-10">
             {chapterData.map((item, index) => (
@@ -750,7 +796,7 @@ const page = ({ params, searchParams }) => {
             <Display tabsCompleted={currentChapter} />
           </div>
         </div>
-      )}
+      )} */}
 
       {journey === 3 && (
         <div>

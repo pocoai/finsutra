@@ -47,7 +47,7 @@ export const creditPricing = [
     tab: "journey1_tab8",
     journey: 1,
     name: "Research & Knowledge Bank",
-    amount: 5,
+    amount: 0,
   },
   {
     tab: "journey1_tab9",
