@@ -503,10 +503,10 @@ const ViewComponent = ({
                         <tbody key={index}>
                             <tr>
 
-                                <td className=" px-4 py-2 border-b-2 font-medium">
-                                    {item?.Objective}</td>
-                                <td className=" px-4 py-2 border-b-2 border-l-2 font-medium">
-                                    <ul className='list-decimal p-2 text-sm'>
+                                <td className=" px-4 py-2 border-b-2 font-semibold text-brand" style={{ verticalAlign: 'top' }}>
+                                    {index + 1}. {item?.Objective}</td>
+                                <td className=" px-4 py-2 border-b-2 border-l-2 font-medium" style={{ verticalAlign: 'top' }}>
+                                    <ul className='list-decimal   px-4'>
                                         {item?.Tasks.map((task) => {
                                             return <li className='my-1 '>
                                                 {task}
@@ -516,8 +516,8 @@ const ViewComponent = ({
                                     </ul>
 
                                 </td>
-                                <td className=" px-4 py-2 border-b-2 border-l-2 font-medium">
-                                    <ul className='list-decimal p-2 text-sm'>
+                                <td className=" px-4 py-2 border-b-2 border-l-2 font-medium" style={{ verticalAlign: 'top' }}>
+                                    <ul className='list-decimal  px-4'>
                                         {item["Desired Outcomes"].map((task) => {
                                             return <li className='my-1'>
                                                 {task}

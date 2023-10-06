@@ -18,6 +18,7 @@ import { journeyState } from "@/state/atoms/tabState";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { creditCountState } from '@/state/atoms/userState';
 import { getCreditBalance, getUserData } from '@/services/user';
+import { journey1, journey2, chapters } from '@/utils/journeys';
 
 
 const Card = ({ title, description, tab, data, selected, loading, journey, id, locked }) => {
