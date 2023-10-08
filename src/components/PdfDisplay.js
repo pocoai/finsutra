@@ -51,6 +51,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
   }, []);
 
   const handleGeneratePdf = async () => {
+    setisDownloading(true)
     const contentElement = reportTemplateRef.current;
 
     const pdfContent = htmlToPdfMake(contentElement.innerHTML);
