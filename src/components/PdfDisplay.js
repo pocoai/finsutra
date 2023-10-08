@@ -17,6 +17,7 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import htmlToPdfMake from 'html-to-pdfmake';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
+
 const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
   const [currentProject, setCurrentProject] = useState([]);
   const [downloading, setisDownloading] = useState(false);
@@ -61,12 +62,66 @@ const PdfDisplay = ({ setShowPdf, showPdf, id }) => {
       }
     });
   
-    const pdfDoc = pdfMake.createPdf({ content: pdfContent });
+    const pdfDoc = pdfMake.createPdf({ 
+      content: pdfContent,
+      footer: {
+        columns: [
+          {},
+          {
+            image: await getBase64ImageFromURL(
+              "https://raw.githubusercontent.com/Niranjangkr/files/main/footerImg.jpg"
+            ),
+            width: 150,
+            height: 50,
+            alignment: 'left',
+          },
+        ],
+      }, 
+      // header: {
+      //   columns: [
+      //     {
+      //       image: await getBase64ImageFromURL(
+      //         "https://raw.githubusercontent.com/Niranjangkr/files/main/header.jpg"
+      //       ),
+      //       width: 120,
+      //       height: 28,
+      //       marginTop:3,
+      //       marginRight: 3,
+      //       alignment: 'left',
+      //     },
+      //   ],
+      // }, 
+    });
   
     pdfDoc.download(`${currentProject[0]?.name}.pdf`);
     setisDownloading(false);
   };
   
+  function getBase64ImageFromURL(url) {
+    return new Promise((resolve, reject) => {
+      var img = new Image();
+      img.setAttribute("crossOrigin", "anonymous");
+
+      img.onload = () => {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+
+        var dataURL = canvas.toDataURL("image/png");
+
+        resolve(dataURL);
+      };
+
+      img.onerror = error => {
+        reject(error);
+      };
+
+      img.src = url;
+    });
+  }
 
   const sidebarRef = useRef(null);
 
