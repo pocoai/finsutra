@@ -19,6 +19,7 @@ import { getCreditViaTab } from "@/utils/credits";
 import Display from "@/components/project/Display";
 import { chapterState } from "@/state/atoms/chapterState";
 import { journey1, journey2, chapters } from "@/utils/journeys";
+import { replaceDotByUnderscore } from "@/utils/helper";
 
 const getArrayviaJourney = (journey) => {
   switch (journey) {
@@ -131,6 +132,10 @@ const page = ({ params, searchParams }) => {
     return data;
   };
 
+  function isFloat(num) {
+    return Number(num) === num && num % 1 !== 0;
+  }
+
   const getTabResults = async (journey) => {
     let data;
     switch (journey) {
@@ -154,7 +159,11 @@ const page = ({ params, searchParams }) => {
           let prevSelected = false; // Initialize a variable to keep track of the previous item's 'selected' value.
           let currentTab;
           for (let i = 0; i < journey1.length; i++) {
-            currentTab = data.journey1[`tab${journey1[i].tab}`];
+            if (isFloat(journey1[i].tab)) {
+              currentTab = data.journey1[`tab${replaceDotByUnderscore(journey1[i].tab)}`];
+            } else {
+              currentTab = data.journey1[`tab${journey1[i].tab}`];
+            }
 
             const selected = currentTab?.selected || false; // Default to false if 'selected' is undefined.
 
@@ -406,7 +415,7 @@ const page = ({ params, searchParams }) => {
   }, [journey, id, reselect]);
 
   // console.log(chapterData, "chapterData");
-  // console.log(journeyData)
+  console.log(journeyData, "jd");
 
   return (
     <div className="">

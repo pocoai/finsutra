@@ -63,6 +63,13 @@ export const journey1 = [
     tab: 9,
   },
   {
+    title: "Growth Levers",
+    description: " From Emerging Opportunities to Long-Term Scale",
+    loading: true,
+    locked: true,
+    tab: 9.5,
+  },
+  {
     title: "Financial Statement",
     description: "Forecast your financial projections.",
     loading: true,

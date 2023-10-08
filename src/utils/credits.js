@@ -56,6 +56,12 @@ export const creditPricing = [
     amount: 5,
   },
   {
+    tab: "journey1_tab9.5",
+    journey: 1,
+    name: "Growth Levers",
+    amount: 5,
+  },
+  {
     tab: "journey1_tab10",
     journey: 1,
     name: "Financial Statement",

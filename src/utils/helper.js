@@ -40,3 +40,9 @@ export const getCreditLimitByEmail = (email) => {
     return 20;
   }
 };
+
+export const replaceDotByUnderscore = (tab) => {
+  tab = String(tab);
+
+  return tab.replace(/\./g, "_");
+};

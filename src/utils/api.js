@@ -27,6 +27,8 @@ export const getApi = (journey, tab = null) => {
         return `https://api.promptbook.in/j1/tab8`;
       case 9:
         return `https://api.portkey.ai/v1/prompts/70ab27c2-fdf2-4af4-a389-c2690f989b3f/generate`;
+      case 9.5:
+        return `https://api.portkey.ai/v1/prompts/4fc110d7-3b49-45c5-875d-0c0b004c9703/generate`;
       case 10:
         return `https://api.portkey.ai/v1/prompts/c2f2a969-047b-4a0e-9d4f-9dcc690801e7/generate`;
       default:

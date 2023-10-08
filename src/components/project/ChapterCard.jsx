@@ -1,6 +1,5 @@
 "use client"
-
-import { journey2 } from '@/app/project/[id]/page'
+import { journey2 } from '@/utils/journeys'
 import { getCreditViaTab } from '@/utils/credits'
 import { LockClosedIcon, LockOpenIcon } from '@heroicons/react/24/solid'
 import classNames from 'classnames'

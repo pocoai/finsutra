@@ -8,6 +8,7 @@ import { connectDb } from "@/app/lib/connectDb";
 import { getCreditViaTab } from "@/utils/credits";
 import User from "@/models/User";
 import { journey2 } from "@/utils/journeys";
+import { replaceDotByUnderscore } from "@/utils/helper";
 
 await connectDb();
 
@@ -115,9 +116,8 @@ export async function POST(request, { params }) {
   const { id } = params;
 
   const journey = parseInt(request.nextUrl.searchParams.get("journey"));
-  const tab = parseInt(request.nextUrl.searchParams.get("tab"));
+  const tab = parseFloat(request.nextUrl.searchParams.get("tab"));
 
-  console.log(id, journey, tab);
   let result;
 
   const { data } = await request.json();
@@ -608,6 +608,61 @@ export async function POST(request, { params }) {
             success: true,
             message: "project updated",
             data: updated_res.journey1.tab9,
+          });
+        } else {
+          return new Response(null, { status: 404, statusText: "Not Found" });
+        }
+      } catch (error) {
+        console.log(error);
+        return new Response(null, { status: 400, statusText: "Internal Server Error" });
+      }
+    }
+
+    if (tab === 9.5) {
+      let api = getApi(1, 9.5);
+
+      try {
+        let result = await axios.post(
+          api,
+          {
+            variables: {
+              elevator_pitch: pitch,
+            },
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "x-portkey-api-key": PORTKEY,
+            },
+          }
+        );
+
+        console.log(result.data, "api results ");
+
+        if (result.data.success) {
+          let tabData = {
+            data: result.data.data.choices[0].message.content,
+            selected: true,
+          };
+
+          await SubCredits(userId, journey, tab);
+
+          let updated_res = await Project.findByIdAndUpdate(
+            id,
+            {
+              [`journey1.tab${replaceDotByUnderscore(tab)}`]: tabData,
+              [`currentStage.${journey}`]: tab,
+            },
+            {
+              new: true,
+            }
+          );
+
+          // console.log(updated_res, "updated_res");
+          return NextResponse.json({
+            success: true,
+            message: "project updated",
+            data: updated_res.journey1["tab9_5"],
           });
         } else {
           return new Response(null, { status: 404, statusText: "Not Found" });
