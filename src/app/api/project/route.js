@@ -12,7 +12,7 @@ export const GET = async (request) => {
 
   console.log(userId, "userId");
 
-  let projects = await Project.find({ uid: userId }).sort({ updatedAt: -1 }).limit(10);
+  let projects = await Project.find({ uid: userId }).sort({ updatedAt: -1 });
 
   // console.log(projects, "projects");
 

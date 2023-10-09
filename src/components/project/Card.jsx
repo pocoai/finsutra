@@ -121,7 +121,7 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
 
     return (
         <div className={classNames({
-            "card w-[280px] h-[210px] shadow-md animate__animated animate__fadeInLeft": true,
+            "flex flex-col items-start justify-center rounded-2xl w-[280px] h-[210px] shadow-md animate__animated animate__fadeInLeft": true,
             "bg-[#FFF0DF]": selected,
             "bg-[#F1F2F4]": !selected
         })}
@@ -136,12 +136,12 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
 
 
                 <h2 className={classNames({
-                    "card-title text-[17px] w-full": true,
+                    "card-title text-[16px] w-full": true,
                     "whitespace-nowrap": title?.length < 27,
                     " max-w-full": title?.length > 27,
                     "text-brand": selected
                 })}>{title}</h2>
-                <p className='text-[15px]'>{
+                <p className='text-[14px]'>{
                     //  String(description).substring(0, 30) + "..."
                     description
                 }</p>
