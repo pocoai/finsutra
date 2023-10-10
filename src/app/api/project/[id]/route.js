@@ -637,7 +637,7 @@ export async function POST(request, { params }) {
           }
         );
 
-        console.log(result.data, "api results ");
+        // console.log(result.data, "api results ");
 
         if (result.data.success) {
           let tabData = {

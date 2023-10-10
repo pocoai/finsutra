@@ -190,8 +190,11 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
         }
         else if (route.includes("/pricing")) {
             setSelected(2)
-        }else if(route.includes('/minigator')){
+        } else if (route.includes('/minigator')) {
             setSelected(3)
+        }
+        else {
+            setSelected(null)
         }
 
     }, [route])
@@ -280,34 +283,36 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                     })}>
                         {
                             isLoaded ? (
-
-                                <div className={classNames({
-                                    "flex items-center gap-2": true
-
-
-                                })}>
-                                    <Image
-                                        src={user?.image || ClerkUser?.imageUrl || "/images/user.png"}
-                                        height={40}
-                                        width={40}
-                                        alt="logo"
-                                        style={{ objectFit: 'contain' }}
-                                        className="rounded-full"
-                                    />
+                                <Link href={"/profile"} prefetch={false}>
                                     <div className={classNames({
-                                        "font-medium transition-all overflow-hidden": true,
-                                        "hidden": collapsed
+                                        "flex items-center gap-2": true
+
+
                                     })}>
-                                        <p className='text-[#373D41] text-[16px]'>
-                                            {user?.firstName}
-                                        </p>
-                                        <span className='text-[#ADB0B6] text-[14px]'>
-                                            {user?.interests?.work}
-                                        </span>
+                                        <Image
+                                            src={user?.image || ClerkUser?.imageUrl || "/images/user.png"}
+                                            height={40}
+                                            width={40}
+                                            alt="logo"
+                                            style={{ objectFit: 'contain' }}
+                                            className="rounded-full"
+                                        />
+                                        <div className={classNames({
+                                            "font-medium transition-all overflow-hidden": true,
+                                            "hidden": collapsed
+                                        })}>
+                                            <p className='text-[#373D41] text-[16px]'>
+                                                {user?.firstName}
+                                            </p>
+                                            <span className='text-[#ADB0B6] text-[14px]'>
+                                                {user?.interests?.work}
+                                            </span>
+                                        </div>
+
+
                                     </div>
 
-
-                                </div>
+                                </Link>
 
                             ) : (
                                 <Skeleton width={40} height={40} circle={true} baseColor="#ADB0B6" highlightColor="#F1F2F4" />

@@ -470,12 +470,14 @@ const ViewComponent = ({
                     </table>
 
 
-                    <p
-                        className="text-center text-md w-full text-red-600 cursor-pointer"
-                        onClick={handleReselection}
-                    >
-                        Continue with a different option ?
-                    </p>
+                    {
+                        !pathname.includes("/share") && <p
+                            className="text-center text-md w-full text-red-600 cursor-pointer"
+                            onClick={handleReselection}
+                        >
+                            Continue with a different option ?
+                        </p>
+                    }
 
 
                 </div>
@@ -505,12 +507,12 @@ const ViewComponent = ({
 
                                 <td className=" px-4 py-2 border-b-2 font-semibold text-brand" style={{ verticalAlign: 'top' }}>
                                     {index + 1}. {item?.Objective}</td>
-                                <td className="px-4 py-2 border-b-2 border-l-2 font-medium" style={{ verticalAlign: 'top' }}>
+                                <td className="px-4 py-2 max-w-xl border-b-2 border-l-2 font-medium" style={{ verticalAlign: 'top' }}>
                                     <ul className='list-none px-4'>
                                         {item?.Tasks.map((task, index) => {
                                             return (
-                                                <li className='my-1' key={index}>
-                                                    <input type="checkbox" id={`task-${index}`} name={`task-${index}`} className='accent-brand text-white w-4 h-4' defaultChecked />
+                                                <li className='my-3' key={index}>
+                                                    <input type="checkbox" id={`task-${index}`} name={`task-${index}`} className='accent-brand text-white w-3 h-3' defaultChecked />
                                                     <label htmlFor={`task-${index}`} className="ml-2">{task}</label>
                                                 </li>
                                             );
@@ -521,7 +523,7 @@ const ViewComponent = ({
                                 <td className=" px-4 py-2 border-b-2 border-l-2 font-medium" style={{ verticalAlign: 'top' }}>
                                     <ul className='list-decimal  px-4'>
                                         {item["Desired Outcomes"].map((task) => {
-                                            return <li className='my-1'>
+                                            return <li className='my-3'>
                                                 {task}
                                             </li>
 

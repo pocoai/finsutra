@@ -21,6 +21,61 @@ import { getCreditBalance, getUserData } from '@/services/user';
 import { journey1, journey2, chapters } from '@/utils/journeys';
 
 
+export const SharedCard = ({ title, description, tab, data, selected, journey }) => {
+
+    const [openModal, setOpenModal] = useState(false)
+
+    return (
+        <>
+
+            <div className={classNames({
+                "flex flex-col bg-[#FFF0DF] items-start justify-center rounded-2xl w-[280px] h-[210px] shadow-md animate__animated animate__fadeInLeft": true,
+            })}
+
+            >
+                <div className="card-body px-4 py-6">
+
+                    <h2 className={classNames({
+                        "card-title text-[16px] w-full": true,
+                        "whitespace-nowrap": title?.length < 27,
+                        " max-w-full": title?.length > 27,
+                        "text-brand": selected
+                    })}>{title}</h2>
+                    <p className='text-[14px]'>{
+                        //  String(description).substring(0, 30) + "..."
+                        description
+                    }</p>
+                    <div className="card-actions justify-start">
+
+
+
+                        <button
+
+                            onClick={() => {
+                                if (selected) {
+                                    setOpenModal(!openModal)
+                                }
+                                else {
+                                    return
+                                }
+                            }}
+
+                            className={classNames({
+                                " rounded-full px-4 py-2 bg-brand text-white text-[13px]": true,
+                            })}>View Details  </button>
+
+
+                    </div>
+                </div>
+
+            </div>
+            {openModal && <ViewModal isOpen={openModal} setIsOpen={setOpenModal} title={title} data={data} journey={journey} tab={tab} />}
+
+        </>
+    )
+}
+
+
 const Card = ({ title, description, tab, data, selected, loading, journey, id, locked }) => {
 
     const [journeyData, setJourneyData] = useRecoilState(journeyState);
@@ -109,7 +164,10 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
         } catch (error) {
             // console.log(error);
             // console.log(error.response.data, "err res")
-            toast.error(error?.response?.data?.message || "Internal Server Error")
+            toast.error(error?.response?.data?.message || "Internal Server Error", {
+                position: "bottom-center",
+                className: "w-full",
+            })
         }
         setCardLoading(false)
 
