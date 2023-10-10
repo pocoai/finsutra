@@ -196,8 +196,8 @@ const ViewComponent = ({
                         </tr>
                     </table>
                     <div className="flex flex-col items-start mt-5 p-2">
-                        <h1>Summary :</h1>
-                        <p className="text-md my-1 text-left leading-5 ">{data["BMC_summary"]}</p>
+                        <h1 className='text-lg font-medium'>Summary :</h1>
+                        <p className="text-md my-1 text-left leading-8 ">{data["BMC_summary"]}</p>
                     </div>
                 </div>
             );
@@ -265,7 +265,7 @@ const ViewComponent = ({
                                                     <td className=" px-4 py-2 border border-gray-500">{item?.type}</td>
                                                 )}
                                                 <td className=" px-4 py-2 border border-gray-500">
-                                                    <Markdown className="prose text-black">{item?.description}</Markdown>
+                                                    <Markdown className="prose w-full text-lg text-black">{item?.description}</Markdown>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -296,7 +296,7 @@ const ViewComponent = ({
                             // <ReactMarkdown remarkPlugins={[breaks]} components={renderers} >
                             //   {data[0].value}
                             // </ReactMarkdown>
-                            <Markdown className="prose">{data}</Markdown>
+                            <Markdown className="prose w-full text-lg">{data}</Markdown>
                         )}
                     </p>
                     {/* <p className="text-sm font-medium">
@@ -505,17 +505,19 @@ const ViewComponent = ({
 
                                 <td className=" px-4 py-2 border-b-2 font-semibold text-brand" style={{ verticalAlign: 'top' }}>
                                     {index + 1}. {item?.Objective}</td>
-                                <td className=" px-4 py-2 border-b-2 border-l-2 font-medium" style={{ verticalAlign: 'top' }}>
-                                    <ul className='list-decimal   px-4'>
-                                        {item?.Tasks.map((task) => {
-                                            return <li className='my-1 '>
-                                                {task}
-                                            </li>
-
+                                <td className="px-4 py-2 border-b-2 border-l-2 font-medium" style={{ verticalAlign: 'top' }}>
+                                    <ul className='list-none px-4'>
+                                        {item?.Tasks.map((task, index) => {
+                                            return (
+                                                <li className='my-1' key={index}>
+                                                    <input type="checkbox" id={`task-${index}`} name={`task-${index}`} className='accent-brand text-white w-4 h-4' defaultChecked />
+                                                    <label htmlFor={`task-${index}`} className="ml-2">{task}</label>
+                                                </li>
+                                            );
                                         })}
                                     </ul>
-
                                 </td>
+
                                 <td className=" px-4 py-2 border-b-2 border-l-2 font-medium" style={{ verticalAlign: 'top' }}>
                                     <ul className='list-decimal  px-4'>
                                         {item["Desired Outcomes"].map((task) => {
@@ -539,32 +541,11 @@ const ViewComponent = ({
 
 
     return (
-        <div className="flex flex-col items-start justify-start space-y-4 ">
-            <p>
-                {/* {data?.length > 0 &&
-        data[0]?.value.split("\n").map((c, index) => {
-          return <p key={index}> {c} </p>;
-        })} */}
-                {data && (
-                    // <ReactMarkdown remarkPlugins={[breaks]} components={renderers} >
-                    //   {data[0].value}
-                    // </ReactMarkdown>
+        // <div className="flex flex-col  w-full items-start justify-start space-y-4 ">
 
-                    <Markdown className="prose text-black">{data}</Markdown>
-                )}
-            </p>
+        <Markdown className="prose w-full text-lg text-black">{data}</Markdown>
 
-            {/* <p className="text-sm font-medium">
-                * If you would like to detail out each of these sub tasks , please use the &nbsp;
-                <a
-                    href="https://minigator.vercel.app/"
-                    className="text-orange-500 outline-none border-none"
-                    target="_blank"
-                >
-                    Favcy Minigator
-                </a>
-            </p> */}
-        </div>
+        // </div>
     );
 };
 
