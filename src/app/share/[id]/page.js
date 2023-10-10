@@ -30,6 +30,8 @@ const page = ({ params, searchParams }) => {
     name: "",
   });
 
+  const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState("");
 
   const [journeyData, setJourneyData] = useState([]);
@@ -181,12 +183,15 @@ const page = ({ params, searchParams }) => {
   }, [journey]);
 
   useEffect(() => {
+    setLoading(true);
     handleTabs(journey)
       .then((data) => {
         setJourneyData(data);
+        setLoading(false);
       })
       .catch((error) => {
         setError("Something went wrong! Try again");
+        setLoading(false);
       });
   }, [journey, id]);
 
@@ -195,30 +200,34 @@ const page = ({ params, searchParams }) => {
   console.log(project, "project");
 
   return (
-    <div className="p-10">
-      <SharedHeader id={id} name={project?.name} user={project?.user} journey={journey} />
+    <>
+      {!loading && (
+        <div className="p-10">
+          <SharedHeader id={id} name={project?.name} user={project?.user} journey={journey} />
 
-      <div className="mt-10 mb-5">
-        {
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-4 py-10  ">
-            {journeyData.length > 0 &&
-              journeyData.map((item, index) => (
-                <SharedCard
-                  title={item.title}
-                  description={item.description}
-                  key={index}
-                  selected={item.selected}
-                  data={item.data}
-                  journey={journey}
-                  tab={item.tab}
-                />
-              ))}
+          <div className="mt-10 mb-5">
+            {
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-4 py-10  ">
+                {journeyData.length > 0 &&
+                  journeyData.map((item, index) => (
+                    <SharedCard
+                      title={item.title}
+                      description={item.description}
+                      key={index}
+                      selected={item.selected}
+                      data={item.data}
+                      journey={journey}
+                      tab={item.tab}
+                    />
+                  ))}
+              </div>
+            }
+
+            {error && <p className="text-red-500 text-center text-lg">{error}</p>}
           </div>
-        }
-
-        {error && <p className="text-red-500 text-center text-lg">{error}</p>}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 
