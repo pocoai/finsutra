@@ -61,9 +61,6 @@ const page = ({ params, searchParams }) => {
         });
 
         return data;
-      } else {
-        toast.error("Something went wrong!");
-        router.push("/");
       }
     } catch (error) {
       toast.error("Something went wrong!");
@@ -174,27 +171,23 @@ const page = ({ params, searchParams }) => {
     }
   };
 
-  //   useEffect(() => {
-  //     fetchJourney().then((data) => {
-  //       setProject({
-  //         name: data?.name,
-  //         user: data?.userId?.firstName,
-  //         journey: data[`journey${journey}`],
-  //       });
-
-  //       setJourneyData(handleTabs(journey));
-  //     });
-  //   }, [journey]);
-
   useEffect(() => {
+    if (error) {
+      return;
+    }
+
     let data = getArrayviaJourney(journey);
     setJourneyData(data);
   }, [journey]);
 
   useEffect(() => {
-    handleTabs(journey).then((data) => {
-      setJourneyData(data);
-    });
+    handleTabs(journey)
+      .then((data) => {
+        setJourneyData(data);
+      })
+      .catch((error) => {
+        setError("Something went wrong! Try again");
+      });
   }, [journey, id]);
 
   //   console.log(journeyData, "journeyData");
