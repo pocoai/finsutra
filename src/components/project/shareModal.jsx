@@ -38,8 +38,6 @@ const ShareModal = ({ isOpen, setIsOpen, id, title, journey, }) => {
 
         setLoading(true);
         const token = await getToken();
-
-
         try {
             let res = await axios.post(`${api}/api/project/${id}/share`, {
                 headers: {
@@ -55,12 +53,14 @@ const ShareModal = ({ isOpen, setIsOpen, id, title, journey, }) => {
                 });
             }
             else {
+                console.log(res.data, "res.data");
                 toast.error("Something went wrong", {
                     position: "bottom-center",
                 });
             }
 
         } catch (error) {
+            console.log(error, "error");
             toast.error("Something went wrong", {
                 position: "bottom-center",
             })
