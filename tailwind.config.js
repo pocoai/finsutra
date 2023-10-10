@@ -6,6 +6,20 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    keyframes: {
+      slidein: {
+        '0%': { transform: 'translateX(-100%)' },
+        '100%': { transform: 'translateX(0%)' },
+      },
+      pulse: {
+        '0%, 100%': { opacity: '1' },
+        '50%': { opacity: '0.4' },
+      },
+    },
+    animation: {
+      slidein: 'slidein 0.5s ease-in-out forwards',
+      pulse: 'pulse 2s ease-in-out infinite',
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

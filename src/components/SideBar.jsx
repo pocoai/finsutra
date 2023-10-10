@@ -129,7 +129,8 @@ const sidecards = [
         id: 3,
         name: "Minigator",
         image: "/images/minigator.svg",
-        link: "https://minigator.vercel.app/"
+        link: "/minigator"
+        // link: "https://minigator.vercel.app/"
     }
 ]
 
@@ -189,6 +190,8 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
         }
         else if (route.includes("/pricing")) {
             setSelected(2)
+        }else if(route.includes('/minigator')){
+            setSelected(3)
         }
 
     }, [route])
