@@ -31,8 +31,8 @@ const SideCard = ({ image, name, selected, id, collapsed, link }) => {
             {/* <div > */}
             <Image
                 src={image}
-                height={40}
-                width={40}
+                height={50}
+                width={50}
                 alt="logo"
 
                 className="w-auto h-auto"
@@ -53,7 +53,7 @@ const SideCard = ({ image, name, selected, id, collapsed, link }) => {
     )
 }
 
-const ProfileButtons = ({ collapsed, onClick, image, name, link, target }) => {
+const ProfileButtons = ({ collapsed, onClick, image, name, link, target, }) => {
     if (link) {
         return (
 
@@ -140,7 +140,8 @@ const profilebuttons = [
         image: "/images/profile.svg",
         name: "My Profile",
         link: "/profile",
-        target: "_self"
+        target: "_self",
+
 
     },
     {
