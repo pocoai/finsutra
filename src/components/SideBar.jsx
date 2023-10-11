@@ -285,7 +285,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                             isLoaded ? (
                                 <Link href={"/profile"} prefetch={false}>
                                     <div className={classNames({
-                                        "flex items-center gap-2": true
+                                        "flex items-center gap-2 w-fit h-20": true
 
 
                                     })}>
@@ -315,7 +315,18 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                                 </Link>
 
                             ) : (
-                                <Skeleton width={40} height={40} circle={true} baseColor="#ADB0B6" highlightColor="#F1F2F4" />
+                                <div class="w-fit h-20 rounded-md">
+                                    <div class="flex flex-row items-center h-full justify-center space-x-3">
+                                        <div class="w-12 bg-gray-100 h-12 rounded-full  animate-pulse ">
+                                        </div>
+                                        <div class="flex flex-col space-y-2">
+                                            <div class="w-36 bg-gray-100 h-5 rounded-md  animate-pulse ">
+                                            </div>
+                                            <div class="w-24 bg-gray-100 h-5 rounded-md  animate-pulse">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             )
                         }
 

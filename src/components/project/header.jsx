@@ -73,10 +73,19 @@ const Header = ({ id, name, journey }) => {
     return (
         <header>
             <div className='flex flex-col lg:flex-row items-center w-full justify-between mb-10'>
-                <h1 className='text-[20px] font-[700] w-full'>
-                    <Link href={'/'} prefetch={false}>
-                        {`${capitalize(user.firstName)}\`s`} Workspace</Link> / {name}
-                </h1>
+                <div className='text-[20px] font-[700] w-full flex items-center justify-start'>
+                    <Link href={'/'} prefetch={false} className='flex items-center gap-1' >
+                        {user.isLoaded ? <p className='whitespace-nowrap'>{`${capitalize(user.firstName)}\'s`} </p> : <p className="w-16 bg-gray-100 h-5 rounded-sm animate-pulse mr-1"></p>}
+
+                        <p>
+                            Workspace /&nbsp;
+                        </p>
+
+                    </Link>
+                    <p className='whitespace-nowrap'>
+                        {name || <div className="w-16 bg-gray-100 h-5 rounded-sm animate-pulse mr-1"></div>}
+                    </p>
+                </div>
                 <div className='flex flex-col lg:flex-row items-center justify-end w-full gap-8'>
                     <div className='flex items-center justify-center text-brand gap-2'>
                         <Image
@@ -87,7 +96,7 @@ const Header = ({ id, name, journey }) => {
                             className="h-auto w-auto"
                         />
                         <p className='whitespace-nowrap'>
-                            Remaining Credits: {credits}
+                            Remaining Credits: {credits || <p className=" inline-flex w-3 bg-gray-100 h-3 rounded-sm animate-pulse mr-1"></p>}
                         </p>
                     </div>
                     <Link href="/pricing" prefetch={false} className='bg-brand rounded-full px-4 py-2 text-white whitespace-nowrap'>
