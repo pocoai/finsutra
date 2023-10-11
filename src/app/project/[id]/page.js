@@ -457,28 +457,33 @@ const page = ({ params, searchParams }) => {
       {journey === 2 && (
         <div>
           {chapters.map((item, index) => (
-            <div key={index}>
-              <h1 className="px-4 text-black text-xl font-medium">
-                Chapter {item.id}: {item.name}
-              </h1>
-              <hr className="mt-2" />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-4 py-5  ">
-                {journeyData
-                  .filter((chapter) => chapter.chapter === item.id)
-                  .map((chapterItem, chapterIndex) => (
-                    <Card
-                      title={chapterItem.title}
-                      description={chapterItem.description}
-                      key={chapterIndex}
-                      selected={chapterItem.selected}
-                      loading={chapterItem.loading}
-                      data={chapterItem.data}
-                      journey={journey}
-                      locked={chapterItem.locked}
-                      tab={chapterItem.tab}
-                      id={id}
-                    />
-                  ))}
+            <div key={index} className="collapse">
+              <input type="checkbox" className="peer" defaultChecked={item.id === 1} />
+              <div className="collapse-title  text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
+                <h1 className="px-4 text-black text-xl font-medium">
+                  Chapter {item.id}: {item.name}
+                </h1>
+              </div>
+              <div className="collapse-content  text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
+                <hr className="mt-2" />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-4 py-5">
+                  {journeyData
+                    .filter((chapter) => chapter.chapter === item.id)
+                    .map((chapterItem, chapterIndex) => (
+                      <Card
+                        title={chapterItem.title}
+                        description={chapterItem.description}
+                        key={chapterIndex}
+                        selected={chapterItem.selected}
+                        loading={chapterItem.loading}
+                        data={chapterItem.data}
+                        journey={journey}
+                        locked={chapterItem.locked}
+                        tab={chapterItem.tab}
+                        id={id}
+                      />
+                    ))}
+                </div>
               </div>
             </div>
           ))}
@@ -510,28 +515,33 @@ const page = ({ params, searchParams }) => {
       {journey === 3 && (
         <div>
           {chapters.map((item, index) => (
-            <div key={index}>
-              <h1 className="px-4 text-black text-xl font-medium">
-                Chapter {item.id}: {item.name}
-              </h1>
-              <hr className="mt-2" />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-4 py-5  ">
-                {journeyData
-                  .filter((chapter) => chapter.chapter === item.id)
-                  .map((chapterItem, chapterIndex) => (
-                    <Card
-                      title={chapterItem.title}
-                      description={chapterItem.description}
-                      key={chapterIndex}
-                      selected={chapterItem.selected}
-                      loading={chapterItem.loading}
-                      data={chapterItem.data}
-                      journey={journey}
-                      locked={chapterItem.locked}
-                      tab={chapterItem.tab}
-                      id={id}
-                    />
-                  ))}
+            <div key={index} className="collapse">
+              <input type="checkbox" className="peer" defaultChecked={item.id === 1} />
+              <div className="collapse-title  text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
+                <h1 className="px-4 text-black text-xl font-medium">
+                  Chapter {item.id}: {item.name}
+                </h1>
+              </div>
+              <div className="collapse-content  text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
+                <hr className="mt-2" />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-4 py-5">
+                  {journeyData
+                    .filter((chapter) => chapter.chapter === item.id)
+                    .map((chapterItem, chapterIndex) => (
+                      <Card
+                        title={chapterItem.title}
+                        description={chapterItem.description}
+                        key={chapterIndex}
+                        selected={chapterItem.selected}
+                        loading={chapterItem.loading}
+                        data={chapterItem.data}
+                        journey={journey}
+                        locked={chapterItem.locked}
+                        tab={chapterItem.tab}
+                        id={id}
+                      />
+                    ))}
+                </div>
               </div>
             </div>
           ))}

@@ -63,11 +63,12 @@ const Header = ({ id, name, journey }) => {
     const user = useRecoilValue(userState)
     const credits = useRecoilValue(creditCountState)
     const [shareModal, setShareModal] = useState(false)
-
+    const [currentJourney, setCurrentJourney] = useState(journey)
 
     const [showPdf, setShowPdf] = useState(false);
 
-    const handleClick = () => {
+    const handleClick = (id) => {
+        setCurrentJourney(id)
         setShowPdf(prev => !prev)
     }
     return (
@@ -106,10 +107,21 @@ const Header = ({ id, name, journey }) => {
                         <ShareIcon className='w-5 h-5' />
                         Share
                     </button>
-                    <button className='bg-[#FFF0DF] rounded-full px-4 py-2 text-brand flex items-center whitespace-nowrap gap-2' onClick={handleClick}>
-                        <ArrowDownTrayIcon className='w-5 h-5' />
-                        Download Playbook
-                    </button>
+
+                    <div className="dropdown bg-transparent">
+                        <label tabIndex={0} className="">
+                            <button className='bg-[#FFF0DF] rounded-full px-4 py-2 text-brand flex items-center whitespace-nowrap gap-2' >
+                                <ArrowDownTrayIcon className='w-5 h-5' />
+                                Download Playbook
+                            </button>
+                        </label>
+                        <ul tabIndex={0} className="dropdown-content  menu gap-3 shadow bg-transparent rounded-box w-52">
+                            <li className='bg-[#FFF0DF] rounded-md px-4 py-2 text-brand flex items-center cursor-pointer whitespace-nowrap gap-2 hover:bg-brand hover:text-white' onClick={() => handleClick(1)}>Journey 1</li>
+                            <li className='bg-[#FFF0DF] rounded-md px-4 py-2 text-brand flex items-center cursor-pointer whitespace-nowrap gap-2 hover:bg-brand hover:text-white' onClick={() => handleClick(2)}>Journey 2</li>
+                            <li className='bg-[#FFF0DF] rounded-md px-4 py-2 text-brand flex items-center cursor-pointer whitespace-nowrap gap-2 hover:bg-brand hover:text-white' onClick={() => handleClick(3)}>Journey 3</li>
+                        </ul>
+                    </div>
+
                 </div>
             </div>
             <div className='flex flex-col items-start justify-center w-full lg:flex-row lg:items-center lg:justify-start gap-3'>
