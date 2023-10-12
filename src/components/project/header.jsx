@@ -129,7 +129,7 @@ const Header = ({ id, name, journey }) => {
                     <Journey key={j.id} {...j} selected={journey} projectId={id} />
                 ))}
             </div>
-            {showPdf && <PdfDisplay setShowPdf={setShowPdf} showPdf={showPdf} id={id} />}
+            {showPdf && <PdfDisplay setShowPdf={setShowPdf} showPdf={showPdf} id={id} currentJourney={currentJourney} />}
             {shareModal && <ShareModal isOpen={shareModal} setIsOpen={setShareModal} id={id} journey={journey} title={name} />}
         </header>
     )
