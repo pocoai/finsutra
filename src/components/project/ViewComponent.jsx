@@ -230,7 +230,7 @@ const ViewComponent = ({
                                         <th className="px-4 py-2 border border-gray-500">
                                             Website
                                         </th>
-                                        {process.env.NEXT_PUBLIC_ENV === "test" && (
+                                        {process.env.NEXT_PUBLIC_NODE_ENV === "test" && (
                                             <th className="px-4 py-2 border border-gray-500">
                                                 Type
                                             </th>
@@ -261,7 +261,7 @@ const ViewComponent = ({
                                                         {/* {item?.url?.includes("http") ? item?.url : `https://${item?.url}`} */}
                                                     </a>
                                                 </td>
-                                                {process.env.NEXT_PUBLIC_ENV === "test" && (
+                                                {process.env.NEXT_PUBLIC_NODE_ENV === "test" && (
                                                     <td className=" px-4 py-2 border border-gray-500">{item?.type}</td>
                                                 )}
                                                 <td className=" px-4 py-2 border border-gray-500">
