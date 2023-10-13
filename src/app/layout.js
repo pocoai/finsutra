@@ -61,11 +61,11 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* <script
+        <script
           dangerouslySetInnerHTML={{
             __html: `window.location.href = "https://stg.favcynavigator.com/"`,
           }}
-        /> */}
+        />
 
         <script
           id="gtm-script"
