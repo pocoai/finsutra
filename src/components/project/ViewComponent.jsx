@@ -230,7 +230,7 @@ const ViewComponent = ({
                                         <th className="px-4 py-2 border border-gray-500">
                                             Website
                                         </th>
-                                        {process.env.NEXT_PUBLIC_ENV === "test" && (
+                                        {process.env.NEXT_PUBLIC_NODE_ENV === "test" && (
                                             <th className="px-4 py-2 border border-gray-500">
                                                 Type
                                             </th>
@@ -261,7 +261,7 @@ const ViewComponent = ({
                                                         {/* {item?.url?.includes("http") ? item?.url : `https://${item?.url}`} */}
                                                     </a>
                                                 </td>
-                                                {process.env.NEXT_PUBLIC_ENV === "test" && (
+                                                {process.env.NEXT_PUBLIC_NODE_ENV === "test" && (
                                                     <td className=" px-4 py-2 border border-gray-500">{item?.type}</td>
                                                 )}
                                                 <td className=" px-4 py-2 border border-gray-500">
@@ -493,8 +493,11 @@ const ViewComponent = ({
                             <th className="px-4 py-2 text-brand whitespace-nowrap">
                                 Objectives
                             </th>
-                            <th className="px-4 py-2 text-brand whitespace-nowrap">
-                                Tasks
+                            <th className="px-4 py-2 text-brand whitespace-nowrap flex justify-between items-center ">
+                                <p className='ml-10'>Tasks</p>
+
+
+                                {data[0]["Priorities"]?.length > 0 && <p>Priority</p>}
                             </th>
                             <th className="px-4 py-2 text-brand whitespace-nowrap">
                                 Outcomes
@@ -510,15 +513,29 @@ const ViewComponent = ({
                                 <td className="px-4 py-2 max-w-xl border-b-2 border-l-2 font-medium" style={{ verticalAlign: 'top' }}>
                                     <ul className='list-none px-4'>
                                         {item?.Tasks.map((task, index) => {
+                                            const priority = item["Priorities"] && item["Priorities"][index];
                                             return (
                                                 <li className='my-3' key={index}>
-                                                    <input type="checkbox" id={`task-${index}`} name={`task-${index}`} className='accent-brand text-white w-3 h-3' defaultChecked />
-                                                    <label htmlFor={`task-${index}`} className="ml-2">{task}</label>
+
+                                                    <div className='flex items-start justify-start gap-2'>
+                                                        <div>
+                                                            <input type="checkbox" id={`task-${index}`} name={`task-${index}`} className='accent-brand text-white w-3 h-3' defaultChecked />
+                                                            <label htmlFor={`task-${index}`} className="ml-2">{task}</label>
+                                                        </div>
+                                                        {
+                                                            priority &&
+                                                            <span className='text-brand text-xl font-bold '>
+                                                                [{priority}]
+                                                            </span>
+                                                        }
+                                                    </div>
                                                 </li>
                                             );
                                         })}
+
                                     </ul>
                                 </td>
+
 
                                 <td className=" px-4 py-2 border-b-2 border-l-2 font-medium" style={{ verticalAlign: 'top' }}>
                                     <ul className='list-decimal  px-4'>

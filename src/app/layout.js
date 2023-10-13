@@ -15,9 +15,9 @@ const urbanist = Urbanist({
 });
 
 const metadata = {
-  title: " Favcy Navigator | AI-powered Business Co-Pilot  ",
+  title: " Favcy Navigator| AI powered venture building copilot.  ",
   description:
-    "The next chapter in entrepreneurship is written with Navigator. Seamlessly merge your aspirations with our venture building expertise, and watch as ideas transform into industry-changing ventures.",
+    "Favcy Navigator is an AI-powered tool that revolutionizes the way founders approach venture building. In the world of startups, where challenges and complexities often abound, Favcy Navigator serves as your indispensable ally, simplifying every step of the journey while ensuring a profitable and efficient outcome.",
 };
 
 export default function RootLayout({ children }) {
@@ -28,10 +28,13 @@ export default function RootLayout({ children }) {
 
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content={metadata.description} />
-        <meta property="og:title" content="Favcy Navigator | AI-powered Business Co-Pilot" />
+        <meta
+          property="og:title"
+          content="Favcy Navigator | AI powered venture building copilot."
+        />
         <meta
           property="og:description"
-          content="The next chapter in entrepreneurship is written with Navigator. Seamlessly merge your aspirations with our venture building expertise, and watch as ideas transform into industry-changing ventures."
+          content="Favcy Navigator is an AI-powered tool that revolutionizes the way founders approach venture building. In the world of startups, where challenges and complexities often abound, Favcy Navigator serves as your indispensable ally, simplifying every step of the journey while ensuring a profitable and efficient outcome."
         />
         <meta property="og:image" content="/images/og.png" />
         <meta property="og:url" content="https://favcynavigator.com" />
@@ -58,11 +61,11 @@ export default function RootLayout({ children }) {
           }}
         />
 
-        {/* <script
+        <script
           dangerouslySetInnerHTML={{
             __html: `window.location.href = "https://stg.favcynavigator.com/"`,
           }}
-        /> */}
+        />
 
         <script
           id="gtm-script"
