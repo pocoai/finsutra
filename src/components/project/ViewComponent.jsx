@@ -497,7 +497,7 @@ const ViewComponent = ({
                                 <p className='ml-10'>Tasks</p>
 
 
-                                <p>Priority</p>
+                                {data[0]["Priorities"]?.length > 0 && <p>Priority</p>}
                             </th>
                             <th className="px-4 py-2 text-brand whitespace-nowrap">
                                 Outcomes
