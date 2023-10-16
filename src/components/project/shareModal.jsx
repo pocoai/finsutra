@@ -4,10 +4,12 @@ import { Fragment, useState } from 'react'
 import { Urbanist } from 'next/font/google'
 import classNames from 'classnames'
 import { XMarkIcon } from '@heroicons/react/24/solid'
-import { ClipboardIcon } from '@heroicons/react/24/outline'
+import { ClipboardIcon, DocumentIcon } from '@heroicons/react/24/outline'
 import axios from 'axios'
 import { useAuth } from '@clerk/nextjs'
 import { toast } from 'react-toastify'
+
+
 
 
 const urbanist = Urbanist({
@@ -23,6 +25,7 @@ const ShareModal = ({ isOpen, setIsOpen, id, title, journey, }) => {
     // console.log(data, tab, journey, "in View modal")
     const { getToken } = useAuth()
     const [loading, setLoading] = useState(false);
+    const [googleDocLoading, setGoogleDocLoading] = useState(false);
 
     function closeModal() {
         setIsOpen(false)
@@ -33,6 +36,45 @@ const ShareModal = ({ isOpen, setIsOpen, id, title, journey, }) => {
     }
 
     const api = process.env.NEXT_PUBLIC_URL;
+
+    const shareAsGoogleDoc = async () => {
+
+        setGoogleDocLoading(true);
+        const token = await getToken();
+        try {
+            let res = await axios.post(`${api}/api/project/${id}/share/doc`, {
+                journey: journey
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+            // console.log(res.data, "res.data");
+            if (res.data.success && res.data.documentId) {
+                toast.success("Check your email", {
+                    position: "top-center",
+                });
+            }
+            else {
+                console.log(res.data, "res.data");
+                toast.error("Something went wrong", {
+                    position: "bottom-center",
+                });
+            }
+
+        } catch (error) {
+            console.log(error, "error");
+            toast.error("Something went wrong", {
+                position: "bottom-center",
+            })
+        }
+
+        setGoogleDocLoading(false);
+        closeModal()
+
+
+    }
 
     const shareLink = async () => {
 
@@ -121,17 +163,30 @@ const ShareModal = ({ isOpen, setIsOpen, id, title, journey, }) => {
                                         Anyone with the URL will be able to view the shared journey.
                                     </p>
 
-                                    <button className=' float-right absolute bottom-3 right-3 hover:bg-brand bg-[#FFF0DF] border-brand text-brand rounded-full px-4 py-2 hover:text-white whitespace-nowrap flex items-center justify-center gap-2'
+                                    <div className='flex w-full items-center justify-between'>
+                                        <button className='  hover:bg-brand bg-[#FFF0DF] border-brand text-brand rounded-full px-4 py-2 hover:text-white whitespace-nowrap flex items-center justify-center gap-2'
 
-                                        onClick={shareLink}
+                                            onClick={shareAsGoogleDoc}
 
-                                    >
-                                        {
-                                            loading ? (<span className="loading loading-spinner loading-xs"></span>) : (
-                                                <><ClipboardIcon className="w-5 h-5" />
-                                                    Generate Link </>)
-                                        }
-                                    </button>
+                                        >
+                                            {
+                                                googleDocLoading ? (<span className="loading loading-spinner loading-xs"></span>) : (
+                                                    <><DocumentIcon className="w-5 h-5" />
+                                                        Share as Google Doc </>)
+                                            }
+                                        </button>
+                                        <button className='  hover:bg-brand bg-[#FFF0DF] border-brand text-brand rounded-full px-4 py-2 hover:text-white whitespace-nowrap flex items-center justify-center gap-2'
+
+                                            onClick={shareLink}
+
+                                        >
+                                            {
+                                                loading ? (<span className="loading loading-spinner loading-xs"></span>) : (
+                                                    <><ClipboardIcon className="w-5 h-5" />
+                                                        Generate Link </>)
+                                            }
+                                        </button>
+                                    </div>
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>
