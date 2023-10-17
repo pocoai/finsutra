@@ -50,40 +50,69 @@ export const POST = async (request, { params }) => {
   const createResponse = await client.documents.create({
     requestBody: {
       title: project.name + " - " + "Journey " + journey,
-      body: {
-        content: [
-          {
-            paragraph: {
-              elements: [
-                {
-                  textRun: {
-                    content: "Hello, World!",
-                  },
-                },
-              ],
-            },
-          },
-          // You can add more content here
-          // For example, to add a new paragraph with text:
-          {
-            paragraph: {
-              elements: [
-                {
-                  textRun: {
-                    content: "This is a new paragraph.",
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
     },
   });
 
   //   console.log(createResponse.data);
 
   if (createResponse.data.documentId) {
+    let docId = createResponse.data.documentId;
+
+    const dataToInsert = [
+      {
+        key: "Name",
+        value: "SkyRent",
+      },
+      {
+        key: "Elevator Pitch",
+        value: "SkyRent: Simplifying House Renting",
+      },
+      {
+        key: "Ideal Customer Profile (ICP)",
+        value: "Renters, landlords, real estate agencies",
+      },
+      {
+        key: "Industry",
+        value: "Real Estate",
+      },
+      {
+        key: "Problem Statement",
+        value: "Complex and time-consuming house renting process, lack of transparency and trust",
+      },
+      {
+        key: "Value Proposition",
+        value:
+          "SkyRent offers a user-friendly platform that simplifies the house renting process. With our innovative technology, renters can easily search for available properties, schedule viewings, and submit rental applications. Landlords and real estate agencies benefit from increased visibility and a streamlined process, while renters enjoy a transparent and efficient renting experience.",
+      },
+    ];
+
+    // Construct the batchUpdate requests to insert data
+    // const batchUpdateRequests = dataToInsert.map((item, index) => {
+    //   return {
+    //     insertText: {
+    //       text: `${item.key}: ${item.value}\n`,
+    //     },
+    //   };
+    // });
+
+    let insertResponse = await client.documents.batchUpdate({
+      documentId: docId,
+      requestBody: {
+        requests: [
+          {
+            insertText: {
+              text: "",
+              location: {
+                index: 0,
+              },
+            },
+          },
+        ],
+      },
+    });
+
+    console.log(insertResponse.data);
+
     // Share the document with the specified email address using the Google Drive API
     const driveAuth = new google.auth.GoogleAuth({
       keyFilename: path.join(process.cwd(), "/src/firebase/credentials.json"),
