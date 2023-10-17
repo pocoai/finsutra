@@ -20,7 +20,7 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import htmlToPdfMake from "html-to-pdfmake";
 import { journey2 } from "@/utils/journeys";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-import { useRemark } from "react-remark";
+import MarkdownIt from 'markdown-it';
 
 const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
   const [currentProject, setCurrentProject] = useState([]);
@@ -28,6 +28,21 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
   const [loading, setLoading] = useState(false);
   const { getToken } = useAuth();
   const reportTemplateRef = useRef(null);
+  const markdownParser = new MarkdownIt();
+
+  const modifyMarkdownForTab = (tabIndex) => {
+    const tabData = currentProject[0]?.journey2[`tab${tabIndex}`]?.data || '';
+    const parsedContent = markdownParser.parse(tabData, {});
+  
+    parsedContent.tokens?.forEach((token) => {
+      if (token.type === 'heading_open') {
+        token.attrPush(['custom-comment', '<!-- okok -->']);
+      }
+    });
+  
+    return markdownParser.renderer.render(parsedContent, {});
+  };
+  
 
   const toggleSidebar = () => {
     setShowPdf(!showPdf);
@@ -146,6 +161,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [showPdf]);
+
 
   return (
     <div className="flex flex-col items-center justify-center  py-2 z-50 ">
@@ -717,9 +733,11 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
                         <div>
                           {currentProject[0]?.journey2[`tab5`]?.selected && (
                             <div className="">
-                              <Markdown className="prose ">
-                                {currentProject[0]?.journey2[`tab5`]?.data}
-                              </Markdown>
+                               {currentProject[0]?.journey2['tab5']?.selected && (
+                                <div className="">
+                                  <Markdown2>{modifyMarkdownForTab(5)}</Markdown2>
+                                </div>
+                              )}
                             </div>
                           )}
                         </div>
@@ -761,55 +779,43 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
                         </div>
                         <div>
                           {currentProject[0]?.journey2[`tab10`]?.selected && (
-                            <div className="">
-                              <Markdown className="prose ">
-                                {currentProject[0]?.journey2[`tab10`]?.data}
-                              </Markdown>
-                            </div>
+                           <div className="">
+                            <Markdown2>{modifyMarkdownForTab(10)}</Markdown2>
+                           </div>
                           )}
                         </div>
                         <div>
                           {currentProject[0]?.journey2[`tab11`]?.selected && (
                             <div className="">
-                              <Markdown className="prose ">
-                                {currentProject[0]?.journey2[`tab11`]?.data}
-                              </Markdown>
+                              <Markdown2>{modifyMarkdownForTab(11)}</Markdown2>
                             </div>
                           )}
                         </div>
                         <div>
                           {currentProject[0]?.journey2[`tab12`]?.selected && (
                             <div className="">
-                              <Markdown className="prose ">
-                                {currentProject[0]?.journey2[`tab12`]?.data}
-                              </Markdown>
+                              <Markdown2>{modifyMarkdownForTab(12)}</Markdown2>
                             </div>
                           )}
                         </div>
                         <div>
                           {currentProject[0]?.journey2[`tab13`]?.selected && (
                             <div className="">
-                              <Markdown className="prose ">
-                                {currentProject[0]?.journey2[`tab13`]?.data}
-                              </Markdown>
+                              <Markdown2>{modifyMarkdownForTab(13)}</Markdown2>
                             </div>
                           )}
                         </div>
                         <div>
                           {currentProject[0]?.journey2[`tab14`]?.selected && (
                             <div className="">
-                              <Markdown className="prose ">
-                                {currentProject[0]?.journey2[`tab14`]?.data}
-                              </Markdown>
+                              <Markdown2>{modifyMarkdownForTab(14)}</Markdown2>
                             </div>
                           )}
                         </div>
                         <div>
                           {currentProject[0]?.journey2[`tab15`]?.selected && (
                             <div className="">
-                              <Markdown className="prose ">
-                                {currentProject[0]?.journey2[`tab15`]?.data}
-                              </Markdown>
+                              <Markdown2>{modifyMarkdownForTab(15)}</Markdown2>
                             </div>
                           )}
                         </div>
@@ -852,9 +858,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
                         <div>
                           {currentProject[0]?.journey2[`tab20`]?.selected && (
                             <div className="">
-                              <Markdown className="prose">
-                                {currentProject[0]?.journey2[`tab20`]?.data}
-                              </Markdown>  
+                              <Markdown2>{modifyMarkdownForTab(20)}</Markdown2>
                             </div>
                           )}
                         </div>
@@ -873,11 +877,9 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
                       ))}
                       <div>
                           {currentProject[0]?.journey2[`tab28`]?.selected && (
-                            <div className="">
-                              <Markdown className="prose ">
-                                {currentProject[0]?.journey2[`tab28`]?.data}
-                              </Markdown>
-                            </div>
+                              <div className="">
+                                  <Markdown2>{modifyMarkdownForTab(28)}</Markdown2>
+                              </div>
                           )}
                         </div>
                     </div>
@@ -890,15 +892,24 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
                             <div className="flex flex-col items-start justify-start space-y-4 ">
                               <h1>{journey2.find((item) => item.tab === index + 1).title}</h1>
                               <table className="table-auto ">
-                                <thead >
+                                <thead>
                                   <tr>
-                                    <th className="px-4 py-2 text-brand whitespace-nowrap" style={{color: '#FD8A09'}}>
+                                    <th
+                                      className="px-4 py-2 text-brand whitespace-nowrap"
+                                      style={{ color: "#FD8A09" }}
+                                    >
                                       Objectives
                                     </th>
-                                    <th className="px-4 py-2 text-brand whitespace-nowrap" style={{color: '#FD8A09'}}>
+                                    <th
+                                      className="px-4 py-2 text-brand whitespace-nowrap"
+                                      style={{ color: "#FD8A09" }}
+                                    >
                                       Tasks
                                     </th>
-                                    <th className="px-4 py-2 text-brand whitespace-nowrap" style={{color: '#FD8A09'}}>
+                                    <th
+                                      className="px-4 py-2 text-brand whitespace-nowrap"
+                                      style={{ color: "#FD8A09" }}
+                                    >
                                       Outcomes
                                     </th>
                                   </tr>
@@ -909,7 +920,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
                                       <tr>
                                         <td
                                           className=" px-4 py-2 border-b-2 font-semibold text-brand"
-                                          style={{ verticalAlign: "top", color: '#FD8A09' }}
+                                          style={{ verticalAlign: "top", color: "#FD8A09" }}
                                         >
                                           {index + 1}. {item?.Objective}
                                         </td>
@@ -923,14 +934,11 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
                                                 <li className="my-3" key={index}>
                                                   <input
                                                     type="checkbox"
-                                                   
                                                     name={task}
                                                     className="accent-brand text-white w-3 h-3"
                                                     defaultChecked
                                                   />
-                                                  <label  className="ml-2">
-                                                    {task}
-                                                  </label>
+                                                  <label className="ml-2">{task}</label>
                                                 </li>
                                               );
                                             })}
