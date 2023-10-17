@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -12,8 +12,8 @@ import ChatRender from "./ChatRender";
 import { getDoc, getFileChat, getResponse, uploadPDFClient } from "@/helpers/apiRequests";
 import { getProjectData, setLinks } from "@/firebase/apiRequests";
 import { createPDF } from "@/utils";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UploadAndChat = ({ id, setFileName, indexnameQuery }) => {
   const router = useRouter();
@@ -28,14 +28,13 @@ const UploadAndChat = ({ id, setFileName, indexnameQuery }) => {
   const [messages, setMessages] = useState([]);
   const textValue = useRef(null);
 
-  setFileName(file?.name?.replace(/.pdf$/, '')||file?.replace(/.pdf$/, ''));
+  setFileName(file?.name?.replace(/.pdf$/, "") || file?.replace(/.pdf$/, ""));
 
   const fetchDataAndCreateFile = async (id) => {
     try {
       let currentProject = await getProjectData(id);
 
-      console.log(currentProject, "currentProject");
-
+      // console.log(currentProject, "currentProject");
 
       setBusy(true);
       const formData = new FormData();
@@ -87,7 +86,6 @@ const UploadAndChat = ({ id, setFileName, indexnameQuery }) => {
   };
 
   const fetchFile = async () => {
-  
     if (!indexnameQuery) return;
     setIndexname(indexnameQuery);
     setBusy(true);
@@ -101,8 +99,8 @@ const UploadAndChat = ({ id, setFileName, indexnameQuery }) => {
         toast.error("Internal Server Error.Try Again");
       } else {
         setFile(res?.response[0]);
-        console.log('hello',file)
-        setFileName(file?.replace(/.pdf$/, ''))
+        console.log("hello", file);
+        setFileName(file?.replace(/.pdf$/, ""));
       }
     }
     setBusy(false);
@@ -141,9 +139,8 @@ const UploadAndChat = ({ id, setFileName, indexnameQuery }) => {
     if (searchLoader) return;
     setSearchLoader(true);
 
+    let question = textValue.current.value;
     const res = await getResponse(indexname, textValue.current.value);
-
-    // console.log(res, "res");
 
     if (res) {
       if (
@@ -164,7 +161,7 @@ const UploadAndChat = ({ id, setFileName, indexnameQuery }) => {
                 ...prev,
                 {
                   type: "user",
-                  message: res?.response?.question,
+                  message: question,
                 },
               ]);
               setMessages((prev) => [
@@ -185,7 +182,7 @@ const UploadAndChat = ({ id, setFileName, indexnameQuery }) => {
             ...prev,
             {
               type: "user",
-              message: res?.response?.question,
+              message: question,
             },
           ]);
           setMessages((prev) => [
@@ -254,16 +251,16 @@ const UploadAndChat = ({ id, setFileName, indexnameQuery }) => {
   return (
     <div className="w-full h-[80vh] flex flex-col overflow-x-hidden pb-5">
       {indexname !== null && (
-          <div className="text-end mt-2 mb-2">
-            <button
-              type="button"
-              className="h-10 px-3 text-white rounded-lg bg-[#FD8A09] disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400 transition-all duration-150"
-              onClick={handleCopy}
-            >
-              Share Link
-            </button> 
-          </div>
-        )}
+        <div className="text-end mt-2 mb-2">
+          <button
+            type="button"
+            className="h-10 px-3 text-white rounded-lg bg-[#FD8A09] disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400 transition-all duration-150"
+            onClick={handleCopy}
+          >
+            Share Link
+          </button>
+        </div>
+      )}
       <div className="flex flex-col items-center justify-center grow w-full h-[calc(100%-68px)]">
         <div className="w-full h-full border rounded-md shadow-md flex divide-x">
           <div className="w-1/2">
@@ -362,7 +359,7 @@ const UploadAndChat = ({ id, setFileName, indexnameQuery }) => {
           </div>
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 };

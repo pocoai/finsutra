@@ -1,6 +1,7 @@
+import Image from 'next/image';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Markdown from 'react-markdown'
-
+import { Tooltip } from 'react-tooltip';
 
 const ViewComponent = ({
     data,
@@ -496,8 +497,33 @@ const ViewComponent = ({
                             <th className="px-4 py-2 text-brand whitespace-nowrap flex justify-between items-center ">
                                 <p className='ml-10'>Tasks</p>
 
+                                <div className='flex items-center'>
 
-                                {data[0]["Priorities"]?.length > 0 && <p>Priority</p>}
+                                    {data[0]["Priorities"]?.length > 0 && <p>
+                                        Priority
+                                    </p>}
+
+                                    <div
+                                        className='tooltip tooltip-top'
+                                        data-tooltip-html={`<div>
+                                        <p>Priority Column is generated in alignment with the MoSCoW<br/>Prioritization Technique</p>
+                                        <ul>
+                                          <li>M : Must have</li>
+                                          <li>S : Should have</li>
+                                          <li>C : Could have</li>
+                                          <li>W : Would have</li>
+                                        </ul>
+                                      </div>
+                                      `}
+                                        data-html={true}
+                                        data-tooltip-id="my-tooltip-data-html"
+                                    >
+                                        <Image src="/images/file-question.svg" alt="arrow" width={20} height={20} className='ml-2' />
+                                    </div>
+                                    <Tooltip id='my-tooltip-data-html' effect='solid' place='top' multiline={true} />
+
+                                </div>
+
                             </th>
                             <th className="px-4 py-2 text-brand whitespace-nowrap">
                                 Outcomes
