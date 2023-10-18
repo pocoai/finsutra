@@ -20,9 +20,9 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import htmlToPdfMake from "html-to-pdfmake";
 import { journey2 } from "@/utils/journeys";
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-import MarkdownIt from 'markdown-it';
+import MarkdownIt from "markdown-it";
 
-const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
+const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
   const [currentProject, setCurrentProject] = useState([]);
   const [downloading, setisDownloading] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -31,18 +31,29 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
   const markdownParser = new MarkdownIt();
 
   const modifyMarkdownForTab = (tabIndex) => {
-    const tabData = currentProject[0]?.journey2[`tab${tabIndex}`]?.data || '';
+    const tabData = currentProject[0]?.journey2[`tab${tabIndex}`]?.data || "";
     const parsedContent = markdownParser.parse(tabData, {});
-  
+
     parsedContent.tokens?.forEach((token) => {
-      if (token.type === 'heading_open') {
-        token.attrPush(['custom-comment', '<!-- okok -->']);
+      if (token.type === "heading_open") {
+        token.attrPush(["custom-comment", "<!-- okok -->"]);
       }
     });
-  
+
     return markdownParser.renderer.render(parsedContent, {});
   };
-  
+
+  const modifyMarkdownForData = (tabData) => {
+    const parsedContent = markdownParser.parse(tabData, {});
+
+    parsedContent.tokens?.forEach((token) => {
+      if (token.type === "heading_open") {
+        token.attrPush(["custom-comment", "<!-- okok -->"]);
+      }
+    });
+
+    return markdownParser.renderer.render(parsedContent, {});
+  };
 
   const toggleSidebar = () => {
     setShowPdf(!showPdf);
@@ -162,7 +173,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
     };
   }, [showPdf]);
 
-
   return (
     <div className="flex flex-col items-center justify-center  py-2 z-50 ">
       <div ref={sidebarRef}>
@@ -189,7 +199,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
                     Project Name : {currentProject[0]?.name}
                   </h1>
 
-                  {currentJourney === 1 && (
+                  {journeyStates?.journey1 && (
                     <div>
                       <h2 className="my-3 text-lg font-bold text-gray-600">
                         Journey #1 : Zero to Coming Soon{" "}
@@ -716,8 +726,11 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
                     </div>
                   )}
 
-                  {currentJourney === 2 && (
+                  {journeyStates?.journey2 && (
                     <div>
+                      <h2 className="my-3 text-lg font-bold text-gray-600">
+                        Journey #2 : Favcy Venture Manual
+                      </h2>
                       {Array.from({ length: 4 }, (_, index) => (
                         <div key={index}>
                           {currentProject[0]?.journey2[`tab${index + 1}`]?.selected && (
@@ -730,140 +743,139 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
                         </div>
                       ))}
 
-                        <div>
-                          {currentProject[0]?.journey2[`tab5`]?.selected && (
-                            <div className="">
-                               {currentProject[0]?.journey2['tab5']?.selected && (
-                                <div className="">
-                                  <Markdown2>{modifyMarkdownForTab(5)}</Markdown2>
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab6`]?.selected && (
-                            <div className="">
-                              <Markdown2 className="prose ">
-                                {currentProject[0]?.journey2[`tab6`]?.data}
-                              </Markdown2>
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab7`]?.selected && (
-                            <div className="">
-                              <Markdown2 className="prose ">
-                                {currentProject[0]?.journey2[`tab7`]?.data}
-                              </Markdown2>
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab8`]?.selected && (
-                            <div className="">
-                              <Markdown2 className="prose ">
-                                {currentProject[0]?.journey2[`tab8`]?.data}
-                              </Markdown2>
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab9`]?.selected && (
-                            <div className="">
-                              <Markdown2 className="prose ">
-                                {currentProject[0]?.journey2[`tab9`]?.data}
-                              </Markdown2>
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab10`]?.selected && (
-                           <div className="">
+                      <div>
+                        {currentProject[0]?.journey2[`tab5`]?.selected && (
+                          <div className="">
+                            {currentProject[0]?.journey2["tab5"]?.selected && (
+                              <div className="">
+                                <Markdown2>{modifyMarkdownForTab(5)}</Markdown2>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab6`]?.selected && (
+                          <div className="">
+                            <Markdown2 className="prose ">
+                              {currentProject[0]?.journey2[`tab6`]?.data}
+                            </Markdown2>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab7`]?.selected && (
+                          <div className="">
+                            <Markdown2 className="prose ">
+                              {currentProject[0]?.journey2[`tab7`]?.data}
+                            </Markdown2>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab8`]?.selected && (
+                          <div className="">
+                            <Markdown2 className="prose ">
+                              {currentProject[0]?.journey2[`tab8`]?.data}
+                            </Markdown2>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab9`]?.selected && (
+                          <div className="">
+                            <Markdown2 className="prose ">
+                              {currentProject[0]?.journey2[`tab9`]?.data}
+                            </Markdown2>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab10`]?.selected && (
+                          <div className="">
                             <Markdown2>{modifyMarkdownForTab(10)}</Markdown2>
-                           </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab11`]?.selected && (
-                            <div className="">
-                              <Markdown2>{modifyMarkdownForTab(11)}</Markdown2>
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab12`]?.selected && (
-                            <div className="">
-                              <Markdown2>{modifyMarkdownForTab(12)}</Markdown2>
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab13`]?.selected && (
-                            <div className="">
-                              <Markdown2>{modifyMarkdownForTab(13)}</Markdown2>
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab14`]?.selected && (
-                            <div className="">
-                              <Markdown2>{modifyMarkdownForTab(14)}</Markdown2>
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab15`]?.selected && (
-                            <div className="">
-                              <Markdown2>{modifyMarkdownForTab(15)}</Markdown2>
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab16`]?.selected && (
-                            <div className="">
-                              <Markdown2 className="prose ">
-                                {currentProject[0]?.journey2[`tab16`]?.data}
-                              </Markdown2>
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab17`]?.selected && (
-                            <div className="">
-                              <Markdown className="prose ">
-                                {currentProject[0]?.journey2[`tab17`]?.data}
-                              </Markdown>
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab18`]?.selected && (
-                            <div className="">
-                              <Markdown2 className="prose ">
-                                {currentProject[0]?.journey2[`tab18`]?.data}
-                              </Markdown2>
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab19`]?.selected && (
-                            <div className="">
-                              <Markdown2 className="prose ">
-                                {currentProject[0]?.journey2[`tab19`]?.data}
-                              </Markdown2>
-                            </div>
-                          )}
-                        </div>
-                        <div>
-                          {currentProject[0]?.journey2[`tab20`]?.selected && (
-                            <div className="">
-                              <Markdown2>{modifyMarkdownForTab(20)}</Markdown2>
-                            </div>
-                          )}
-                        </div>
-                        
-                      
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab11`]?.selected && (
+                          <div className="">
+                            <Markdown2>{modifyMarkdownForTab(11)}</Markdown2>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab12`]?.selected && (
+                          <div className="">
+                            <Markdown2>{modifyMarkdownForTab(12)}</Markdown2>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab13`]?.selected && (
+                          <div className="">
+                            <Markdown2>{modifyMarkdownForTab(13)}</Markdown2>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab14`]?.selected && (
+                          <div className="">
+                            <Markdown2>{modifyMarkdownForTab(14)}</Markdown2>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab15`]?.selected && (
+                          <div className="">
+                            <Markdown2>{modifyMarkdownForTab(15)}</Markdown2>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab16`]?.selected && (
+                          <div className="">
+                            <Markdown2 className="prose ">
+                              {currentProject[0]?.journey2[`tab16`]?.data}
+                            </Markdown2>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab17`]?.selected && (
+                          <div className="">
+                            <Markdown className="prose ">
+                              {currentProject[0]?.journey2[`tab17`]?.data}
+                            </Markdown>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab18`]?.selected && (
+                          <div className="">
+                            <Markdown2 className="prose ">
+                              {currentProject[0]?.journey2[`tab18`]?.data}
+                            </Markdown2>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab19`]?.selected && (
+                          <div className="">
+                            <Markdown2 className="prose ">
+                              {currentProject[0]?.journey2[`tab19`]?.data}
+                            </Markdown2>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        {currentProject[0]?.journey2[`tab20`]?.selected && (
+                          <div className="">
+                            <Markdown2>{modifyMarkdownForTab(20)}</Markdown2>
+                          </div>
+                        )}
+                      </div>
+
                       {Array.from({ length: 7 }, (_, index) => (
                         <div key={index}>
                           {currentProject[0]?.journey2[`tab${index + 21}`]?.selected && (
@@ -876,21 +888,26 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
                         </div>
                       ))}
                       <div>
-                          {currentProject[0]?.journey2[`tab28`]?.selected && (
-                              <div className="">
-                                  <Markdown2>{modifyMarkdownForTab(28)}</Markdown2>
-                              </div>
-                          )}
-                        </div>
+                        {currentProject[0]?.journey2[`tab28`]?.selected && (
+                          <div className="">
+                            <Markdown2>{modifyMarkdownForTab(28)}</Markdown2>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
-                  {currentJourney === 3 && (
+                  {journeyStates?.journey3 && (
                     <div>
+                      <h2 className="my-3 text-lg font-bold text-gray-600">
+                        Journey #3 : Favcy JTBD Framework
+                      </h2>
                       {Array.from({ length: 28 }, (_, index) => (
-                        <div key={index}>
+                        <div key={index} style={{ fontSize: "14px" }}>
                           {currentProject[0]?.journey3[`tab${index + 1}`]?.selected && (
                             <div className="flex flex-col items-start justify-start space-y-4 ">
-                              <h1>{journey2.find((item) => item.tab === index + 1).title}</h1>
+                              <h3 style={{ marginBottom: "10px", marginTop: "10px" }}>
+                                {journey2.find((item) => item.tab === index + 1).title}
+                              </h3>
                               <table className="table-auto ">
                                 <thead>
                                   <tr>
@@ -920,7 +937,11 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
                                       <tr>
                                         <td
                                           className=" px-4 py-2 border-b-2 font-semibold text-brand"
-                                          style={{ verticalAlign: "top", color: "#FD8A09" }}
+                                          style={{
+                                            verticalAlign: "top",
+                                            color: "#FD8A09",
+                                            margin: "5px",
+                                          }}
                                         >
                                           {index + 1}. {item?.Objective}
                                         </td>
@@ -931,7 +952,11 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
                                           <ul className="list-none px-4">
                                             {item?.Tasks.map((task, index) => {
                                               return (
-                                                <li className="my-3" key={index}>
+                                                <li
+                                                  className="my-3"
+                                                  key={index}
+                                                  style={{ margin: "5px" }}
+                                                >
                                                   <input
                                                     type="checkbox"
                                                     name={task}
@@ -951,7 +976,11 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, currentJourney }) => {
                                         >
                                           <ul className="list-decimal  px-4">
                                             {item["Desired Outcomes"].map((task) => {
-                                              return <li className="my-3">{task}</li>;
+                                              return (
+                                                <li className="my-3" style={{ margin: "5px" }}>
+                                                  {task}
+                                                </li>
+                                              );
                                             })}
                                           </ul>
                                         </td>

@@ -63,14 +63,23 @@ const Header = ({ id, name, journey }) => {
     const user = useRecoilValue(userState)
     const credits = useRecoilValue(creditCountState)
     const [shareModal, setShareModal] = useState(false)
-    const [currentJourney, setCurrentJourney] = useState(journey)
-
+    const [journeyStates, setJourneyStates] = useState({
+        journey1: true,
+        journey2: false,
+        journey3: false,
+    });
     const [showPdf, setShowPdf] = useState(false);
 
-    const handleClick = (id) => {
-        setCurrentJourney(id)
-        setShowPdf(prev => !prev)
-    }
+
+    const handleCheckboxChange = (journeyName) => {
+        setJourneyStates({
+            ...journeyStates,
+            [journeyName]: !journeyStates[journeyName],
+        });
+    };
+
+    console.log(journeyStates, 'journeyStates');
+
     return (
         <header>
             <div className='flex flex-col lg:flex-row items-center w-full justify-between mb-10'>
@@ -108,18 +117,62 @@ const Header = ({ id, name, journey }) => {
                         Share
                     </button>
 
-                    <div className="dropdown bg-transparent">
+                    <div className="dropdown bg-white z-10">
                         <label tabIndex={0} className="">
                             <button className='bg-[#FFF0DF] rounded-full px-4 py-2 text-brand flex items-center whitespace-nowrap gap-2' >
                                 <ArrowDownTrayIcon className='w-5 h-5' />
                                 Download Playbook
                             </button>
                         </label>
-                        <ul tabIndex={0} className="dropdown-content  menu gap-3 shadow bg-transparent rounded-box w-52">
-                            <li className='bg-[#FFF0DF] rounded-md px-4 py-2 text-brand flex items-center cursor-pointer whitespace-nowrap gap-2 hover:bg-brand hover:text-white' onClick={() => handleClick(1)}>Journey 1</li>
-                            <li className='bg-[#FFF0DF] rounded-md px-4 py-2 text-brand flex items-center cursor-pointer whitespace-nowrap gap-2 hover:bg-brand hover:text-white' onClick={() => handleClick(2)}>Journey 2</li>
-                            <li className='bg-[#FFF0DF] rounded-md px-4 py-2 text-brand flex items-center cursor-pointer whitespace-nowrap gap-2 hover:bg-brand hover:text-white' onClick={() => handleClick(3)}>Journey 3</li>
+                        <ul tabIndex={0} className="dropdown-content menu gap-3 shadow bg-white rounded-box w-full">
+                            <div className="form-control w-fit mx-auto">
+                                <label className="cursor-pointer label space-x-4">
+
+                                    <input
+                                        type="checkbox"
+                                        checked={journeyStates.journey1}
+                                        defaultChecked={journeyStates.journey1}
+                                        onChange={() => handleCheckboxChange('journey1')}
+                                        className="accent-brand text-white w-5 h-5"
+                                    />
+                                    <span className="label-text text-lg">Journey 1</span>
+                                </label>
+                            </div>
+                            <div className="form-control w-fit mx-auto">
+                                <label className="cursor-pointer label space-x-4">
+                                    <input
+                                        type="checkbox"
+                                        checked={journeyStates.journey2}
+                                        defaultChecked={journeyStates.journey2}
+                                        onChange={() => handleCheckboxChange('journey2')}
+                                        className="accent-brand text-white w-5 h-5"
+                                    />
+                                    <span className="label-text text-lg">Journey 2</span>
+                                </label>
+                            </div>
+                            <div className="form-control w-fit mx-auto">
+                                <label className="cursor-pointer label space-x-4">
+                                    <input
+                                        type="checkbox"
+                                        checked={journeyStates.journey3}
+                                        defaultChecked={journeyStates.journey3}
+                                        onChange={() => handleCheckboxChange('journey3')}
+                                        className="accent-brand text-white w-5 h-5"
+                                    />
+                                    <span className="label-text text-lg">Journey 3</span>
+                                </label>
+                            </div>
+                            <button className='bg-[#FFF0DF] text-center rounded-full px-4 py-2 text-brand flex justify-center items-center whitespace-nowrap gap-2'
+
+                                onClick={() => setShowPdf(true)}
+
+
+                            >
+                                <ArrowDownTrayIcon className='w-5 h-5' />
+                                <p>Download</p>
+                            </button>
                         </ul>
+
                     </div>
 
                 </div>
@@ -129,7 +182,7 @@ const Header = ({ id, name, journey }) => {
                     <Journey key={j.id} {...j} selected={journey} projectId={id} />
                 ))}
             </div>
-            {showPdf && <PdfDisplay setShowPdf={setShowPdf} showPdf={showPdf} id={id} currentJourney={currentJourney} />}
+            {showPdf && <PdfDisplay setShowPdf={setShowPdf} showPdf={showPdf} id={id} journeyStates={journeyStates} />}
             {shareModal && <ShareModal isOpen={shareModal} setIsOpen={setShareModal} id={id} journey={journey} title={name} />}
         </header>
     )
