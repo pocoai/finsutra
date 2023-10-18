@@ -404,9 +404,9 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       {currentProject[0]?.journey1?.tab5?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4  ">
                           <p>
-                            <Markdown className="prose text-black text-[9px] ">
+                            <Markdown2 className="prose text-black text-[9px] ">
                               {currentProject[0]?.journey1?.tab5?.data}
-                            </Markdown>
+                            </Markdown2>
                           </p>
                         </div>
                       )}
