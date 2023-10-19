@@ -64,7 +64,7 @@ const Header = ({ id, name, journey }) => {
     const credits = useRecoilValue(creditCountState)
     const [shareModal, setShareModal] = useState(false)
     const [journeyStates, setJourneyStates] = useState({
-        journey1: true,
+        journey1: false,
         journey2: false,
         journey3: false,
     });
@@ -78,7 +78,7 @@ const Header = ({ id, name, journey }) => {
         });
     };
 
-    console.log(journeyStates, 'journeyStates');
+    // console.log(journeyStates, 'journeyStates');
 
     return (
         <header>
@@ -164,7 +164,12 @@ const Header = ({ id, name, journey }) => {
                             </div>
                             <button className='bg-[#FFF0DF] text-center rounded-full px-4 py-2 text-brand flex justify-center items-center whitespace-nowrap gap-2'
 
-                                onClick={() => setShowPdf(true)}
+                                onClick={() => {
+                                    if (!journeyStates.journey1 && !journeyStates.journey2 && !journeyStates.journey3) {
+                                        return
+                                    }
+                                    setShowPdf(true)
+                                }}
 
 
                             >
