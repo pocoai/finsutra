@@ -27,6 +27,8 @@ async function updateContactProperties(email, money, credits) {
       }
     );
 
+    console.log("res", res.data);
+
     if (res.status === 204) {
       return true;
     }
@@ -54,6 +56,8 @@ export const POST = async (request) => {
       });
     }
   }
+
+  let userData;
 
   switch (event.type) {
     case "checkout.session.completed":
@@ -118,7 +122,11 @@ export const POST = async (request) => {
               totalMoney += user.purchaseHistory[i].payment_data.amount;
             }
 
-            await updateContactProperties(user.email, totalMoney, user.credits);
+            userData = {
+              email: user.email,
+              money: totalMoney,
+              credits: user.credits,
+            };
           } else {
             return new Response(
               {
@@ -140,6 +148,10 @@ export const POST = async (request) => {
 
     // update credits in db
   }
+
+  let res = await updateContactProperties(userData.email, userData.money, userData.credits);
+
+  console.log(res, "res");
 
   return new Response(null, {
     status: 200,
