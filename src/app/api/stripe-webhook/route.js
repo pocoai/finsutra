@@ -120,7 +120,7 @@ export const POST = async (request) => {
               totalMoney += user.purchaseHistory[i].payment_data.amount;
             }
 
-            await updateContactProperties(user.email, totalMoney, userData.credits);
+            await updateContactProperties(user.email, totalMoney, user.credits);
           } else {
             return new Response(
               {
