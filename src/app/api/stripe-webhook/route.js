@@ -57,8 +57,6 @@ export const POST = async (request) => {
     }
   }
 
-  let userData;
-
   switch (event.type) {
     case "checkout.session.completed":
       const checkoutSessionCompleted = event.data.object;
@@ -122,11 +120,7 @@ export const POST = async (request) => {
               totalMoney += user.purchaseHistory[i].payment_data.amount;
             }
 
-            userData = {
-              email: user.email,
-              money: totalMoney,
-              credits: user.credits,
-            };
+            await updateContactProperties(user.email, totalMoney, userData.credits);
           } else {
             return new Response(
               {
@@ -148,10 +142,6 @@ export const POST = async (request) => {
 
     // update credits in db
   }
-
-  let res = await updateContactProperties(userData.email, userData.money, userData.credits);
-
-  console.log(res, "res");
 
   return new Response(null, {
     status: 200,
