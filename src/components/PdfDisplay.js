@@ -237,6 +237,8 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                         </div>
                       )}
 
+                      <hr />
+
                       <div className="page-break my-5 " id="page">
                         <h4 className="text-[16px] my-3">Problem Solution Fit</h4>
                         {currentProject?.journey1?.tab2?.selected && (
@@ -285,6 +287,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                           </div>
                         )}
                       </div>
+                      <hr />
                       <div className="">
                         {currentProject?.journey1?.tab3?.selected && (
                           <div className="flex flex-col items-start justify-start space-y-4 text-[9px]  ">
@@ -313,7 +316,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                           </div>
                         )}
                       </div>
-
+                      <hr />
                       <div className="html2pdf__page-break">
                         {currentProject?.journey1?.tab4?.selected && (
                           <div className="flex flex-col items-start justify-start text-[9px] space-y-4 my-4  ">
@@ -395,7 +398,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                           </div>
                         )}
                       </div>
-
+                      <hr />
                       {currentProject?.journey1?.tab5?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4  ">
                           <p>
@@ -405,7 +408,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                           </p>
                         </div>
                       )}
-
+                      <hr />
                       {currentProject?.journey1?.tab6?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4  ">
                           <h1 className="font-bold text-[16px]">Minimum Viable Product </h1>
@@ -416,7 +419,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                           </p>
                         </div>
                       )}
-
+                      <hr />
                       {currentProject?.journey1?.tab7?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4 ">
                           <h1 className="font-bold text-[16px]">Features to Monetize </h1>
@@ -427,7 +430,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                           </p>
                         </div>
                       )}
-
+                      <hr />
                       {currentProject?.journey1?.tab8?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4  html2pdf__page-break">
                           <div className="flex flex-col items-start justify-start space-y-2 ">
@@ -508,7 +511,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                           )}
                         </div>
                       )}
-
+                      <hr />
                       {currentProject?.journey1?.tab9?.selected && (
                         <div className="text-[9px]">
                           <h1 className="font-bold text-[16px] my-2">Business Model Canvas </h1>
@@ -718,7 +721,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                           </div>
                         </div>
                       )}
-
+                      <hr />
                       {currentProject?.journey1?.tab9_5?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4 ">
                           <h1 className="font-bold text-[16px]">Growth Levers </h1>
@@ -729,6 +732,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                           </p>
                         </div>
                       )}
+                      <hr />
                       {currentProject?.journey1?.tab10?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4 ">
                           <h1 className="font-bold text-[16px]">Financial Statement</h1>
@@ -741,7 +745,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       )}
                     </div>
                   )}
-
+                  <hr />
                   {journeyStates?.journey2 && (
                     <div>
                       <h2 className="my-3 text-lg font-bold text-gray-600">
@@ -754,6 +758,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                               <Markdown className="prose ">
                                 {modifyMarkdownForTab(index + 1, 2)}
                               </Markdown>
+                              <hr />
                             </div>
                           )}
                         </div>
@@ -855,6 +860,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                               </table>
                             </div>
                           )}
+                          <hr />
                         </div>
                       ))}
                     </div>

@@ -1,30 +1,38 @@
 import { connectDb } from "@/app/lib/connectDb";
 import User from "@/models/User";
 import stripe from "stripe";
-const hubspot = require("@hubspot/api-client");
+import axios from "axios";
 
-async function updateContactProperties(hubspotClient, propertiesToUpdate, contactEmail) {
+async function updateContactProperties(email, money, credits) {
   try {
-    // Fetch the contact by email
-    let contactId;
-    const contact = await hubspotClient.crm.contacts.basicApi.getById(contactEmail, "email");
+    let res = await axios.post(
+      `https://api.hubapi.com/contacts/v1/contact/email/${email}/profile`,
+      {
+        properties: [
+          {
+            property: "total_navigator_credits_used",
+            value: credits,
+          },
+          {
+            property: "total_money_spent_on_navigator",
+            value: money,
+          },
+        ],
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.HUBSPOT_API_KEY}`,
+        },
+      }
+    );
 
-    // Extract the contact ID
-    if (contact && contact.body.id) {
-      contactId = contact.body.id;
-    } else {
-      console.error("Contact not found");
-      return;
+    if (res.status === 204) {
+      return true;
     }
-
-    // Update the contact properties
-    const updatedContact = await hubspotClient.crm.contacts.basicApi.update(contactId, {
-      properties: propertiesToUpdate,
-    });
-
-    console.log("Contact updated:", updatedContact.body);
   } catch (error) {
     console.error("Error updating contact:", error);
+    return false;
   }
 }
 
@@ -104,14 +112,13 @@ export const POST = async (request) => {
             // console.log(user, "user data saved");
 
             await user.save();
-            // updateContactProperties(
-            //   hubspotClient,
-            //   {
-            //     total_money_spent_on_navigator: checkoutSessionCompleted.amount_total,
-            //     total_navigator_credits_used: credits,
-            //   },
-            //   user.email
-            // );
+            let totalMoney = 0;
+
+            for (let i = 0; i < user.purchaseHistory.length; i++) {
+              totalMoney += user.purchaseHistory[i].payment_data.amount;
+            }
+
+            await updateContactProperties(user.email, totalMoney, user.credits);
           } else {
             return new Response(
               {
@@ -133,10 +140,6 @@ export const POST = async (request) => {
 
     // update credits in db
   }
-
-  const hubspotClient = new hubspot.Client({
-    accessToken: process.env.HUBSPOT_API_KEY,
-  });
 
   return new Response(null, {
     status: 200,

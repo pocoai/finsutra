@@ -16,6 +16,9 @@ export const GET = async (request) => {
   }
 
   let isExist = await User.findOne({ userId: user.id });
+  const hubspotClient = new hubspot.Client({
+    accessToken: process.env.HUBSPOT_API_KEY,
+  });
 
   if (isExist) {
     return NextResponse.json({
@@ -35,9 +38,6 @@ export const GET = async (request) => {
     image: user?.hasImage ? user?.imageUrl : "",
   });
 
-  const hubspotClient = new hubspot.Client({
-    accessToken: process.env.HUBSPOT_API_KEY,
-  });
   const contactObj = {
     properties: {
       navigator_userid: user.id,
@@ -56,10 +56,9 @@ export const GET = async (request) => {
   };
 
   const createContactResponse = await hubspotClient.crm.contacts.basicApi.create(contactObj);
-  const createCompanyResponse = await hubspotClient.crm.companies.basicApi.create(companyObj);
   let hubres = await hubspotClient.crm.associations.v4.basicApi.create(
     "companies",
-    createCompanyResponse.id,
+    "17727378465",
     "contacts",
     createContactResponse.id,
     [
