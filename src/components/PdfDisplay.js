@@ -23,7 +23,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import MarkdownIt from "markdown-it";
 
 const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
-  const [currentProject, setCurrentProject] = useState([]);
+  const [currentProject, setCurrentProject] = useState({});
   const [downloading, setisDownloading] = useState(false);
   const [loading, setLoading] = useState(false);
   const { getToken } = useAuth();
@@ -31,19 +31,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
   const markdownParser = new MarkdownIt();
 
   const modifyMarkdownForTab = (tabIndex) => {
-    const tabData = currentProject[0]?.journey2[`tab${tabIndex}`]?.data || "";
-    const parsedContent = markdownParser.parse(tabData, {});
-
-    parsedContent.tokens?.forEach((token) => {
-      if (token.type === "heading_open") {
-        token.attrPush(["custom-comment", "<!-- okok -->"]);
-      }
-    });
-
-    return markdownParser.renderer.render(parsedContent, {});
-  };
-
-  const modifyMarkdownForData = (tabData) => {
+    const tabData = currentProject?.journey2[`tab${tabIndex}`]?.data || "";
     const parsedContent = markdownParser.parse(tabData, {});
 
     parsedContent.tokens?.forEach((token) => {
@@ -71,20 +59,11 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
     return res;
   };
 
-  useEffect(() => {
-    setLoading(true);
-    FetchProject(id).then((res) => {
-      console.log(res.data.data);
-      setCurrentProject(res.data.data);
-    });
-    setLoading(false);
-  }, []);
-
   const handleGeneratePdf = async () => {
     setisDownloading(true);
     const contentElement = reportTemplateRef.current;
 
-    const pdfContent = htmlToPdfMake(contentElement.innerHTML);
+    const pdfContent = htmlToPdfMake(contentElement?.innerHTML);
 
     pdfContent.forEach((section, index) => {
       if (index !== 0) {
@@ -123,7 +102,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
       // },
     });
 
-    pdfDoc.download(`${currentProject[0]?.name}.pdf`);
+    pdfDoc.download(`${currentProject?.name}.pdf`);
     setisDownloading(false);
   };
 
@@ -156,6 +135,24 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
   const sidebarRef = useRef(null);
 
   useEffect(() => {
+    setLoading(true);
+    console.log("fetching");
+    FetchProject(id)
+      .then((res) => {
+        setCurrentProject(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        setCurrentProject({});
+        setShowPdf(false);
+      });
+
+    setLoading(false);
+  }, []);
+
+  console.log(currentProject, "currentProject");
+
+  useEffect(() => {
     const handleOutsideClick = (event) => {
       if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
         setShowPdf(false);
@@ -172,6 +169,14 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [showPdf]);
+
+  if (loading) {
+    return (
+      <div className="w-full h-full m-auto">
+        <p>Loading...</p>;
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center  py-2 z-50 ">
@@ -190,14 +195,11 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                 <p> Downloading... Please wait </p>
               </div>
             )}
-            {loading && <span className="loading loading-spinner text-warning"></span>}
 
             {!downloading && (
               <div ref={reportTemplateRef}>
                 <div className="">
-                  <h1 className="text-xl my-3 font-bold">
-                    Project Name : {currentProject[0]?.name}
-                  </h1>
+                  <h1 className="text-xl my-3 font-bold">Project Name : {currentProject?.name}</h1>
 
                   {journeyStates?.journey1 && (
                     <div>
@@ -205,7 +207,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                         Journey #1 : Zero to Coming Soon{" "}
                       </h2>
                       <h4 className="text-[16px] my-3 font-medium">Idea Articulation</h4>
-                      {currentProject[0]?.journey1?.tab1.selected && (
+                      {currentProject?.journey1?.tab1?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4 text-[9px] ">
                           <table className="table-auto ">
                             <thead>
@@ -224,7 +226,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                                 </th>
                               </tr>
                             </thead>
-                            {currentProject[0]?.journey1?.tab1?.data?.map((item, index) => {
+                            {currentProject?.journey1?.tab1?.data?.map((item, index) => {
                               return (
                                 <tbody key={index}>
                                   <tr>
@@ -244,13 +246,13 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
 
                       <div className="page-break my-5 " id="page">
                         <h4 className="text-[16px] my-3">Problem Solution Fit</h4>
-                        {currentProject[0]?.journey1?.tab2?.selected && (
+                        {currentProject?.journey1?.tab2?.selected && (
                           <div className="flex flex-col items-start justify-start space-y-4 text-[9px]">
-                            {currentProject[0].journey1?.tab2?.selected && (
+                            {currentProject.journey1?.tab2?.selected && (
                               <p>
                                 <span className="font-semibold">
                                   Problem Solution Fit:{" "}
-                                  {currentProject[0].journey1?.tab2.data["Executive Summary"]}
+                                  {currentProject.journey1?.tab2.data["Executive Summary"]}
                                 </span>
                                 :
                               </p>
@@ -272,7 +274,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                                   </th>
                                 </tr>
                               </thead>
-                              {currentProject[0]?.journey1?.tab2?.data["ps_list"].map(
+                              {currentProject?.journey1?.tab2?.data["ps_list"].map(
                                 (item, index) => (
                                   <tbody key={index}>
                                     <tr>
@@ -291,13 +293,13 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                         )}
                       </div>
                       <div className="">
-                        {currentProject[0]?.journey1?.tab3?.selected && (
+                        {currentProject?.journey1?.tab3?.selected && (
                           <div className="flex flex-col items-start justify-start space-y-4 text-[9px]  ">
                             <h4 className="text-[16px] my-3">Brand Kit</h4>
 
                             <table className="table-fixed ">
-                              {currentProject[0].journey1?.tab3?.data &&
-                                Object.entries(currentProject[0].journey1?.tab3?.data).map(
+                              {currentProject.journey1?.tab3?.data &&
+                                Object.entries(currentProject.journey1?.tab3?.data).map(
                                   (item, index) => (
                                     // <div key={index} className="flex justify-start items-start space-x-2 ">
                                     //   {/* <p className="font-semibold">{item[0]}</p>:<p>{item[1]}</p> */}
@@ -320,27 +322,27 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       </div>
 
                       <div className="html2pdf__page-break">
-                        {currentProject[0]?.journey1?.tab4?.selected && (
+                        {currentProject?.journey1?.tab4?.selected && (
                           <div className="flex flex-col items-start justify-start text-[9px] space-y-4 my-4  ">
                             {/* <h4 className="text-xl my-3">Positioning and Messaging</h4> */}
-                            {currentProject[0]?.journey1?.tab4?.data && (
+                            {currentProject?.journey1?.tab4?.data && (
                               <h1 className="text-[16px] font-semibold text-gray-800">
                                 Positioning Statement field
                               </h1>
                             )}
-                            {currentProject[0]?.journey1?.tab4?.data &&
-                              currentProject[0]?.journey1?.tab4?.data["Positioning"] && (
+                            {currentProject?.journey1?.tab4?.data &&
+                              currentProject?.journey1?.tab4?.data["Positioning"] && (
                                 <div className="flex flex-col items-start justify-start space-y-2 ">
                                   <p>
                                     <span className="font-semibold">Positioning: </span>
-                                    {currentProject[0]?.journey1?.tab4?.data["Positioning"]}
+                                    {currentProject?.journey1?.tab4?.data["Positioning"]}
                                   </p>
                                 </div>
                               )}
-                            {currentProject[0]?.journey1?.tab4?.data["USPs"] && (
+                            {currentProject?.journey1?.tab4?.data["USPs"] && (
                               <div className="flex flex-col items-start justify-start space-y-2 ">
                                 <h1 className="text-[16px] font-semibold text-gray-800">USPs</h1>
-                                {currentProject[0]?.journey1?.tab4?.data["USPs"]?.map(
+                                {currentProject?.journey1?.tab4?.data["USPs"]?.map(
                                   (item, index) => (
                                     <p key={index}>
                                       <span className="text-red-500" style={{ color: "red" }}>
@@ -353,7 +355,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                                 )}
                               </div>
                             )}
-                            {currentProject[0]?.journey1?.tab4?.data && (
+                            {currentProject?.journey1?.tab4?.data && (
                               <h1 className="text-[16px] font-semibold text-gray-800">
                                 Favcy Venture builder framework
                               </h1>
@@ -375,8 +377,8 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                                   </th>
                                 </tr>
                               </thead>
-                              {currentProject[0]?.journey1?.tab4?.data &&
-                                currentProject[0]?.journey1?.tab4?.data[
+                              {currentProject?.journey1?.tab4?.data &&
+                                currentProject?.journey1?.tab4?.data[
                                   "Favcy_Venture_builder_framework"
                                 ].map((item, index) => (
                                   <tbody key={index}>
@@ -401,39 +403,39 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                         )}
                       </div>
 
-                      {currentProject[0]?.journey1?.tab5?.selected && (
+                      {currentProject?.journey1?.tab5?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4  ">
                           <p>
                             <Markdown2 className="prose text-black text-[9px] ">
-                              {currentProject[0]?.journey1?.tab5?.data}
+                              {currentProject?.journey1?.tab5?.data}
                             </Markdown2>
                           </p>
                         </div>
                       )}
 
-                      {currentProject[0]?.journey1?.tab6?.selected && (
+                      {currentProject?.journey1?.tab6?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4  ">
                           <h1 className="font-bold text-[16px]">Minimum Viable Product </h1>
                           <p>
                             <Markdown2 className="prose text-black text-[9px] ">
-                              {currentProject[0]?.journey1?.tab6?.data}
+                              {currentProject?.journey1?.tab6?.data}
                             </Markdown2>
                           </p>
                         </div>
                       )}
 
-                      {currentProject[0]?.journey1?.tab7?.selected && (
+                      {currentProject?.journey1?.tab7?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4 ">
                           <h1 className="font-bold text-[16px]">Features to Monetize </h1>
                           <p>
                             <Markdown2 className="prose text-black text-[9px]">
-                              {currentProject[0]?.journey1?.tab7?.data}
+                              {currentProject?.journey1?.tab7?.data}
                             </Markdown2>
                           </p>
                         </div>
                       )}
 
-                      {currentProject[0]?.journey1?.tab8?.selected && (
+                      {currentProject?.journey1?.tab8?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4  html2pdf__page-break">
                           <div className="flex flex-col items-start justify-start space-y-2 ">
                             <p className="text-gray-700">
@@ -444,7 +446,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                               founder.
                             </p>
                           </div>
-                          {currentProject[0]?.journey1?.tab8?.data.competitors && (
+                          {currentProject?.journey1?.tab8?.data.competitors && (
                             <div className="flex flex-col items-start justify-start space-y-2 text-[9px]">
                               {/* <h2 className="text-xl font-semibold text-gray-800">Competitors : </h2> */}
                               <table className="table-auto ">
@@ -465,8 +467,8 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                                     </th>
                                   </tr>
                                 </thead>
-                                {currentProject[0]?.journey1?.tab8?.data &&
-                                  currentProject[0]?.journey1?.tab8?.data.competitors.map(
+                                {currentProject?.journey1?.tab8?.data &&
+                                  currentProject?.journey1?.tab8?.data.competitors.map(
                                     (item, index) => (
                                       <tbody key={index}>
                                         <tr>
@@ -514,14 +516,14 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                         </div>
                       )}
 
-                      {currentProject[0]?.journey1?.tab9?.selected && (
+                      {currentProject?.journey1?.tab9?.selected && (
                         <div className="text-[9px]">
                           <h1 className="font-bold text-[16px] my-2">Business Model Canvas </h1>
                           <table id="bizcanvas" cellspacing="0">
                             <tr className="">
                               <td colspan="2" rowspan="2" className="divCont">
                                 <h4>Key Partners</h4>
-                                {currentProject[0]?.journey1?.tab9?.data["Key Partners"].map(
+                                {currentProject?.journey1?.tab9?.data["Key Partners"].map(
                                   (item, index) => (
                                     <p
                                       className={`
@@ -542,7 +544,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                               </td>
                               <td colspan="2" rowspan="2" className="divCont">
                                 <h4>Key Activities</h4>
-                                {currentProject[0]?.journey1?.tab9?.data["Key Activities"].map(
+                                {currentProject?.journey1?.tab9?.data["Key Activities"].map(
                                   (item, index) => (
                                     <p
                                       className={`
@@ -563,7 +565,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                               </td>
                               <td colspan="2" rowspan="2" className="divCont">
                                 <h4>Value Proposition</h4>
-                                {currentProject[0]?.journey1?.tab9?.data["Value Propositions"].map(
+                                {currentProject?.journey1?.tab9?.data["Value Propositions"].map(
                                   (item, index) => (
                                     <p
                                       className={`
@@ -584,11 +586,10 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                               </td>
                               <td colspan="2" className="divCont">
                                 <h4>Customer Relationship</h4>
-                                {currentProject[0]?.journey1?.tab9?.data[
-                                  "Customer Relationships"
-                                ].map((item, index) => (
-                                  <p
-                                    className={`
+                                {currentProject?.journey1?.tab9?.data["Customer Relationships"].map(
+                                  (item, index) => (
+                                    <p
+                                      className={`
                        ${
                          index % 2 === 0
                            ? "bg-[#f69e53] shadow-md text-white"
@@ -597,15 +598,16 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                        text-[9px] cards py-3 
                        
                        `}
-                                    key={index}
-                                  >
-                                    {item}
-                                  </p>
-                                ))}
+                                      key={index}
+                                    >
+                                      {item}
+                                    </p>
+                                  )
+                                )}
                               </td>
                               <td colspan="2" className="divCont">
                                 <h4>Customer Segments</h4>
-                                {currentProject[0]?.journey1?.tab9?.data["Customer Segments"].map(
+                                {currentProject?.journey1?.tab9?.data["Customer Segments"].map(
                                   (item, index) => (
                                     <p
                                       className={`
@@ -629,7 +631,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                             <tr>
                               <td colspan="2" className="divCont">
                                 <h4>Key Resources</h4>
-                                {currentProject[0]?.journey1?.tab9?.data["Key Resources"].map(
+                                {currentProject?.journey1?.tab9?.data["Key Resources"].map(
                                   (item, index) => (
                                     <p
                                       className={`
@@ -650,7 +652,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                               </td>
                               <td colspan="2" className="divCont">
                                 <h4>Channels</h4>
-                                {currentProject[0]?.journey1?.tab9?.data["Channels"].map(
+                                {currentProject?.journey1?.tab9?.data["Channels"].map(
                                   (item, index) => (
                                     <p
                                       className={`
@@ -673,7 +675,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                             <tr>
                               <td colspan="5" className="divCont">
                                 <h4>Cost Structure</h4>
-                                {currentProject[0]?.journey1?.tab9?.data["Cost Structure"].map(
+                                {currentProject?.journey1?.tab9?.data["Cost Structure"].map(
                                   (item, index) => (
                                     <p
                                       className={`
@@ -694,7 +696,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                               </td>
                               <td colspan="5" className="divCont">
                                 <h4>Revenue Streams</h4>
-                                {currentProject[0]?.journey1?.tab9?.data["Revenue Streams"].map(
+                                {currentProject?.journey1?.tab9?.data["Revenue Streams"].map(
                                   (item, index) => (
                                     <p
                                       className={`
@@ -718,9 +720,30 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                           <div className="flex flex-col items-start mt-5 p-2">
                             <h1>Summary :</h1>
                             <p className=" my-1 text-left leading-5 ">
-                              {currentProject[0]?.journey1?.tab9?.data["BMC_summary"]}
+                              {currentProject?.journey1?.tab9?.data["BMC_summary"]}
                             </p>
                           </div>
+                        </div>
+                      )}
+
+                      {currentProject?.journey1?.tab9_5?.selected && (
+                        <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4 ">
+                          <h1 className="font-bold text-[16px]">Growth Levers </h1>
+                          <p>
+                            <Markdown2 className="prose text-black text-[9px]">
+                              {currentProject?.journey1?.tab9_5?.data}
+                            </Markdown2>
+                          </p>
+                        </div>
+                      )}
+                      {currentProject?.journey1?.tab10?.selected && (
+                        <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4 ">
+                          <h1 className="font-bold text-[16px]">Financial Statement</h1>
+                          <p>
+                            <Markdown2 className="prose text-black text-[9px]">
+                              {currentProject?.journey1?.tab10?.data}
+                            </Markdown2>
+                          </p>
                         </div>
                       )}
                     </div>
@@ -733,10 +756,10 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       </h2>
                       {Array.from({ length: 4 }, (_, index) => (
                         <div key={index}>
-                          {currentProject[0]?.journey2[`tab${index + 1}`]?.selected && (
+                          {currentProject?.journey2[`tab${index + 1}`]?.selected && (
                             <div className="">
                               <Markdown2 className="prose ">
-                                {currentProject[0]?.journey2[`tab${index + 1}`]?.data}
+                                {currentProject?.journey2[`tab${index + 1}`]?.data}
                               </Markdown2>
                             </div>
                           )}
@@ -744,9 +767,9 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       ))}
 
                       <div>
-                        {currentProject[0]?.journey2[`tab5`]?.selected && (
+                        {currentProject?.journey2[`tab5`]?.selected && (
                           <div className="">
-                            {currentProject[0]?.journey2["tab5"]?.selected && (
+                            {currentProject?.journey2["tab5"]?.selected && (
                               <div className="">
                                 <Markdown2>{modifyMarkdownForTab(5)}</Markdown2>
                               </div>
@@ -755,121 +778,121 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab6`]?.selected && (
+                        {currentProject?.journey2[`tab6`]?.selected && (
                           <div className="">
                             <Markdown2 className="prose ">
-                              {currentProject[0]?.journey2[`tab6`]?.data}
+                              {currentProject?.journey2[`tab6`]?.data}
                             </Markdown2>
                           </div>
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab7`]?.selected && (
+                        {currentProject?.journey2[`tab7`]?.selected && (
                           <div className="">
                             <Markdown2 className="prose ">
-                              {currentProject[0]?.journey2[`tab7`]?.data}
+                              {currentProject?.journey2[`tab7`]?.data}
                             </Markdown2>
                           </div>
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab8`]?.selected && (
+                        {currentProject?.journey2[`tab8`]?.selected && (
                           <div className="">
                             <Markdown2 className="prose ">
-                              {currentProject[0]?.journey2[`tab8`]?.data}
+                              {currentProject?.journey2[`tab8`]?.data}
                             </Markdown2>
                           </div>
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab9`]?.selected && (
+                        {currentProject?.journey2[`tab9`]?.selected && (
                           <div className="">
                             <Markdown2 className="prose ">
-                              {currentProject[0]?.journey2[`tab9`]?.data}
+                              {currentProject?.journey2[`tab9`]?.data}
                             </Markdown2>
                           </div>
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab10`]?.selected && (
+                        {currentProject?.journey2[`tab10`]?.selected && (
                           <div className="">
                             <Markdown2>{modifyMarkdownForTab(10)}</Markdown2>
                           </div>
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab11`]?.selected && (
+                        {currentProject?.journey2[`tab11`]?.selected && (
                           <div className="">
                             <Markdown2>{modifyMarkdownForTab(11)}</Markdown2>
                           </div>
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab12`]?.selected && (
+                        {currentProject?.journey2[`tab12`]?.selected && (
                           <div className="">
                             <Markdown2>{modifyMarkdownForTab(12)}</Markdown2>
                           </div>
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab13`]?.selected && (
+                        {currentProject?.journey2[`tab13`]?.selected && (
                           <div className="">
                             <Markdown2>{modifyMarkdownForTab(13)}</Markdown2>
                           </div>
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab14`]?.selected && (
+                        {currentProject?.journey2[`tab14`]?.selected && (
                           <div className="">
                             <Markdown2>{modifyMarkdownForTab(14)}</Markdown2>
                           </div>
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab15`]?.selected && (
+                        {currentProject?.journey2[`tab15`]?.selected && (
                           <div className="">
                             <Markdown2>{modifyMarkdownForTab(15)}</Markdown2>
                           </div>
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab16`]?.selected && (
+                        {currentProject?.journey2[`tab16`]?.selected && (
                           <div className="">
                             <Markdown2 className="prose ">
-                              {currentProject[0]?.journey2[`tab16`]?.data}
+                              {currentProject?.journey2[`tab16`]?.data}
                             </Markdown2>
                           </div>
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab17`]?.selected && (
+                        {currentProject?.journey2[`tab17`]?.selected && (
                           <div className="">
                             <Markdown className="prose ">
-                              {currentProject[0]?.journey2[`tab17`]?.data}
+                              {currentProject?.journey2[`tab17`]?.data}
                             </Markdown>
                           </div>
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab18`]?.selected && (
+                        {currentProject?.journey2[`tab18`]?.selected && (
                           <div className="">
                             <Markdown2 className="prose ">
-                              {currentProject[0]?.journey2[`tab18`]?.data}
+                              {currentProject?.journey2[`tab18`]?.data}
                             </Markdown2>
                           </div>
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab19`]?.selected && (
+                        {currentProject?.journey2[`tab19`]?.selected && (
                           <div className="">
                             <Markdown2 className="prose ">
-                              {currentProject[0]?.journey2[`tab19`]?.data}
+                              {currentProject?.journey2[`tab19`]?.data}
                             </Markdown2>
                           </div>
                         )}
                       </div>
                       <div>
-                        {currentProject[0]?.journey2[`tab20`]?.selected && (
+                        {currentProject?.journey2[`tab20`]?.selected && (
                           <div className="">
                             <Markdown2>{modifyMarkdownForTab(20)}</Markdown2>
                           </div>
@@ -878,17 +901,17 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
 
                       {Array.from({ length: 7 }, (_, index) => (
                         <div key={index}>
-                          {currentProject[0]?.journey2[`tab${index + 21}`]?.selected && (
+                          {currentProject?.journey2[`tab${index + 21}`]?.selected && (
                             <div className="">
                               <Markdown2 className="prose ">
-                                {currentProject[0]?.journey2[`tab${index + 21}`]?.data}
+                                {currentProject?.journey2[`tab${index + 21}`]?.data}
                               </Markdown2>
                             </div>
                           )}
                         </div>
                       ))}
                       <div>
-                        {currentProject[0]?.journey2[`tab28`]?.selected && (
+                        {currentProject?.journey2[`tab28`]?.selected && (
                           <div className="">
                             <Markdown2>{modifyMarkdownForTab(28)}</Markdown2>
                           </div>
@@ -903,7 +926,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       </h2>
                       {Array.from({ length: 28 }, (_, index) => (
                         <div key={index} style={{ fontSize: "14px" }}>
-                          {currentProject[0]?.journey3[`tab${index + 1}`]?.selected && (
+                          {currentProject?.journey3[`tab${index + 1}`]?.selected && (
                             <div className="flex flex-col items-start justify-start space-y-4 ">
                               <h3 style={{ marginBottom: "10px", marginTop: "10px" }}>
                                 {journey2.find((item) => item.tab === index + 1).title}
@@ -931,7 +954,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                                     </th>
                                   </tr>
                                 </thead>
-                                {currentProject[0]?.journey3[`tab${index + 1}`].data?.map(
+                                {currentProject?.journey3[`tab${index + 1}`].data?.map(
                                   (item, index) => (
                                     <tbody key={index}>
                                       <tr>

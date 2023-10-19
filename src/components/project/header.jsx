@@ -65,8 +65,8 @@ const Header = ({ id, name, journey }) => {
     const [shareModal, setShareModal] = useState(false)
     const [journeyStates, setJourneyStates] = useState({
         journey1: true,
-        journey2: false,
-        journey3: false,
+        journey2: true,
+        journey3: true,
     });
     const [showPdf, setShowPdf] = useState(false);
 
@@ -78,7 +78,7 @@ const Header = ({ id, name, journey }) => {
         });
     };
 
-    console.log(journeyStates, 'journeyStates');
+    // console.log(journeyStates, 'journeyStates');
 
     return (
         <header>
