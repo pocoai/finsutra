@@ -48,12 +48,6 @@ export const GET = async (request) => {
       deal_funnel: "Navigator Signup",
     },
   };
-  const companyObj = {
-    properties: {
-      domain: "app.favcynavigator.com",
-      name: "Favcy Navigator",
-    },
-  };
 
   const createContactResponse = await hubspotClient.crm.contacts.basicApi.create(contactObj);
   let hubres = await hubspotClient.crm.associations.v4.basicApi.create(
@@ -69,8 +63,6 @@ export const GET = async (request) => {
       },
     ]
   );
-
-  // console.log(hubres, "hubres");
 
   return NextResponse.json({
     success: true,
