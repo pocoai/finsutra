@@ -499,13 +499,14 @@ const ViewComponent = ({
 
                                 <div className='flex items-center'>
 
-                                    {data[0]["Priorities"]?.length > 0 && <p>
-                                        Priority
-                                    </p>}
-
-                                    <div
-                                        className='tooltip tooltip-top'
-                                        data-tooltip-html={`<div>
+                                    {data[0]["Priorities"]?.length > 0 &&
+                                        <div className='flex items-center'>
+                                            <p>
+                                                Priority
+                                            </p>
+                                            <div
+                                                className='tooltip tooltip-top'
+                                                data-tooltip-html={`<div>
                                         <p>Priority Column is generated in alignment with the MoSCoW<br/>Prioritization Technique</p>
                                         <ul>
                                           <li>M : Must have</li>
@@ -515,12 +516,18 @@ const ViewComponent = ({
                                         </ul>
                                       </div>
                                       `}
-                                        data-html={true}
-                                        data-tooltip-id="my-tooltip-data-html"
-                                    >
-                                        <Image src="/images/file-question.svg" alt="arrow" width={20} height={20} className='ml-2' />
-                                    </div>
-                                    <Tooltip id='my-tooltip-data-html' effect='solid' place='top' multiline={true} />
+                                                data-html={true}
+                                                data-tooltip-id="my-tooltip-data-html"
+                                            >
+
+                                                <Image src="/images/file-question.svg" alt="arrow" width={20} height={20} className='ml-2' />
+                                            </div>
+                                            <Tooltip id='my-tooltip-data-html' effect='solid' place='top' multiline={true} />
+
+                                        </div>
+                                    }
+
+
 
                                 </div>
 
@@ -544,7 +551,7 @@ const ViewComponent = ({
                                                 <li className='my-3' key={index}>
 
                                                     <div className='flex items-start justify-start gap-2'>
-                                                        <div>
+                                                        <div className='w-[200px]'>
                                                             <input type="checkbox" id={`task-${index}`} name={`task-${index}`} className='accent-brand text-white w-3 h-3' defaultChecked />
                                                             <label htmlFor={`task-${index}`} className="ml-2">{task}</label>
                                                         </div>

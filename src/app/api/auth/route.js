@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { connectDb } from "@/app/lib/connectDb";
 import { getCreditLimitByEmail, getDomainFromMail, isWorkEmail } from "@/utils/helper";
+const hubspot = require("@hubspot/api-client");
 
 await connectDb();
 
@@ -33,6 +34,44 @@ export const GET = async (request) => {
     credits: getCreditLimitByEmail(user?.emailAddresses[0].emailAddress),
     image: user?.hasImage ? user?.imageUrl : "",
   });
+
+  const hubspotClient = new hubspot.Client({
+    accessToken: process.env.HUBSPOT_API_KEY,
+  });
+  const contactObj = {
+    properties: {
+      navigator_userid: user.id,
+      email: user?.emailAddresses[0].emailAddress,
+      firstname: user?.firstName,
+      total_navigator_credits_used: getCreditLimitByEmail(user?.emailAddresses[0].emailAddress),
+      total_money_spent_on_navigator: 0,
+      deal_funnel: "Navigator Signup",
+    },
+  };
+  const companyObj = {
+    properties: {
+      domain: "app.favcynavigator.com",
+      name: "Favcy Navigator",
+    },
+  };
+
+  const createContactResponse = await hubspotClient.crm.contacts.basicApi.create(contactObj);
+  const createCompanyResponse = await hubspotClient.crm.companies.basicApi.create(companyObj);
+  let hubres = await hubspotClient.crm.associations.v4.basicApi.create(
+    "companies",
+    createCompanyResponse.id,
+    "contacts",
+    createContactResponse.id,
+    [
+      {
+        associationCategory: "HUBSPOT_DEFINED",
+        associationTypeId: hubspot.AssociationTypes.companyToContact,
+        // AssociationTypes contains the most popular HubSpot defined association types
+      },
+    ]
+  );
+
+  // console.log(hubres, "hubres");
 
   return NextResponse.json({
     success: true,

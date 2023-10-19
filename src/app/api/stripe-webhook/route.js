@@ -1,6 +1,32 @@
 import { connectDb } from "@/app/lib/connectDb";
 import User from "@/models/User";
 import stripe from "stripe";
+const hubspot = require("@hubspot/api-client");
+
+async function updateContactProperties(hubspotClient, propertiesToUpdate, contactEmail) {
+  try {
+    // Fetch the contact by email
+    let contactId;
+    const contact = await hubspotClient.crm.contacts.basicApi.getById(contactEmail, "email");
+
+    // Extract the contact ID
+    if (contact && contact.body.id) {
+      contactId = contact.body.id;
+    } else {
+      console.error("Contact not found");
+      return;
+    }
+
+    // Update the contact properties
+    const updatedContact = await hubspotClient.crm.contacts.basicApi.update(contactId, {
+      properties: propertiesToUpdate,
+    });
+
+    console.log("Contact updated:", updatedContact.body);
+  } catch (error) {
+    console.error("Error updating contact:", error);
+  }
+}
 
 await connectDb();
 
@@ -78,6 +104,14 @@ export const POST = async (request) => {
             // console.log(user, "user data saved");
 
             await user.save();
+            // updateContactProperties(
+            //   hubspotClient,
+            //   {
+            //     total_money_spent_on_navigator: checkoutSessionCompleted.amount_total,
+            //     total_navigator_credits_used: credits,
+            //   },
+            //   user.email
+            // );
           } else {
             return new Response(
               {
@@ -99,6 +133,10 @@ export const POST = async (request) => {
 
     // update credits in db
   }
+
+  const hubspotClient = new hubspot.Client({
+    accessToken: process.env.HUBSPOT_API_KEY,
+  });
 
   return new Response(null, {
     status: 200,
