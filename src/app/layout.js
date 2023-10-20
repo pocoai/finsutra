@@ -8,6 +8,8 @@ import { Urbanist } from "next/font/google";
 import ParentLayout from "@/components/ParentLayout";
 import { ToastContainer } from "react-toastify";
 import { RecoilRoot } from "recoil";
+import { useEffect, useState } from "react";
+import OfflineModal from "@/components/OfflineModal";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -21,6 +23,26 @@ const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  function onlineHandler() {
+    setIsOnline(true);
+  }
+
+  function offlineHandler() {
+    setIsOnline(false);
+  }
+
+  useEffect(() => {
+    window.addEventListener("online", onlineHandler);
+    window.addEventListener("offline", offlineHandler);
+
+    return () => {
+      window.removeEventListener("online", onlineHandler);
+      window.removeEventListener("offline", offlineHandler);
+    };
+  }, []);
+
   return (
     <html lang="en">
       <head>
@@ -94,7 +116,11 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <RecoilRoot>{children}</RecoilRoot>
+        <RecoilRoot>
+          {children}
+
+          {!isOnline && <OfflineModal isOpen={true} setIsOpen={() => {}} isOnline={isOnline} />}
+        </RecoilRoot>
       </body>
     </html>
   );

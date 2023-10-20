@@ -38,6 +38,7 @@
     "html2pdf.js": "^0.9.3",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.6.0",
+    "lottie-react": "^2.4.0",
     "markdown-it": "^13.0.2",
     "markdown-to-jsx": "^7.3.2",
     "marked": "^9.1.2",
