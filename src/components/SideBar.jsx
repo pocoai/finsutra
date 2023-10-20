@@ -31,8 +31,8 @@ const SideCard = ({ image, name, selected, id, collapsed, link }) => {
             {/* <div > */}
             <Image
                 src={image}
-                height={40}
-                width={40}
+                height={50}
+                width={50}
                 alt="logo"
 
                 className="w-auto h-auto"
@@ -53,7 +53,7 @@ const SideCard = ({ image, name, selected, id, collapsed, link }) => {
     )
 }
 
-const ProfileButtons = ({ collapsed, onClick, image, name, link, target }) => {
+const ProfileButtons = ({ collapsed, onClick, image, name, link, target, }) => {
     if (link) {
         return (
 
@@ -129,7 +129,8 @@ const sidecards = [
         id: 3,
         name: "Minigator",
         image: "/images/minigator.svg",
-        link: "https://minigator.vercel.app/"
+        link: "/minigator"
+        // link: "https://minigator.vercel.app/"
     }
 ]
 
@@ -139,7 +140,8 @@ const profilebuttons = [
         image: "/images/profile.svg",
         name: "My Profile",
         link: "/profile",
-        target: "_self"
+        target: "_self",
+
 
     },
     {
@@ -189,6 +191,11 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
         }
         else if (route.includes("/pricing")) {
             setSelected(2)
+        } else if (route.includes('/minigator')) {
+            setSelected(3)
+        }
+        else {
+            setSelected(null)
         }
 
     }, [route])
@@ -277,37 +284,50 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                     })}>
                         {
                             isLoaded ? (
-
-                                <div className={classNames({
-                                    "flex items-center gap-2": true
-
-
-                                })}>
-                                    <Image
-                                        src={user?.image || ClerkUser?.imageUrl || "/images/user.png"}
-                                        height={40}
-                                        width={40}
-                                        alt="logo"
-                                        style={{ objectFit: 'contain' }}
-                                        className="rounded-full"
-                                    />
+                                <Link href={"/profile"} prefetch={false}>
                                     <div className={classNames({
-                                        "font-medium transition-all overflow-hidden": true,
-                                        "hidden": collapsed
+                                        "flex items-center gap-2 w-fit h-20": true
+
+
                                     })}>
-                                        <p className='text-[#373D41] text-[16px]'>
-                                            {user?.firstName}
-                                        </p>
-                                        <span className='text-[#ADB0B6] text-[14px]'>
-                                            {user?.interests?.work}
-                                        </span>
+                                        <Image
+                                            src={user?.image || ClerkUser?.imageUrl || "/images/user.png"}
+                                            height={40}
+                                            width={40}
+                                            alt="logo"
+                                            style={{ objectFit: 'contain' }}
+                                            className="rounded-full"
+                                        />
+                                        <div className={classNames({
+                                            "font-medium transition-all overflow-hidden": true,
+                                            "hidden": collapsed
+                                        })}>
+                                            <p className='text-[#373D41] text-[16px]'>
+                                                {user?.firstName}
+                                            </p>
+                                            <span className='text-[#ADB0B6] text-[14px]'>
+                                                {user?.interests?.work}
+                                            </span>
+                                        </div>
+
+
                                     </div>
 
-
-                                </div>
+                                </Link>
 
                             ) : (
-                                <Skeleton width={40} height={40} circle={true} baseColor="#ADB0B6" highlightColor="#F1F2F4" />
+                                <div class="w-fit h-20 rounded-md">
+                                    <div class="flex flex-row items-center h-full justify-center space-x-3">
+                                        <div class="w-12 bg-gray-100 h-12 rounded-full  animate-pulse ">
+                                        </div>
+                                        <div class="flex flex-col space-y-2">
+                                            <div class="w-36 bg-gray-100 h-5 rounded-md  animate-pulse ">
+                                            </div>
+                                            <div class="w-24 bg-gray-100 h-5 rounded-md  animate-pulse">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             )
                         }
 

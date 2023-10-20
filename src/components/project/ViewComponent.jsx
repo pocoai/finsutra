@@ -1,6 +1,7 @@
+import Image from 'next/image';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Markdown from 'react-markdown'
-
+import { Tooltip } from 'react-tooltip';
 
 const ViewComponent = ({
     data,
@@ -196,8 +197,8 @@ const ViewComponent = ({
                         </tr>
                     </table>
                     <div className="flex flex-col items-start mt-5 p-2">
-                        <h1>Summary :</h1>
-                        <p className="text-md my-1 text-left leading-5 ">{data["BMC_summary"]}</p>
+                        <h1 className='text-lg font-medium'>Summary :</h1>
+                        <p className="text-md my-1 text-left leading-8 ">{data["BMC_summary"]}</p>
                     </div>
                 </div>
             );
@@ -230,7 +231,7 @@ const ViewComponent = ({
                                         <th className="px-4 py-2 border border-gray-500">
                                             Website
                                         </th>
-                                        {process.env.NEXT_PUBLIC_ENV === "test" && (
+                                        {process.env.NEXT_PUBLIC_NODE_ENV === "test" && (
                                             <th className="px-4 py-2 border border-gray-500">
                                                 Type
                                             </th>
@@ -261,11 +262,11 @@ const ViewComponent = ({
                                                         {/* {item?.url?.includes("http") ? item?.url : `https://${item?.url}`} */}
                                                     </a>
                                                 </td>
-                                                {process.env.NEXT_PUBLIC_ENV === "test" && (
+                                                {process.env.NEXT_PUBLIC_NODE_ENV === "test" && (
                                                     <td className=" px-4 py-2 border border-gray-500">{item?.type}</td>
                                                 )}
                                                 <td className=" px-4 py-2 border border-gray-500">
-                                                    <Markdown className="prose text-black">{item?.description}</Markdown>
+                                                    <Markdown className="prose w-full text-lg text-black">{item?.description}</Markdown>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -296,7 +297,7 @@ const ViewComponent = ({
                             // <ReactMarkdown remarkPlugins={[breaks]} components={renderers} >
                             //   {data[0].value}
                             // </ReactMarkdown>
-                            <Markdown className="prose">{data}</Markdown>
+                            <Markdown className="prose w-full text-lg">{data}</Markdown>
                         )}
                     </p>
                     {/* <p className="text-sm font-medium">
@@ -470,237 +471,133 @@ const ViewComponent = ({
                     </table>
 
 
-                    <p
-                        className="text-center text-md w-full text-red-600 cursor-pointer"
-                        onClick={handleReselection}
-                    >
-                        Continue with a different option ?
-                    </p>
+                    {
+                        !pathname.includes("/share") && <p
+                            className="text-center text-md w-full text-red-600 cursor-pointer"
+                            onClick={handleReselection}
+                        >
+                            Continue with a different option ?
+                        </p>
+                    }
 
 
                 </div>
             );
     }
+    else if (journey === 3) {
+        return (
+            <div className="flex flex-col items-start justify-start space-y-4 ">
 
-    // else if (journey === "2") {
-    //     if (tab === 3) {
-    //         return (
-    //             <>
-    //                 {data && (
-    //                     <div>
-    //                         <table className="table-auto ">
-    //                             <thead>
-    //                                 <tr>
-    //                                     <th className="px-4 py-2 border border-gray-500">
-    //                                         Pillars 
-    //                                     </th>
-    //                                     <th className="px-4 py-2 border border-gray-500">
-    //                                         Inbound 
-    //                                     </th>
-    //                                     <th className="px-4 py-2 border border-gray-500">
-    //                                         Outbound 
-    //                                     </th>
-    //                                 </tr>
-    //                             </thead>
+                <table className="table-auto ">
+                    <thead>
+                        <tr>
+                            <th className="px-4 py-2 text-brand whitespace-nowrap">
+                                Objectives
+                            </th>
+                            <th className="px-4 py-2 text-brand whitespace-nowrap flex justify-between items-center ">
+                                <p className='ml-10'>Tasks</p>
 
-    //                             <tbody>
-    //                                 {data[0].value?.reach_pillar && (
-    //                                     <tr>
-    //                                         <td className=" px-4 py-2 border border-gray-500">Reach</td>
-    //                                         <td className=" px-4 py-2 border border-gray-500">
-    //                                             {data[0].value?.reach_pillar?.inbound}
-    //                                         </td>
-    //                                         <td className=" px-4 py-2 border border-gray-500">
-    //                                             {data[0].value?.reach_pillar?.outbound}
-    //                                         </td>
-    //                                     </tr>
-    //                                 )}
-    //                                 {data[0].value?.nurture_pillar && (
-    //                                     <tr>
-    //                                         <td className=" px-4 py-2 border border-gray-500">Nurture</td>
-    //                                         <td className=" px-4 py-2 border border-gray-500">
-    //                                             {data[0].value?.nurture_pillar?.inbound}
-    //                                         </td>
-    //                                         <td className=" px-4 py-2 border border-gray-500">
-    //                                             {data[0].value?.nurture_pillar?.outbound}
-    //                                         </td>
-    //                                     </tr>
-    //                                 )}
-    //                                 {data[0].value?.commitment_pillar && (
-    //                                     <tr>
-    //                                         <td className=" px-4 py-2 border border-gray-500">Commitment</td>
-    //                                         <td className=" px-4 py-2 border border-gray-500">
-    //                                             {data[0].value?.commitment_pillar?.inbound}
-    //                                         </td>
-    //                                         <td className=" px-4 py-2 border border-gray-500">
-    //                                             {data[0].value?.commitment_pillar?.outbound}
-    //                                         </td>
-    //                                     </tr>
-    //                                 )}
-    //                                 {data[0].value?.customer_success_pillar && (
-    //                                     <tr>
-    //                                         <td className=" px-4 py-2 border border-gray-500">Customer Success</td>
-    //                                         <td className=" px-4 py-2 border border-gray-500">
-    //                                             {data[0].value?.customer_success_pillar?.inbound}
-    //                                         </td>
-    //                                         <td className=" px-4 py-2 border border-gray-500">
-    //                                             {data[0].value?.customer_success_pillar?.outbound}
-    //                                         </td>
-    //                                     </tr>
-    //                                 )}
+                                <div className='flex items-center'>
 
-    //                                 {data[0].value?.product_pillar && (
-    //                                     <tr>
-    //                                         <td className=" px-4 py-2 border border-gray-500">Product</td>
-    //                                         <td className=" px-4 py-2 border border-gray-500">
-    //                                             {data[0].value?.product_pillar?.inbound}
-    //                                         </td>
-    //                                         <td className=" px-4 py-2 border border-gray-500">
-    //                                             {data[0].value?.product_pillar?.outbound}
-    //                                         </td>
-    //                                     </tr>
-    //                                 )}
-    //                             </tbody>
-    //                         </table>
-    //                     </div>
-    //                 )}
-    //             </>
-    //         );
-    //     }
-    // } else if (journey === "3") {
-    //     if (tab === 1) {
-    //         return (
-    //             <>
-    //                 {typeof data[0].value === "object" ? (
-    //                     <div>
-    //                         <table className="table-auto ">
-    //                             <thead>
-    //                                 <tr>
-    //                                     <th className="px-4 py-2 border border-gray-500">
-    //                                         Title 
-    //                                     </th>
-    //                                     <th className="px-4 py-2 border border-gray-500">
-    //                                         Description 
-    //                                     </th>
-    //                                 </tr>
-    //                             </thead>
-    //                             <tbody>
-    //                                 <tr>
-    //                                     <td className=" px-4 py-2 border border-gray-500">Introduction</td>
-    //                                     <td className=" px-4 py-2 border border-gray-500">{data[0].value["intro"]}</td>
-    //                                 </tr>
-    //                                 <tr>
-    //                                     <td className=" px-4 py-2 border border-gray-500">Direct Sales</td>
-    //                                     <td className=" px-4 py-2 border border-gray-500">
-    //                                         {data[0].value["Direct Sales"]}
-    //                                     </td>
-    //                                 </tr>
-    //                                 <tr>
-    //                                     <td className=" px-4 py-2 border border-gray-500">Referral Program</td>
-    //                                     <td className=" px-4 py-2 border border-gray-500">
-    //                                         {data[0].value["Referral Program"]}
-    //                                     </td>
-    //                                 </tr>
-    //                                 <tr>
-    //                                     <td className=" px-4 py-2 border border-gray-500">Strategic Partnerships</td>
-    //                                     <td className=" px-4 py-2 border border-gray-500">
-    //                                         {data[0].value["Strategic Partnerships"]}
-    //                                     </td>
-    //                                 </tr>
-    //                                 <tr>
-    //                                     <td className=" px-4 py-2 border border-gray-500">Digital Marketing</td>
-    //                                     <td className=" px-4 py-2 border border-gray-500">
-    //                                         {data[0].value["Digital Marketing"]}
-    //                                     </td>
-    //                                 </tr>
-    //                                 <tr>
-    //                                     <td className=" px-4 py-2 border border-gray-500">Customer Support</td>
-    //                                     <td className=" px-4 py-2 border border-gray-500">
-    //                                         {data[0].value["Customer Support"]}
-    //                                     </td>
-    //                                 </tr>
+                                    {data[0]["Priorities"]?.length > 0 &&
+                                        <div className='flex items-center'>
+                                            <p>
+                                                Priority
+                                            </p>
+                                            <div
+                                                className='tooltip tooltip-top'
+                                                data-tooltip-html={`<div>
+                                        <p>Priority Column is generated in alignment with the MoSCoW<br/>Prioritization Technique</p>
+                                        <ul>
+                                          <li>M : Must have</li>
+                                          <li>S : Should have</li>
+                                          <li>C : Could have</li>
+                                          <li>W : Would have</li>
+                                        </ul>
+                                      </div>
+                                      `}
+                                                data-html={true}
+                                                data-tooltip-id="my-tooltip-data-html"
+                                            >
 
-    //                                 <tr>
-    //                                     <td className=" px-4 py-2 border border-gray-500">B2B Marketplaces</td>
-    //                                     <td className=" px-4 py-2 border border-gray-500">
-    //                                         {data[0].value["B2B Marketplaces"]}
-    //                                     </td>
-    //                                 </tr>
-    //                                 <tr>
-    //                                     <td className=" px-4 py-2 border border-gray-500">Affiliate Marketing</td>
-    //                                     <td className=" px-4 py-2 border border-gray-500">
-    //                                         {data[0].value["Affiliate Marketing"]}
-    //                                     </td>
-    //                                 </tr>
-    //                                 <tr>
-    //                                     <td className=" px-4 py-2 border border-gray-500">Closing thoughts</td>
-    //                                     <td className=" px-4 py-2 border border-gray-500">
-    //                                         {data[0].value["Closing thoughts"]}
-    //                                     </td>
-    //                                 </tr>
-    //                             </tbody>
-    //                         </table>
-    //                     </div>
-    //                 ) : (
-    //                     <div className="flex flex-col items-start justify-start space-y-4 ">
-    //                         <p>
-    //                             {/* {data?.length > 0 &&
-    //             data[0]?.value.split("\n").map((c, index) => {
-    //               return <p key={index}> {c} </p>;
-    //             })} */}
-    //                             {data?.length > 0 && (
-    //                                 // <ReactMarkdown remarkPlugins={[breaks]} components={renderers} >
-    //                                 //   {data[0].value}
-    //                                 // </ReactMarkdown>
+                                                <Image src="/images/file-question.svg" alt="arrow" width={20} height={20} className='ml-2' />
+                                            </div>
+                                            <Tooltip id='my-tooltip-data-html' effect='solid' place='top' multiline={true} />
 
-    //                                 <Markdown className="prose text-black">{data[0].value}</Markdown>
-    //                             )}
-    //                         </p>
+                                        </div>
+                                    }
 
-    //                         <p className="text-sm font-medium">
-    //                             * If you would like to detail out each of these sub tasks , please use the &nbsp;
-    //                             <a
-    //                                 href="https://minigator.vercel.app/"
-    //                                 className="text-orange-500 outline-none border-none"
-    //                                 target="_blank"
-    //                             >
-    //                                 Favcy Minigator
-    //                             </a>
-    //                         </p>
-    //                     </div>
-    //                 )}
-    //             </>
-    //         );
-    //     }
-    // }
+
+
+                                </div>
+
+                            </th>
+                            <th className="px-4 py-2 text-brand whitespace-nowrap">
+                                Outcomes
+                            </th>
+                        </tr>
+                    </thead>
+                    {data?.map((item, index) => (
+                        <tbody key={index}>
+                            <tr>
+
+                                <td className=" px-4 py-2 border-b-2 font-semibold text-brand" style={{ verticalAlign: 'top' }}>
+                                    {index + 1}. {item?.Objective}</td>
+                                <td className="px-4 py-2 max-w-xl border-b-2 border-l-2 font-medium" style={{ verticalAlign: 'top' }}>
+                                    <ul className='list-none px-4'>
+                                        {item?.Tasks.map((task, index) => {
+                                            const priority = item["Priorities"] && item["Priorities"][index];
+                                            return (
+                                                <li className='my-3' key={index}>
+
+                                                    <div className='flex items-start justify-start gap-2'>
+                                                        <div className='w-[200px]'>
+                                                            <input type="checkbox" id={`task-${index}`} name={`task-${index}`} className='accent-brand text-white w-3 h-3' defaultChecked />
+                                                            <label htmlFor={`task-${index}`} className="ml-2">{task}</label>
+                                                        </div>
+                                                        {
+                                                            priority &&
+                                                            <span className='text-brand text-xl font-bold '>
+                                                                [{priority}]
+                                                            </span>
+                                                        }
+                                                    </div>
+                                                </li>
+                                            );
+                                        })}
+
+                                    </ul>
+                                </td>
+
+
+                                <td className=" px-4 py-2 border-b-2 border-l-2 font-medium" style={{ verticalAlign: 'top' }}>
+                                    <ul className='list-decimal  px-4'>
+                                        {item["Desired Outcomes"].map((task) => {
+                                            return <li className='my-3'>
+                                                {task}
+                                            </li>
+
+
+                                        })}
+                                    </ul>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    ))}
+                </table>
+            </div>
+        )
+    }
+
+
 
     return (
-        <div className="flex flex-col items-start justify-start space-y-4 ">
-            <p>
-                {/* {data?.length > 0 &&
-        data[0]?.value.split("\n").map((c, index) => {
-          return <p key={index}> {c} </p>;
-        })} */}
-                {data && (
-                    // <ReactMarkdown remarkPlugins={[breaks]} components={renderers} >
-                    //   {data[0].value}
-                    // </ReactMarkdown>
+        // <div className="flex flex-col  w-full items-start justify-start space-y-4 ">
 
-                    <Markdown className="prose text-black">{data}</Markdown>
-                )}
-            </p>
+        <Markdown className="prose w-full text-lg text-black">{data}</Markdown>
 
-            {/* <p className="text-sm font-medium">
-                * If you would like to detail out each of these sub tasks , please use the &nbsp;
-                <a
-                    href="https://minigator.vercel.app/"
-                    className="text-orange-500 outline-none border-none"
-                    target="_blank"
-                >
-                    Favcy Minigator
-                </a>
-            </p> */}
-        </div>
+        // </div>
     );
 };
 

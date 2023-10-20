@@ -1,8 +1,44 @@
 import { connectDb } from "@/app/lib/connectDb";
 import User from "@/models/User";
 import stripe from "stripe";
+import axios from "axios";
 
-connectDb();
+async function updateContactProperties(email, money, credits) {
+  try {
+    let res = await axios.post(
+      `https://api.hubapi.com/contacts/v1/contact/email/${email}/profile`,
+      {
+        properties: [
+          {
+            property: "total_navigator_credits_used",
+            value: credits,
+          },
+          {
+            property: "total_money_spent_on_navigator",
+            value: money,
+          },
+        ],
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.HUBSPOT_API_KEY}`,
+        },
+      }
+    );
+
+    console.log("res", res.data);
+
+    if (res.status === 204) {
+      return true;
+    }
+  } catch (error) {
+    console.error("Error updating contact:", error);
+    return false;
+  }
+}
+
+await connectDb();
 
 export const POST = async (request) => {
   let event = await request.json();
@@ -78,6 +114,13 @@ export const POST = async (request) => {
             // console.log(user, "user data saved");
 
             await user.save();
+            let totalMoney = 0;
+
+            for (let i = 0; i < user.purchaseHistory.length; i++) {
+              totalMoney += user.purchaseHistory[i].payment_data.amount;
+            }
+
+            await updateContactProperties(user.email, totalMoney, user.credits);
           } else {
             return new Response(
               {

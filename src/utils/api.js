@@ -6,7 +6,7 @@ export const getContent = (result) => {
   return parsedContent.content || parsedContent;
 };
 
-export const getApi = (journey, tab) => {
+export const getApi = (journey, tab = null) => {
   if (journey === 1) {
     switch (tab) {
       case 1:
@@ -27,8 +27,12 @@ export const getApi = (journey, tab) => {
         return `https://api.promptbook.in/j1/tab8`;
       case 9:
         return `https://api.portkey.ai/v1/prompts/70ab27c2-fdf2-4af4-a389-c2690f989b3f/generate`;
+      case 9.5:
+        return `https://api.portkey.ai/v1/prompts/4fc110d7-3b49-45c5-875d-0c0b004c9703/generate`;
       case 10:
         return `https://api.portkey.ai/v1/prompts/c2f2a969-047b-4a0e-9d4f-9dcc690801e7/generate`;
+      default:
+        return new Error("Specify Tab");
     }
   }
   if (journey === 2) {
@@ -90,6 +94,11 @@ export const getApi = (journey, tab) => {
         return `https://api.portkey.ai/v1/prompts/c0f0700a-03bf-4335-acb5-47f7627842da/generate`;
       case 28:
         return `https://api.portkey.ai/v1/prompts/f3d53251-24fa-4ca8-8e63-e0f04e51cc55/generate`;
+      default:
+        return new Error("Specify Tab");
     }
+  }
+  if (journey === 3) {
+    return "https://api.portkey.ai/v1/prompts/32098e1b-6abd-49cb-8b2b-d48bfa1c6fb6/generate";
   }
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AccordionList, Accordion, AccordionHeader, AccordionBody } from "@tremor/react";
 import ViewComponent from "../project/ViewComponent";
-import { journey1, journey2 } from "@/app/project/[id]/page";
+import { journey1, journey2 } from "@/utils/journeys";
 
 // const steps = [
 //   "idea_articulation",

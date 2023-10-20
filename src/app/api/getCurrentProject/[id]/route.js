@@ -11,7 +11,7 @@ export async function GET(request, { params }) {
   const id = params.id;
 
   try {
-    let project = await Project.find({ _id: id });
+    let project = await Project.findOne({ _id: id });
     return NextResponse.json({
       success: true,
       data: project,

@@ -1,8 +1,8 @@
 import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
-  ignoredRoutes: ["/api/stripe-webhook"],
-  publicRoutes: ["/admin", "/api/admin(.*)"],
+  ignoredRoutes: ["/api/stripe-webhook", "/share(.*)", "/api/project/(.*)/share"],
+  publicRoutes: ["/admin", "/api/admin(.*)", "/share(.*)", "/api/project/(.*)/share"],
 
   debug: false,
 });

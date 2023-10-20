@@ -263,12 +263,35 @@ const ProjectDashboard = () => {
 
                 {
                     state.loading ? (
+                        <>
+                            <table className=' w-full'>
+                                <thead className='w-full'>
+                                    <tr className='text-left text-primary font-thin'>
+                                        <td className='col-span-2 py-3'>
+                                            Name
+                                        </td>
+                                        <td className='py-3'>
+                                            Last Modified
+                                        </td>
+                                        <td className='py-3'>
+                                            Created
+                                        </td>
+                                    </tr>
 
+                                </thead>
+                            </table>
+                            <div className="flex flex-col">
+                                {Array(10).fill(0).map((_, index) => (
+                                    <div className="flex my-2 gap-5" key={index}>
+                                        <div className="w-2/3 bg-gray-100 rounded h-6"></div>
+                                        <div className="w-1/3 bg-gray-100 rounded animate-pulse"></div>
+                                        <div className="w-1/3 bg-gray-100 rounded animate-pulse"></div>
+                                    </div>
+                                ))}
+                            </div>
 
-                        <div className='flex items-center flex-col w-[100%]'>
-                            <span className="loading loading-ring loading-lg"></span>
+                        </>
 
-                        </div>
                     ) : (
                         <table className='table-auto w-full'>
                             <thead className='w-full'>
