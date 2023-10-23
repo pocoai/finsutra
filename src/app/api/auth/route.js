@@ -5,17 +5,24 @@ import mongoose from "mongoose";
 import { connectDb } from "@/app/lib/connectDb";
 import { getCreditLimitByEmail, getDomainFromMail, isWorkEmail } from "@/utils/helper";
 const hubspot = require("@hubspot/api-client");
+import emailjs from "@emailjs/nodejs";
+import Invitation from "@/models/Invitations";
 
 await connectDb();
 
-export const GET = async (request) => {
+export const GET = async (request, { params }) => {
   const user = await currentUser();
+
+  let inviteCode = request.nextUrl.searchParams.get("code");
+
+  // console.log(inviteCode, "inviteCode");
 
   if (!user) {
     return new Response("Unauthorized", { status: 401 });
   }
 
   let isExist = await User.findOne({ userId: user.id });
+
   const hubspotClient = new hubspot.Client({
     accessToken: process.env.HUBSPOT_API_KEY,
   });
@@ -25,6 +32,29 @@ export const GET = async (request) => {
       success: true,
       data: isExist,
     });
+  }
+
+  let invitationValid = await Invitation.findOne({
+    invitationCode: inviteCode,
+    expiresAt: { $gt: new Date() },
+    invite_status: "pending",
+  });
+
+  // console.log(invitationValid, "invitationValid");
+
+  if (invitationValid) {
+    let invitedUser = await User.findOne({ _id: invitationValid.sender });
+
+    console.log(invitedUser, "invitedUser");
+
+    if (invitedUser) {
+      invitedUser.credits += 10;
+    }
+
+    invitationValid.invite_status = "accepted";
+
+    await invitationValid.save();
+    await invitedUser.save();
   }
 
   let newUser = await User.create({
@@ -38,31 +68,59 @@ export const GET = async (request) => {
     image: user?.hasImage ? user?.imageUrl : "",
   });
 
-  const contactObj = {
-    properties: {
-      navigator_userid: user.id,
-      email: user?.emailAddresses[0].emailAddress,
-      firstname: user?.firstName,
-      total_navigator_credits_used: getCreditLimitByEmail(user?.emailAddresses[0].emailAddress),
-      total_money_spent_on_navigator: 0,
-      deal_funnel: "Navigator Signup",
-    },
-  };
+  try {
+    emailjs
+      .send(
+        "service_6ycky6c",
+        "template_tlb10ee",
+        {
+          to_name: newUser.firstName,
+          from_name: "Favcy Venture",
+          to: newUser.email,
+          reply_to: "support@favcynavigator.com",
+        },
+        {
+          publicKey: "uzqX86y34XhQEdd70",
+          privateKey: "5hLGWhQdhD9x7xBxfu_CF", // optional, highly recommended for security reasons
+        }
+      )
+      .then(
+        (response) => {
+          console.log("SUCCESS!", response.status, response.text);
+        },
+        (err) => {
+          console.log("FAILED...", err);
+        }
+      );
 
-  const createContactResponse = await hubspotClient.crm.contacts.basicApi.create(contactObj);
-  let hubres = await hubspotClient.crm.associations.v4.basicApi.create(
-    "companies",
-    "17727378465",
-    "contacts",
-    createContactResponse.id,
-    [
-      {
-        associationCategory: "HUBSPOT_DEFINED",
-        associationTypeId: hubspot.AssociationTypes.companyToContact,
-        // AssociationTypes contains the most popular HubSpot defined association types
+    const contactObj = {
+      properties: {
+        navigator_userid: user.id,
+        email: user?.emailAddresses[0].emailAddress,
+        firstname: user?.firstName,
+        total_navigator_credits_used: getCreditLimitByEmail(user?.emailAddresses[0].emailAddress),
+        total_money_spent_on_navigator: 0,
+        deal_funnel: "Navigator Signup",
       },
-    ]
-  );
+    };
+
+    const createContactResponse = await hubspotClient.crm.contacts.basicApi.create(contactObj);
+    let hubres = await hubspotClient.crm.associations.v4.basicApi.create(
+      "companies",
+      "17727378465",
+      "contacts",
+      createContactResponse.id,
+      [
+        {
+          associationCategory: "HUBSPOT_DEFINED",
+          associationTypeId: hubspot.AssociationTypes.companyToContact,
+          // AssociationTypes contains the most popular HubSpot defined association types
+        },
+      ]
+    );
+  } catch (error) {
+    console.log(error, "error");
+  }
 
   return NextResponse.json({
     success: true,

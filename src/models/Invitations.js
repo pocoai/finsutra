@@ -27,6 +27,10 @@ const invitationSchema = new mongoose.Schema(
       enum: ["accepted", "pending"],
       default: "pending",
     },
+    expiresAt: {
+      type: Date,
+      required: true,
+    },
     // Timestamps for when the invitation was created and updated
   },
   {
