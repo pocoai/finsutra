@@ -10,8 +10,8 @@ import { ToastContainer } from "react-toastify";
 import { RecoilRoot } from "recoil";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-
-const OfflineModal = dynamic(() => import("@/components/OfflineModal"), { ssr: false });
+import OfflineModal from "@/components/OfflineModal";
+// const OfflineModal = dynamic(() => import("@/components/OfflineModal.jsx"), { ssr: false });
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -25,9 +25,7 @@ const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const [isOnline, setIsOnline] = useState(
-    typeof window !== "undefined" && window.navigator.onLine
-  );
+  const [isOnline, setIsOnline] = useState(true);
 
   function onlineHandler() {
     setIsOnline(true);
@@ -38,6 +36,7 @@ export default function RootLayout({ children }) {
   }
 
   useEffect(() => {
+    setIsOnline(typeof window !== "undefined" && navigator.onLine);
     window.addEventListener("online", onlineHandler);
     window.addEventListener("offline", offlineHandler);
 

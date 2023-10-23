@@ -92,7 +92,7 @@ const Header = ({ id, name, journey }) => {
                         </p>
 
                     </Link>
-                    <p className='whitespace-nowrap'>
+                    <p className='max-w-2xl'>
                         {name || <div className="w-16 bg-gray-100 h-5 rounded-sm animate-pulse mr-1"></div>}
                     </p>
                 </div>
