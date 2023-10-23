@@ -2,10 +2,14 @@ import axios from "axios";
 
 const api = process.env.NEXT_PUBLIC_URL;
 
-export function getUserData(token) {
+export function getUserData(token, code) {
+  let uri = code ? `${api}/api/auth?code=${code}` : `${api}/api/auth`;
+
+  console.log(uri, "uri");
+
   return new Promise(async (resolve, reject) => {
     try {
-      let response = await axios.get(`${api}/api/auth`, {
+      let response = await axios.get(uri, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

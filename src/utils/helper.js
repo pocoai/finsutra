@@ -1,3 +1,5 @@
+import referralCodeGenerator from "referral-code-generator";
+
 const socialDomains = [
   "gmail.com",
   "yahoo.com",
@@ -45,4 +47,10 @@ export const replaceDotByUnderscore = (tab) => {
   tab = String(tab);
 
   return tab.replace(/\./g, "_");
+};
+
+export const generateInviteCode = () => {
+  // Generate a random 6-character alphanumeric string
+
+  return referralCodeGenerator.alphaNumeric("lowercase", 4, 2);
 };

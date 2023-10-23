@@ -22,6 +22,8 @@ const ParentLayout = ({ children }) => {
     const { getToken, isSignedIn, isLoaded } = useAuth()
     const [pageLoading, setPageLoading] = useState(true)
 
+    let searchParams = useSearchParams()
+
     // const pathname = usePathname()
 
     const router = useRouter()
@@ -29,11 +31,16 @@ const ParentLayout = ({ children }) => {
 
     const getData = async () => {
         let token = await getToken()
-        let user = await getUserData(token)
+        let code = searchParams.get("invitecode")
+        let user = await getUserData(token, code)
         setUserState({
             ...user,
             isLoaded: true
         })
+
+        if (code) {
+            router.replace("/");
+        }
     }
 
     useEffect(() => {
@@ -48,7 +55,7 @@ const ParentLayout = ({ children }) => {
         }
     }, [isSignedIn, pageLoading]);
 
-    let searchParams = useSearchParams()
+
 
     let success = searchParams.get("success")
     let cancelled = searchParams.get("cancelled")
