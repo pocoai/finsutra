@@ -25,7 +25,9 @@ const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isOnline, setIsOnline] = useState(
+    typeof window !== "undefined" && window.navigator.onLine
+  );
 
   function onlineHandler() {
     setIsOnline(true);
