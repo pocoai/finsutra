@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
@@ -14,10 +16,6 @@ const urbanist = Urbanist({
 const OfflineModal = ({ isOpen, setIsOpen, isOnline }) => {
   function closeModal() {
     setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
   }
 
   return (
@@ -59,14 +57,16 @@ const OfflineModal = ({ isOpen, setIsOpen, isOnline }) => {
                   >
                     Oops! You are offline
                   </Dialog.Title>
-                  <Lottie
-                    animationData={animationData}
-                    loop={true}
-                    style={{
-                      width: "200px",
-                      height: "200px",
-                    }}
-                  />
+                  {typeof window !== "undefined" && (
+                    <Lottie
+                      animationData={animationData}
+                      loop={true}
+                      style={{
+                        width: "200px",
+                        height: "200px",
+                      }}
+                    />
+                  )}
                   ;
                 </div>
               </Dialog.Panel>

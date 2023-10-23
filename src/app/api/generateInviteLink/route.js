@@ -7,7 +7,7 @@ import emailjs from "@emailjs/nodejs";
 export const POST = async (request) => {
   const { email } = await request.json();
 
-  console.log(email, "email");
+  // console.log(email, "email");
 
   let invitedUser = await User.findOne({ email });
 

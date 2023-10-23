@@ -41,7 +41,7 @@ const InviteModal = ({ isOpen, setIsOpen }) => {
                     "Content-Type": "application/json"
                 }
             });
-            console.log(res.data, "res.data");
+            // console.log(res.data, "res.data");
             if (res.data.success) {
                 toast.success("Invite sent", {
                     position: "top-center",
