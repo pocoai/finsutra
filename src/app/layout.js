@@ -9,7 +9,9 @@ import ParentLayout from "@/components/ParentLayout";
 import { ToastContainer } from "react-toastify";
 import { RecoilRoot } from "recoil";
 import { useEffect, useState } from "react";
-import OfflineModal from "@/components/OfflineModal";
+import dynamic from "next/dynamic";
+
+const OfflineModal = dynamic(() => import("@/components/OfflineModal"), { ssr: false });
 
 const urbanist = Urbanist({
   subsets: ["latin"],
