@@ -29,8 +29,8 @@ const ViewModal = ({ selectedUser, setSelectedUser }) => {
     openModal();
   }, [selectedUser]);
 
-  console.log(projects);
-  console.log(selectedUser);
+  // console.log(projects);
+  // console.log(selectedUser);
 
   return (
     <Transition appear show={open} as={Fragment}>

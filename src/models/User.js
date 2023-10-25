@@ -43,6 +43,10 @@ const UserSchema = new mongoose.Schema({
     skill: String,
     work: String,
   },
+  total_credits_used: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const User = models.User || model("User", UserSchema);

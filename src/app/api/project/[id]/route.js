@@ -29,6 +29,8 @@ const SubCredits = async (userId, journey, tab) => {
     type: "remove",
   });
 
+  user.total_credits_used += getCreditViaTab(journey, tab);
+
   await user.save();
 
   // console.log("credits of user", user.credits);
@@ -269,7 +271,7 @@ export async function POST(request, { params }) {
             }
           );
 
-          console.log(updated_res, "updated_res");
+          // console.log(updated_res, "updated_res");
           return NextResponse.json({
             success: true,
             message: "project updated",

@@ -4,13 +4,45 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { connectDb } from "@/app/lib/connectDb";
 import { getCreditLimitByEmail, getDomainFromMail, isWorkEmail } from "@/utils/helper";
+import axios from "axios";
 const hubspot = require("@hubspot/api-client");
 import emailjs from "@emailjs/nodejs";
 import Invitation from "@/models/Invitations";
 
 await connectDb();
 
-export const GET = async (request, { params }) => {
+async function updateContactProperties(email, total_credits_used) {
+  try {
+    let res = await axios.post(
+      `https://api.hubapi.com/contacts/v1/contact/email/${email}/profile`,
+      {
+        properties: [
+          {
+            property: "total_navigator_credits_used",
+            value: total_credits_used,
+          },
+        ],
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.HUBSPOT_API_KEY}`,
+        },
+      }
+    );
+
+    // console.log("res", res.data);
+
+    if (res.status === 204) {
+      return true;
+    }
+  } catch (error) {
+    console.error("Error updating contact:", error);
+    return false;
+  }
+}
+
+export const GET = async (request) => {
   const user = await currentUser();
 
   let inviteCode = request.nextUrl.searchParams.get("code");
@@ -28,6 +60,7 @@ export const GET = async (request, { params }) => {
   });
 
   if (isExist) {
+    updateContactProperties(isExist.email, isExist.total_credits_used);
     return NextResponse.json({
       success: true,
       data: isExist,
