@@ -6,8 +6,8 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <div className="bg-brand md:bg-white grid grid-cols-1 md:grid-cols-2 place-items-center w-full ">
-      <div className="order-last md:order-1 flex flex-col items-center justify-center gap-6 m-auto w-full bg-white rounded-t-3xl">
+    <div className="bg-brand md:bg-white grid grid-cols-1 md:grid-cols-2 place-items-center place-content-center w-full ">
+      <div className="order-last md:order-first flex flex-col items-center justify-center gap-6 m-auto w-full bg-white rounded-t-3xl">
         <Image
           src="/images/logo.png"
           height={58}
