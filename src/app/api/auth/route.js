@@ -4,9 +4,41 @@ import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { connectDb } from "@/app/lib/connectDb";
 import { getCreditLimitByEmail, getDomainFromMail, isWorkEmail } from "@/utils/helper";
+import axios from "axios";
 const hubspot = require("@hubspot/api-client");
 
 await connectDb();
+
+async function updateContactProperties(email, total_credits_used) {
+  try {
+    let res = await axios.post(
+      `https://api.hubapi.com/contacts/v1/contact/email/${email}/profile`,
+      {
+        properties: [
+          {
+            property: "total_navigator_credits_used",
+            value: total_credits_used,
+          },
+        ],
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.HUBSPOT_API_KEY}`,
+        },
+      }
+    );
+
+    // console.log("res", res.data);
+
+    if (res.status === 204) {
+      return true;
+    }
+  } catch (error) {
+    console.error("Error updating contact:", error);
+    return false;
+  }
+}
 
 export const GET = async (request) => {
   const user = await currentUser();
@@ -21,6 +53,7 @@ export const GET = async (request) => {
   });
 
   if (isExist) {
+    updateContactProperties(isExist.email, isExist.total_credits_used);
     return NextResponse.json({
       success: true,
       data: isExist,
@@ -43,7 +76,7 @@ export const GET = async (request) => {
       navigator_userid: user.id,
       email: user?.emailAddresses[0].emailAddress,
       firstname: user?.firstName,
-      total_navigator_credits_used: getCreditLimitByEmail(user?.emailAddresses[0].emailAddress),
+      total_navigator_credits_used: newUser?.total_credits_used || 0,
       total_money_spent_on_navigator: 0,
       deal_funnel: "Navigator Signup",
     },
