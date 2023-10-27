@@ -30,6 +30,14 @@ const InviteModal = ({ isOpen, setIsOpen }) => {
 
 
     const handleInviteUser = async () => {
+
+        if (email === "" || !email) {
+            toast.error("Please enter email", {
+                position: "top-center",
+            });
+            return;
+        }
+
         setLoading(true);
         const token = await getToken();
         try {

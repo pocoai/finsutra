@@ -104,17 +104,17 @@ export const GET = async (request) => {
   try {
     emailjs
       .send(
-        "service_6ycky6c",
-        "template_tlb10ee",
+        "service_t5oiyuj",
+        "template_nenwweo",
         {
           to_name: newUser.firstName,
-          from_name: "Favcy Venture",
+          from_name: "Favcy Venture Builder",
           to: newUser.email,
           reply_to: "support@favcynavigator.com",
         },
         {
-          publicKey: "uzqX86y34XhQEdd70",
-          privateKey: "5hLGWhQdhD9x7xBxfu_CF", // optional, highly recommended for security reasons
+          publicKey: "1kz_lLNH4q5xlongG",
+          privateKey: "7nFlUCDuiRupbodvmKRmo", // optional, highly recommended for security reasons
         }
       )
       .then(

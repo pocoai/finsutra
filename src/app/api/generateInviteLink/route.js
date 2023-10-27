@@ -61,8 +61,8 @@ export const POST = async (request) => {
 
   emailjs
     .send(
-      "service_6ycky6c",
-      "template_ihgr2i7",
+      "service_t5oiyuj",
+      "template_8tl2io7",
       {
         name: email,
         from_name: user.firstName,
@@ -70,8 +70,8 @@ export const POST = async (request) => {
         link: referral_link,
       },
       {
-        publicKey: "uzqX86y34XhQEdd70",
-        privateKey: "5hLGWhQdhD9x7xBxfu_CF", // optional, highly recommended for security reasons
+        publicKey: "1kz_lLNH4q5xlongG",
+        privateKey: "7nFlUCDuiRupbodvmKRmo", // optional, highly recommended for security reasons
       }
     )
     .then(
