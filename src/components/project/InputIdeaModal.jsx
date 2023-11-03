@@ -83,7 +83,7 @@ const InputModal = ({ isOpen, setIsOpen }) => {
 
 
     useEffect(() => {
-        if (charCount > 300) {
+        if (charCount > 250) {
             setCharLimitExceeded(true)
         }
         else {
@@ -158,7 +158,7 @@ const InputModal = ({ isOpen, setIsOpen }) => {
                                                     }}
                                                 />
                                                 <div className='w-full flex justify-end items-end text-sm'>
-                                                    <span className={`${charCount > 100 && "text-red-500"}`}> {charCount}</span>/300
+                                                    <span className={`${charCount > 100 && "text-red-500"}`}> {charCount}</span>/250
                                                 </div>
                                                 <button
                                                     className='bg-[#FFF0DF] rounded-full px-4 py-2 flex items-center text-brand hover:bg-brand hover:text-white transition-colors duration-300 disabled:bg-gray-100 disabled:text-red-500 disabled:cursor-not-allowed'
