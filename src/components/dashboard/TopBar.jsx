@@ -12,7 +12,7 @@ import Link from 'next/link';
 import InviteModal from './InviteModal';
 import { useRecoilValue } from 'recoil';
 import { userState } from '@/state/atoms/userState';
-
+import Typewriter from 'typewriter-effect';
 
 
 
@@ -37,10 +37,40 @@ const TopBar = () => {
 
             {
                 user?.firstName && <div className='w-full space-y-6'> <h2 className='text-4xl font-medium animate__animated animate__fadeInDown flex  items-center gap-2'>
-                    Hello {user?.firstName}
+                    <Typewriter
+                        options={{
+                            cursor: "_"
+                        }}
+                        onInit={(typewriter) => {
+                            typewriter
+                                .changeDelay(30)
+                                .typeString(`Hello ${user?.firstName}`)
+                                .start()
+                                .callFunction((state) => {
+                                    state.elements.cursor.remove()
+                                })
+                        }}
+                    />
                 </h2>
-                    <p className='text-[16px] text-primary animate__animated animate__fadeInDown'>
-                        You’re almost there! Complete your tasks to realize your entrepreneurial journey.
+                    <p className='text-[17px] text-primary animate__animated animate__fadeInDown'>
+                        <Typewriter
+                            options={{
+                                cursor: "_"
+                            }}
+                            onInit={(typewriter) => {
+                                typewriter
+                                    .changeDelay(40)
+                                    .typeString("Welcome to Favcy Navigator")
+                                    .pauseFor(500)
+                                    .deleteAll()
+                                    .typeString(" You’re almost there! Complete your tasks to realize your entrepreneurial journey.")
+                                    .start()
+                                    .callFunction((state) => {
+                                        state.elements.cursor.remove()
+                                    })
+                            }}
+                        />
+
                     </p>
                 </div>
             }

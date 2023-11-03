@@ -279,6 +279,7 @@ const page = ({ params, searchParams }) => {
               return { ...item, data: null, locked: false, loading: false };
             }
             // Keep other properties unchanged
+
             return { ...item, data: null, locked: true, loading: false };
           });
 

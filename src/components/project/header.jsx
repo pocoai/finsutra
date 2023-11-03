@@ -9,11 +9,15 @@ import Link from 'next/link'
 import { useRecoilValue } from 'recoil'
 
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PdfDisplay from '../PdfDisplay'
 import PdfViewModal from '../PdfModal'
 import { ShareIcon } from '@heroicons/react/24/solid'
 import ShareModal from './shareModal'
+import Typewriter from 'typewriter-effect';
+
+
+
 
 const Journey = ({ selected, id, name, projectId }) => {
     return (
@@ -80,6 +84,22 @@ const Header = ({ id, name, journey }) => {
 
     // console.log(journeyStates, 'journeyStates');
 
+
+
+
+
+    function trimString(str) {
+        if (str.length > 20) {
+            return str.substring(0, 20) + "...";
+        }
+        return str;
+    }
+
+
+
+
+
+
     return (
         <header>
             <div className='flex flex-col lg:flex-row items-center w-full justify-between mb-10'>
@@ -93,7 +113,27 @@ const Header = ({ id, name, journey }) => {
 
                     </Link>
                     <p className='max-w-2xl'>
-                        {name || <div className="w-16 bg-gray-100 h-5 rounded-sm animate-pulse mr-1"></div>}
+
+                        {// add `cursor` as a prop if you want the cursor effect
+                            name && (
+                                <Typewriter
+                                    options={{
+                                        cursor: "_"
+                                    }}
+                                    onInit={(typewriter) => {
+                                        typewriter
+                                            .changeDelay(70)
+                                            .typeString(`${trimString(name)}`)
+                                            .start()
+                                            .callFunction((state) => {
+                                                state.elements.cursor.remove()
+                                            })
+                                    }}
+                                />
+
+                            )
+
+                            || <div className="w-16 bg-gray-100 h-5 rounded-sm animate-pulse mr-1"></div>}
                     </p>
                 </div>
                 <div className='flex flex-col lg:flex-row items-center justify-end w-full gap-8'>

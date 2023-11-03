@@ -184,7 +184,7 @@ const ResultModal = ({ id, isOpen, setIsOpen, choices, query, reselect }) => {
                                             <Swiper
                                                 onSwiper={(swiper) => setSwiper(swiper)}
                                                 pagination={pagination}
-                                                navigation={false}
+                                                navigation={true}
                                                 modules={[Navigation, Pagination]}
                                                 spaceBetween={50}
                                                 slidesPerView={1}
@@ -204,7 +204,7 @@ const ResultModal = ({ id, isOpen, setIsOpen, choices, query, reselect }) => {
                                                     return (
                                                         <SwiperSlide
                                                             key={index}
-
+                                                            className='px-5'
                                                         >
                                                             <div
                                                                 className=" relative w-full flex flex-col my-6 "

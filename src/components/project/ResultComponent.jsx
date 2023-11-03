@@ -92,6 +92,14 @@ const CardComponent = ({ data, id, closeModal, reselect, query, choices }) => {
                                     locked: false,
                                 };
                             }
+
+                            else if (index > 6) {
+                                return {
+                                    ...item,
+                                    locked: false,
+                                }
+                            }
+
                             else {
                                 return item;
                             }

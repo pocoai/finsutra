@@ -23,6 +23,9 @@ const urbanist = Urbanist({
 
 const InputModal = ({ isOpen, setIsOpen }) => {
     const [query, setQuery] = useState('');
+    const [charCount, setCharCount] = useState(0);
+    const [charLimitExceeded, setCharLimitExceeded] = useState(false);
+    const [loading, setLoading] = useState(false);
     const { getToken } = useAuth()
     const router = useRouter()
 
@@ -46,6 +49,7 @@ const InputModal = ({ isOpen, setIsOpen }) => {
 
 
     const createNewproject = async () => {
+        setLoading(true)
         const token = await getToken()
         try {
             let res = await axios.post(`${api}/api/project`, {
@@ -71,7 +75,21 @@ const InputModal = ({ isOpen, setIsOpen }) => {
             return;
         }
 
+        setLoading(false)
+
     }
+
+    // console.log(charCount, "charcount")
+
+
+    useEffect(() => {
+        if (charCount > 300) {
+            setCharLimitExceeded(true)
+        }
+        else {
+            setCharLimitExceeded(false)
+        }
+    }, [charCount])
 
 
     return (
@@ -122,32 +140,40 @@ const InputModal = ({ isOpen, setIsOpen }) => {
 
                                             {/* <h3 className="font-bold text-lg">Enter Business idea</h3> */}
 
-                                            <div className='flex flex-col justify-center items-center gap-5 my-5'>
-                                                <input
+                                            <div className='flex flex-col justify-center items-center gap-5 my-5 '>
+                                                <textarea
                                                     type="text"
                                                     placeholder="Your business idea"
-                                                    className="input w-full border outline-none"
+                                                    className={`border-2 h-[100px] p-2 rounded-md w-full outline-none scrollbar-none ${charLimitExceeded && "border-red-500"}`}
                                                     value={query}
-                                                    onChange={(e) => setQuery(e.target.value)}
+                                                    onChange={(e) => {
+                                                        setQuery(e.target.value)
+                                                        setCharCount(e.target.value.length)
+
+                                                    }}
                                                     onKeyDown={(e) => {
                                                         if (e.key === "Enter") {
                                                             createNewproject()
                                                         }
                                                     }}
                                                 />
+                                                <div className='w-full flex justify-end items-end text-sm'>
+                                                    <span className={`${charCount > 100 && "text-red-500"}`}> {charCount}</span>/300
+                                                </div>
                                                 <button
-                                                    className='bg-[#FFF0DF] rounded-full px-4 py-2 text-brand flex items-center gap-1 hover:bg-brand hover:text-white transition-colors duration-300'
+                                                    className='bg-[#FFF0DF] rounded-full px-4 py-2 flex items-center text-brand hover:bg-brand hover:text-white transition-colors duration-300 disabled:bg-gray-100 disabled:text-red-500 disabled:cursor-not-allowed'
                                                     onClick={createNewproject}
+                                                    disabled={charLimitExceeded || query.trim().length < 15}
                                                 >
-                                                    Ask Navigator
-                                                    <Image
-                                                        src="/images/pointer.png"
-                                                        height={15}
-                                                        width={15}
-                                                        alt="logo"
-                                                        style={{ objectFit: 'contain' }}
-                                                        className="ml-1"
-                                                    />
+                                                    {loading ? (<span className="loading loading-spinner loading-xs"></span>) : (<p className=' flex items-center gap-1'>Ask Navigator
+                                                        <Image
+                                                            src="/images/pointer.png"
+                                                            height={15}
+                                                            width={15}
+                                                            alt="logo"
+                                                            style={{ objectFit: 'contain' }}
+                                                            className="ml-1"
+                                                        /></p>)}
                                                 </button>
                                             </div>
 

@@ -24,18 +24,32 @@ const Project = ({ _id, name, updatedAt, createdAt, getProjects }) => {
 
     const { getToken } = useAuth();
     const handleDelete = async (id) => {
+        const ProjectDelete = async () => {
+            let token = await getToken();
+            const res = await axios.delete(`${api}/api/project/${id}/deleteProject`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (res.data.success) {
+                return true;
+            } else {
+                return false;
+            }
+        }
 
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#FF0000',
             cancelButtonColor: '#FD8A09',
             confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                if (ProjectDelete()) {
+                if (await ProjectDelete()) {
                     getProjects();
                     Swal.fire({
                         title: 'Deleted',
@@ -53,20 +67,7 @@ const Project = ({ _id, name, updatedAt, createdAt, getProjects }) => {
             }
         })
 
-        const ProjectDelete = async () => {
-            let token = await getToken();
-            const res = await axios.delete(`${api}/api/project/${id}/deleteProject`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            if (res.data.success) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+
     }
 
     const handleEdit = () => {

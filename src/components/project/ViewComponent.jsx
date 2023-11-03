@@ -205,6 +205,26 @@ const ViewComponent = ({
         }
 
         if (tab === 8) {
+
+            let arr = [...data.competitors]
+
+            const sortedData = arr.sort((a, b) => {
+                if (a.type === "kagi") {
+                    return -1; // "kagi" comes before others
+                } else if (b.type === "kagi") {
+                    return 1; // "kagi" comes before others
+                } else if (a.type === "organic" && b.type !== "organic") {
+                    return -1; // "organic" comes after "kagi" and before others
+                } else if (b.type === "organic" && a.type !== "organic") {
+                    return 1; // "organic" comes after "kagi" and before others
+                } else {
+                    return 0; // No change in order for other cases
+                }
+            });
+
+
+
+
             return (
                 <div className="flex flex-col items-start justify-start space-y-4 ">
                     {/* <h1 className="text-lg">{data[0]?.key}</h1> */}
@@ -240,10 +260,13 @@ const ViewComponent = ({
                                         <th className="px-4 py-2 border border-gray-500">
                                             Description
                                         </th>
+                                        <th className="px-4 py-2 border border-gray-500">
+                                            Country
+                                        </th>
                                     </tr>
                                 </thead>
-                                {data &&
-                                    data.competitors.map((item, index) => (
+                                {
+                                    sortedData.map((item, index) => (
                                         <tbody key={index}>
                                             <tr>
                                                 <td className=" px-4 py-2 border border-gray-500">{index + 1}</td>
@@ -268,6 +291,7 @@ const ViewComponent = ({
                                                 <td className=" px-4 py-2 border border-gray-500">
                                                     <Markdown className="prose w-full text-lg text-black">{item?.description}</Markdown>
                                                 </td>
+                                                <td className=" px-4 py-2 border border-gray-500">{item?.country}</td>
                                             </tr>
                                         </tbody>
                                     ))}
