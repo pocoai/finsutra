@@ -11,6 +11,7 @@ import { RecoilRoot } from "recoil";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import OfflineModal from "@/components/OfflineModal";
+
 // const OfflineModal = dynamic(() => import("@/components/OfflineModal.jsx"), { ssr: false });
 
 const urbanist = Urbanist({
@@ -45,6 +46,9 @@ export default function RootLayout({ children }) {
       window.removeEventListener("offline", offlineHandler);
     };
   }, []);
+
+
+
 
   return (
     <html lang="en">

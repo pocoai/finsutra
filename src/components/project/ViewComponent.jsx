@@ -243,7 +243,7 @@ const ViewComponent = ({
                                     </tr>
                                 </thead>
                                 {data &&
-                                    data.competitors.map((item, index) => (
+                                    data.competitors.filter((item) => item.type === "kagi").map((item, index) => (
                                         <tbody key={index}>
                                             <tr>
                                                 <td className=" px-4 py-2 border border-gray-500">{index + 1}</td>

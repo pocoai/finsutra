@@ -5,7 +5,7 @@ const api = process.env.NEXT_PUBLIC_URL;
 export function getUserData(token, code) {
   let uri = code ? `${api}/api/auth?code=${code}` : `${api}/api/auth`;
 
-  console.log(uri, "uri");
+  // console.log(uri, "uri");
 
   return new Promise(async (resolve, reject) => {
     try {
