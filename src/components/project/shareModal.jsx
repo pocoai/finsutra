@@ -163,8 +163,8 @@ const ShareModal = ({ isOpen, setIsOpen, id, title, journey, }) => {
                                         Anyone with the URL will be able to view the shared journey.
                                     </p>
 
-                                    <div className='flex w-full items-end justify-end'>
-                                        {/* <button className='  hover:bg-brand bg-[#FFF0DF] border-brand text-brand rounded-full px-4 py-2 hover:text-white whitespace-nowrap flex items-center justify-center gap-2'
+                                    <div className='flex w-full items-center justify-between'>
+                                        <button className='  hover:bg-brand bg-[#FFF0DF] border-brand text-brand rounded-full px-4 py-2 hover:text-white whitespace-nowrap flex items-center justify-center gap-2 w-[200px]'
 
                                             onClick={shareAsGoogleDoc}
 
@@ -174,7 +174,7 @@ const ShareModal = ({ isOpen, setIsOpen, id, title, journey, }) => {
                                                     <><DocumentIcon className="w-5 h-5" />
                                                         Share as Google Doc </>)
                                             }
-                                        </button> */}
+                                        </button>
                                         <button className='  hover:bg-brand bg-[#FFF0DF] border-brand text-brand rounded-full px-4 py-2 hover:text-white whitespace-nowrap flex items-center justify-center gap-2'
 
                                             onClick={shareLink}
