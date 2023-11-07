@@ -225,7 +225,7 @@ const Card = ({ title, description, tab, data, selected, loading, journey, id, l
                             })}>{selected ? "View Details" : (
                                 <div className='flex items-center gap-2 w-full' onClick={handleApiCall}>
 
-                                    <Image src="/images/whitecoin.svg" height={20} width={20} alt="coin" />
+                                    <Image src="/images/whitecoin.svg" height={20} width={20} alt="coin" style={{width:"auto",height:"auto"}} />
 
                                     <p>
                                         {getCreditViaTab(journey, tab)} credits

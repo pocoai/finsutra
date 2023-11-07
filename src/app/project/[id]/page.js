@@ -416,7 +416,7 @@ const page = ({ params, searchParams }) => {
   }, [journey, id, reselect]);
 
   // console.log(chapterData, "chapterData");
-  console.log(journeyData, "jd");
+  // console.log(journeyData, "jd");
 
   return (
     <div className="">

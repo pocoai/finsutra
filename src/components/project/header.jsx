@@ -112,7 +112,7 @@ const Header = ({ id, name, journey }) => {
                         </p>
 
                     </Link>
-                    <p className='max-w-2xl'>
+                    <div className='max-w-2xl'>
 
                         {// add `cursor` as a prop if you want the cursor effect
                             name && (
@@ -134,7 +134,7 @@ const Header = ({ id, name, journey }) => {
                             )
 
                             || <div className="w-16 bg-gray-100 h-5 rounded-sm animate-pulse mr-1"></div>}
-                    </p>
+                    </div>
                 </div>
                 <div className='flex flex-col lg:flex-row items-center justify-end w-full gap-8'>
                     <div className='flex items-center justify-center text-brand gap-2'>
@@ -145,9 +145,9 @@ const Header = ({ id, name, journey }) => {
                             alt="logo"
                             className="h-auto w-auto"
                         />
-                        <p className='whitespace-nowrap'>
+                        <div className='whitespace-nowrap'>
                             Remaining Credits: {credits || <p className=" inline-flex w-3 bg-gray-100 h-3 rounded-sm animate-pulse mr-1"></p>}
-                        </p>
+                        </div>
                     </div>
                     <Link href="/pricing" prefetch={false} className='bg-brand rounded-full px-4 py-2 text-white whitespace-nowrap'>
                         Buy Credits
@@ -171,7 +171,7 @@ const Header = ({ id, name, journey }) => {
                                     <input
                                         type="checkbox"
                                         checked={journeyStates.journey1}
-                                        defaultChecked={journeyStates.journey1}
+                                    
                                         onChange={() => handleCheckboxChange('journey1')}
                                         className="accent-brand text-white w-5 h-5"
                                     />
@@ -183,7 +183,7 @@ const Header = ({ id, name, journey }) => {
                                     <input
                                         type="checkbox"
                                         checked={journeyStates.journey2}
-                                        defaultChecked={journeyStates.journey2}
+                                       
                                         onChange={() => handleCheckboxChange('journey2')}
                                         className="accent-brand text-white w-5 h-5"
                                     />
@@ -195,7 +195,7 @@ const Header = ({ id, name, journey }) => {
                                     <input
                                         type="checkbox"
                                         checked={journeyStates.journey3}
-                                        defaultChecked={journeyStates.journey3}
+                                      
                                         onChange={() => handleCheckboxChange('journey3')}
                                         className="accent-brand text-white w-5 h-5"
                                     />

@@ -246,6 +246,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                                         alt="logo"
                                         style={{ objectFit: 'contain' }}
                                         className=""
+                                        priority={true}
                                     />
                                     <span className="absolute right-0 -bottom-5">
                                         <sub className="text-xs font-bold">
@@ -316,14 +317,14 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                                 </Link>
 
                             ) : (
-                                <div class="w-fit h-20 rounded-md">
-                                    <div class="flex flex-row items-center h-full justify-center space-x-3">
-                                        <div class="w-12 bg-gray-100 h-12 rounded-full  animate-pulse ">
+                                <div className="w-fit h-20 rounded-md">
+                                    <div className="flex flex-row items-center h-full justify-center space-x-3">
+                                        <div className="w-12 bg-gray-100 h-12 rounded-full  animate-pulse ">
                                         </div>
-                                        <div class="flex flex-col space-y-2">
-                                            <div class="w-36 bg-gray-100 h-5 rounded-md  animate-pulse ">
+                                        <div className="flex flex-col space-y-2">
+                                            <div className="w-36 bg-gray-100 h-5 rounded-md  animate-pulse ">
                                             </div>
-                                            <div class="w-24 bg-gray-100 h-5 rounded-md  animate-pulse">
+                                            <div className="w-24 bg-gray-100 h-5 rounded-md  animate-pulse">
                                             </div>
                                         </div>
                                     </div>
