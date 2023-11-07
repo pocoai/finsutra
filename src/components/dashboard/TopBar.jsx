@@ -52,7 +52,7 @@ const TopBar = () => {
                         }}
                     />
                 </h2>
-                    <p className='text-[17px] text-primary animate__animated animate__fadeInDown'>
+                    <div className='text-[17px] text-primary animate__animated animate__fadeInDown'>
                         <Typewriter
                             options={{
                                 cursor: "_"
@@ -71,7 +71,7 @@ const TopBar = () => {
                             }}
                         />
 
-                    </p>
+                    </div>
                 </div>
             }
 
