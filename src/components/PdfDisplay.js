@@ -24,7 +24,8 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
   const markdownParser = new MarkdownIt();
 
   const modifyMarkdownForTab = (tabIndex, journey) => {
-    const tabData = currentProject[`journey${journey}`][`tab${tabIndex}`]?.data || "";
+    const tabData =
+      currentProject[`journey${journey}`][`tab${tabIndex}`]?.data || "";
     const parsedContent = markdownParser.parse(tabData, {});
 
     parsedContent.tokens?.forEach((token, id) => {
@@ -73,9 +74,12 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
             image: await getBase64ImageFromURL(
               "https://raw.githubusercontent.com/Niranjangkr/files/main/footerImg.jpg"
             ),
-            width: 100,
-            height: 50,
+            width: 120,
+            height: 55,
             alignment: "left",
+            marginBottom: 20,
+            marginTop: -5,
+            marginLeft: -30
           },
         ],
       },
@@ -129,7 +133,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
 
   useEffect(() => {
     setLoading(true);
-    console.log("fetching");
     FetchProject(id)
       .then((res) => {
         setCurrentProject(res.data.data);
@@ -142,8 +145,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
 
     setLoading(false);
   }, []);
-
-  console.log(currentProject, "currentProject");
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -192,16 +193,20 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
             {!downloading && (
               <div ref={reportTemplateRef}>
                 <div className="">
-                  <h1 className="text-xl my-3 font-bold">Project Name : {currentProject?.name}</h1>
+                  <h1 className="text-xl my-3 font-bold">
+                    Project Name : {currentProject?.name}
+                  </h1>
 
                   {journeyStates?.journey1 && (
                     <div>
                       <h2 className="my-3 text-lg font-bold text-gray-600">
                         Journey #1 : Zero to Coming Soon{" "}
                       </h2>
-                      <h4 className="text-[16px] my-3 font-medium">Idea Articulation</h4>
+                      <h4 className="text-[16px] my-3 font-medium">
+                        Idea Articulation
+                      </h4>
                       {currentProject?.journey1?.tab1?.selected && (
-                        <div className="flex flex-col items-start justify-start space-y-4 text-[9px] ">
+                        <div className="flex flex-col items-start justify-start space-y-4 text-[9px] " style={{ fontSize: "14px" }}>
                           <table className="table-auto ">
                             <thead>
                               <tr>
@@ -219,20 +224,22 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                                 </th>
                               </tr>
                             </thead>
-                            {currentProject?.journey1?.tab1?.data?.map((item, index) => {
-                              return (
-                                <tbody key={index}>
-                                  <tr>
-                                    <td className=" px-4 py-2 border border-gray-500 ">
-                                      {item.key}
-                                    </td>
-                                    <td className=" px-4 py-2 border border-gray-500">
-                                      {item.value}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              );
-                            })}
+                            {currentProject?.journey1?.tab1?.data?.map(
+                              (item, index) => {
+                                return (
+                                  <tbody key={index}>
+                                    <tr>
+                                      <td className=" px-4 py-2 border border-gray-500 ">
+                                        {item.key}
+                                      </td>
+                                      <td className=" px-4 py-2 border border-gray-500">
+                                        {item.value}
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                );
+                              }
+                            )}
                           </table>
                         </div>
                       )}
@@ -240,14 +247,20 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       <hr />
 
                       <div className="page-break my-5 " id="page">
-                        <h4 className="text-[16px] my-3">Problem Solution Fit</h4>
+                        <h4 className="text-[16px] my-3">
+                          Problem Solution Fit
+                        </h4>
                         {currentProject?.journey1?.tab2?.selected && (
-                          <div className="flex flex-col items-start justify-start space-y-4 text-[9px]">
+                          <div className="flex flex-col items-start justify-start space-y-4 text-[9px]" style={{ fontSize: "14px" }}>
                             {currentProject.journey1?.tab2?.selected && (
                               <p>
                                 <span className="font-semibold">
                                   Problem Solution Fit:{" "}
-                                  {currentProject.journey1?.tab2.data["Executive Summary"]}
+                                  {
+                                    currentProject.journey1?.tab2.data[
+                                      "Executive Summary"
+                                    ]
+                                  }
                                 </span>
                                 :
                               </p>
@@ -269,20 +282,20 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                                   </th>
                                 </tr>
                               </thead>
-                              {currentProject?.journey1?.tab2?.data["ps_list"].map(
-                                (item, index) => (
-                                  <tbody key={index}>
-                                    <tr>
-                                      <td className="px-4 py-2 border border-gray-500">
-                                        {item?.Problem}
-                                      </td>
-                                      <td className="px-4 py-2 border border-gray-500">
-                                        {item?.Solution}
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                )
-                              )}
+                              {currentProject?.journey1?.tab2?.data[
+                                "ps_list"
+                              ].map((item, index) => (
+                                <tbody key={index}>
+                                  <tr>
+                                    <td className="px-4 py-2 border border-gray-500">
+                                      {item?.Problem}
+                                    </td>
+                                    <td className="px-4 py-2 border border-gray-500">
+                                      {item?.Solution}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              ))}
                             </table>
                           </div>
                         )}
@@ -293,25 +306,25 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                           <div className="flex flex-col items-start justify-start space-y-4 text-[9px]  ">
                             <h4 className="text-[16px] my-3">Brand Kit</h4>
 
-                            <table className="table-fixed ">
+                            <table className="table-fixed " style={{ fontSize: "14px" }}>
                               {currentProject.journey1?.tab3?.data &&
-                                Object.entries(currentProject.journey1?.tab3?.data).map(
-                                  (item, index) => (
-                                    // <div key={index} className="flex justify-start items-start space-x-2 ">
-                                    //   {/* <p className="font-semibold">{item[0]}</p>:<p>{item[1]}</p> */}
-                                    // </div>
-                                    <tbody key={index}>
-                                      <tr>
-                                        <td className=" px-4 py-2 border border-gray-500 w-[200px]">
-                                          {item[0]}
-                                        </td>
-                                        <td className=" px-4 py-2 border border-gray-500">
-                                          {item[1]}
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  )
-                                )}
+                                Object.entries(
+                                  currentProject.journey1?.tab3?.data
+                                ).map((item, index) => (
+                                  // <div key={index} className="flex justify-start items-start space-x-2 ">
+                                  //   {/* <p className="font-semibold">{item[0]}</p>:<p>{item[1]}</p> */}
+                                  // </div>
+                                  <tbody key={index}>
+                                    <tr>
+                                      <td className=" px-4 py-2 border border-gray-500 w-[200px]">
+                                        {item[0]}
+                                      </td>
+                                      <td className=" px-4 py-2 border border-gray-500">
+                                        {item[1]}
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                ))}
                             </table>
                           </div>
                         )}
@@ -327,28 +340,41 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                               </h1>
                             )}
                             {currentProject?.journey1?.tab4?.data &&
-                              currentProject?.journey1?.tab4?.data["Positioning"] && (
-                                <div className="flex flex-col items-start justify-start space-y-2 ">
+                              currentProject?.journey1?.tab4?.data[
+                                "Positioning"
+                              ] && (
+                                <div className="flex flex-col items-start justify-start space-y-2 " style={{ fontSize: "14px" }}>
                                   <p>
-                                    <span className="font-semibold">Positioning: </span>
-                                    {currentProject?.journey1?.tab4?.data["Positioning"]}
+                                    <span className="font-semibold">
+                                      Positioning:{" "}
+                                    </span>
+                                    {
+                                      currentProject?.journey1?.tab4?.data[
+                                        "Positioning"
+                                      ]
+                                    }
                                   </p>
                                 </div>
                               )}
                             {currentProject?.journey1?.tab4?.data["USPs"] && (
                               <div className="flex flex-col items-start justify-start space-y-2 ">
-                                <h1 className="text-[16px] font-semibold text-gray-800">USPs</h1>
-                                {currentProject?.journey1?.tab4?.data["USPs"]?.map(
-                                  (item, index) => (
-                                    <p key={index}>
-                                      <span className="text-red-500" style={{ color: "red" }}>
-                                        {index + 1}&#41;
-                                      </span>{" "}
-                                      &nbsp;
-                                      {item}
-                                    </p>
-                                  )
-                                )}
+                                <h1 className="text-[16px] font-semibold text-gray-800">
+                                  USPs
+                                </h1>
+                                {currentProject?.journey1?.tab4?.data[
+                                  "USPs"
+                                ]?.map((item, index) => (
+                                  <p key={index} style={{ fontSize: "14px" }}>
+                                    <span
+                                      className="text-red-500"
+                                      style={{ color: "red" }}
+                                    >
+                                      {index + 1}&#41;
+                                    </span>{" "}
+                                    &nbsp;
+                                    {item}
+                                  </p>
+                                ))}
                               </div>
                             )}
                             {currentProject?.journey1?.tab4?.data && (
@@ -356,7 +382,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                                 Favcy Venture builder framework
                               </h1>
                             )}
-                            <table className="table-auto ">
+                            <table className="table-auto " style={{ fontSize: "14px" }}>
                               <thead>
                                 <tr>
                                   <th className="px-4 py-2 border border-gray-500 bg-pdf">
@@ -400,7 +426,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       </div>
                       <hr />
                       {currentProject?.journey1?.tab5?.selected && (
-                        <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4  ">
+                        <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4  " style={{ fontSize: "14px" }}>
                           <p>
                             <Markdown className="prose text-black text-[9px] ">
                               {modifyMarkdownForTab(5, 1)}
@@ -411,9 +437,11 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       <hr />
                       {currentProject?.journey1?.tab6?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4  ">
-                          <h1 className="font-bold text-[16px]">Minimum Viable Product </h1>
+                          <h1 className="font-bold text-[16px]">
+                            Minimum Viable Product{" "}
+                          </h1>
                           <p>
-                            <Markdown className="prose text-black text-[9px] ">
+                            <Markdown className="prose text-black text-[9px] " style={{ fontSize: "14px" }}>
                               {modifyMarkdownForTab(6, 1)}
                             </Markdown>
                           </p>
@@ -422,9 +450,11 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       <hr />
                       {currentProject?.journey1?.tab7?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4 ">
-                          <h1 className="font-bold text-[16px]">Features to Monetize </h1>
+                          <h1 className="font-bold text-[16px]">
+                            Features to Monetize{" "}
+                          </h1>
                           <p>
-                            <Markdown className="prose text-black text-[9px]">
+                            <Markdown className="prose text-black text-[9px]" style={{ fontSize: "14px" }}>
                               {modifyMarkdownForTab(7, 1)}
                             </Markdown>
                           </p>
@@ -432,20 +462,21 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       )}
                       <hr />
                       {currentProject?.journey1?.tab8?.selected && (
-                        <div className="flex flex-col items-start justify-start space-y-4  html2pdf__page-break">
+                        <div className="flex flex-col items-start justify-start space-y-4  html2pdf__page-break" style={{ fontSize: "14px" }}>
                           <div className="flex flex-col items-start justify-start space-y-2 ">
                             <p className="text-gray-700">
-                              Research and Knowledge Bank provides the best resources that we could
-                              curate for you.
-                              {/* <br /> */}&nbsp; They include data banks, competitior showcasing
-                              or just more information that we believe should be useful for you as a
+                              Research and Knowledge Bank provides the best
+                              resources that we could curate for you.
+                              {/* <br /> */}&nbsp; They include data banks,
+                              competitior showcasing or just more information
+                              that we believe should be useful for you as a
                               founder.
                             </p>
                           </div>
                           {currentProject?.journey1?.tab8?.data.competitors && (
                             <div className="flex flex-col items-start justify-start space-y-2 text-[9px]">
                               {/* <h2 className="text-xl font-semibold text-gray-800">Competitors : </h2> */}
-                              <table className="table-auto ">
+                              <table className="table-auto " style={{ fontSize: "14px" }}>
                                 <thead>
                                   <tr>
                                     <th className="px-4 py-2 border border-gray-500 bg-pdf">
@@ -489,7 +520,8 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                                               {/* {item?.url}
                                                */}
 
-                                              {item?.domain || getTitleFromUrl(item?.url)}
+                                              {item?.domain ||
+                                                getTitleFromUrl(item?.url)}
 
                                               {/* {item?.url?.includes("http") ? item?.url : `https://${item?.url}`} */}
                                             </a>
@@ -514,209 +546,135 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       <hr />
                       {currentProject?.journey1?.tab9?.selected && (
                         <div className="text-[9px]">
-                          <h1 className="font-bold text-[16px] my-2">Business Model Canvas </h1>
-                          <table id="bizcanvas" cellspacing="0">
-                            <tr className="">
-                              <td colspan="2" rowspan="2" className="divCont">
-                                <h4>Key Partners</h4>
-                                {currentProject?.journey1?.tab9?.data["Key Partners"].map(
-                                  (item, index) => (
-                                    <p
-                                      className={`
-                      ${
-                        index % 2 === 0
-                          ? "bg-[#f69e53] shadow-md text-white"
-                          : " bg-[#f9ece0] shadow-md text-black"
-                      }
-                      text-[9px] cards py-3 
-                      
-                      `}
-                                      key={index}
-                                    >
-                                      {item}
-                                    </p>
-                                  )
-                                )}
-                              </td>
-                              <td colspan="2" rowspan="2" className="divCont">
-                                <h4>Key Activities</h4>
-                                {currentProject?.journey1?.tab9?.data["Key Activities"].map(
-                                  (item, index) => (
-                                    <p
-                                      className={`
-                      ${
-                        index % 2 === 0
-                          ? "bg-[#f69e53] shadow-md text-white"
-                          : " bg-[#f9ece0] shadow-md text-black"
-                      }
-                      text-[9px] cards  py-3 
-                      
-                      `}
-                                      key={index}
-                                    >
-                                      {item}
-                                    </p>
-                                  )
-                                )}
-                              </td>
-                              <td colspan="2" rowspan="2" className="divCont">
-                                <h4>Value Proposition</h4>
-                                {currentProject?.journey1?.tab9?.data["Value Propositions"].map(
-                                  (item, index) => (
-                                    <p
-                                      className={`
-                      ${
-                        index % 2 === 0
-                          ? "bg-[#f69e53] shadow-md text-white"
-                          : " bg-[#f9ece0] shadow-md text-black"
-                      }
-                      text-[9px] cards  py-3 
-                      
-                      `}
-                                      key={index}
-                                    >
-                                      {item}
-                                    </p>
-                                  )
-                                )}
-                              </td>
-                              <td colspan="2" className="divCont">
-                                <h4>Customer Relationship</h4>
-                                {currentProject?.journey1?.tab9?.data["Customer Relationships"].map(
-                                  (item, index) => (
-                                    <p
-                                      className={`
-                       ${
-                         index % 2 === 0
-                           ? "bg-[#f69e53] shadow-md text-white"
-                           : " bg-[#f9ece0] shadow-md text-black"
-                       }
-                       text-[9px] cards py-3 
-                       
-                       `}
-                                      key={index}
-                                    >
-                                      {item}
-                                    </p>
-                                  )
-                                )}
-                              </td>
-                              <td colspan="2" className="divCont">
-                                <h4>Customer Segments</h4>
-                                {currentProject?.journey1?.tab9?.data["Customer Segments"].map(
-                                  (item, index) => (
-                                    <p
-                                      className={`
-                       ${
-                         index % 2 === 0
-                           ? "bg-[#f69e53] shadow-md text-white"
-                           : " bg-[#f9ece0] shadow-md text-black"
-                       }
-                       text-[9px] cards  py-3 
-                       
-                       `}
-                                      key={index}
-                                    >
-                                      {item}
-                                    </p>
-                                  )
-                                )}
-                              </td>
-                            </tr>
-
-                            <tr>
-                              <td colspan="2" className="divCont">
-                                <h4>Key Resources</h4>
-                                {currentProject?.journey1?.tab9?.data["Key Resources"].map(
-                                  (item, index) => (
-                                    <p
-                                      className={`
-                       ${
-                         index % 2 === 0
-                           ? "bg-[#f69e53] shadow-md text-white"
-                           : " bg-[#f9ece0] shadow-md text-black"
-                       }
-                       text-[9px] cards  py-3 
-                       
-                       `}
-                                      key={index}
-                                    >
-                                      {item}
-                                    </p>
-                                  )
-                                )}
-                              </td>
-                              <td colspan="2" className="divCont">
-                                <h4>Channels</h4>
-                                {currentProject?.journey1?.tab9?.data["Channels"].map(
-                                  (item, index) => (
-                                    <p
-                                      className={`
-                       ${
-                         index % 2 === 0
-                           ? "bg-[#f69e53] shadow-md text-white"
-                           : " bg-[#f9ece0] shadow-md text-black"
-                       }
-                       text-[9px] cards  py-3 
-                       
-                       `}
-                                      key={index}
-                                    >
-                                      {item}
-                                    </p>
-                                  )
-                                )}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td colspan="5" className="divCont">
-                                <h4>Cost Structure</h4>
-                                {currentProject?.journey1?.tab9?.data["Cost Structure"].map(
-                                  (item, index) => (
-                                    <p
-                                      className={`
-                      ${
-                        index % 2 === 0
-                          ? "bg-[#f69e53] shadow-md text-white"
-                          : " bg-[#f9ece0] shadow-md text-black"
-                      }
-                      text-[9px] cards  py-3 
-                      
-                      `}
-                                      key={index}
-                                    >
-                                      {item}
-                                    </p>
-                                  )
-                                )}
-                              </td>
-                              <td colspan="5" className="divCont">
-                                <h4>Revenue Streams</h4>
-                                {currentProject?.journey1?.tab9?.data["Revenue Streams"].map(
-                                  (item, index) => (
-                                    <p
-                                      className={`
-                        ${
-                          index % 2 === 0
-                            ? "bg-[#f69e53] shadow-md text-white"
-                            : " bg-[#f9ece0] shadow-md text-black"
-                        }
-                        text-[9px] cards  py-3 
-                        
-                        `}
-                                      key={index}
-                                    >
-                                      {item}
-                                    </p>
-                                  )
-                                )}
-                              </td>
-                            </tr>
+                          <h1 className="font-bold text-[16px] my-2">
+                            Business Model Canvas{" "}
+                          </h1>
+                          <table style={{ fontSize: "14px" }}>
+                            {/* nir */}
+                            <thead>
+                              <tr>
+                                <th className="px-4 py-2 border border-gray-500 bg-pdf">
+                                  Key Partners
+                                </th>
+                                <th className="px-4 py-2 border border-gray-500 bg-pdf">
+                                  Key Activities
+                                </th>
+                                <th className="px-4 py-2 border border-gray-500 bg-pdf">
+                                  Value Proposition
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td className=" px-4 py-2 border border-gray-500">
+                                  {currentProject?.journey1?.tab9?.data[
+                                    "Key Partners"
+                                  ].map((item, index) => (
+                                    <p key={index}>{item}</p>
+                                  ))}
+                                </td>
+                                <td className=" px-4 py-2 border border-gray-500">
+                                  {currentProject?.journey1?.tab9?.data[
+                                    "Key Activities"
+                                  ].map((item, index) => (
+                                    <p key={index}>{item}</p>
+                                  ))}
+                                </td>
+                                <td className=" px-4 py-2 border border-gray-500">
+                                  {currentProject?.journey1?.tab9?.data[
+                                    "Value Propositions"
+                                  ].map((item, index) => (
+                                    <p key={index}>{item}</p>
+                                  ))}
+                                </td>
+                              </tr>
+                            </tbody>
+                            <thead>
+                              <tr>
+                                <th className="px-4 py-2 border border-gray-500 bg-pdf">
+                                  Customer Relationship
+                                </th>
+                                <th className="px-4 py-2 border border-gray-500 bg-pdf">
+                                  Customer Segments
+                                </th>
+                                <th className="px-4 py-2 border border-gray-500 bg-pdf">
+                                  Key Resources
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td className=" px-4 py-2 border border-gray-500">
+                                  {currentProject?.journey1?.tab9?.data[
+                                    "Customer Relationships"
+                                  ].map((item, index) => (
+                                    <p key={index}>{item}</p>
+                                  ))}
+                                </td>
+                                <td className=" px-4 py-2 border border-gray-500">
+                                  {currentProject?.journey1?.tab9?.data[
+                                    "Customer Segments"
+                                  ].map((item, index) => (
+                                    <p key={index}>{item}</p>
+                                  ))}
+                                </td>
+                                <td className=" px-4 py-2 border border-gray-500">
+                                  {currentProject?.journey1?.tab9?.data[
+                                    "Key Resources"
+                                  ].map((item, index) => (
+                                    <p key={index}>{item}</p>
+                                  ))}
+                                </td>
+                              </tr>
+                            </tbody>
+                            <thead>
+                              <tr>
+                                <th className="px-4 py-2 border border-gray-500 bg-pdf">
+                                  Channels
+                                </th>
+                                <th className="px-4 py-2 border border-gray-500 bg-pdf">
+                                  Cost Structure
+                                </th>
+                                <th className="px-4 py-2 border border-gray-500 bg-pdf">
+                                  Revenue Streams
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td className=" px-4 py-2 border border-gray-500">
+                                  {currentProject?.journey1?.tab9?.data[
+                                    "Channels"
+                                  ].map((item, index) => (
+                                    <p key={index}>{item}</p>
+                                  ))}
+                                </td>
+                                <td className=" px-4 py-2 border border-gray-500">
+                                  {currentProject?.journey1?.tab9?.data[
+                                    "Cost Structure"
+                                  ].map((item, index) => (
+                                    <p key={index}>{item}</p>
+                                  ))}
+                                </td>
+                                <td className=" px-4 py-2 border border-gray-500">
+                                  {currentProject?.journey1?.tab9?.data[
+                                    "Revenue Streams"
+                                  ].map((item, index) => (
+                                    <p key={index}>{item}</p>
+                                  ))}
+                                </td>
+                              </tr>
+                            </tbody>
+                            {/* nir */}
                           </table>
                           <div className="flex flex-col items-start mt-5 p-2">
                             <h1>Summary :</h1>
-                            <p className=" my-1 text-left leading-5 ">
-                              {currentProject?.journey1?.tab9?.data["BMC_summary"]}
+                            <p className=" my-1 text-left leading-5 " style={{ fontSize: "14px" }}>
+                              {
+                                currentProject?.journey1?.tab9?.data[
+                                  "BMC_summary"
+                                ]
+                              }
                             </p>
                           </div>
                         </div>
@@ -724,9 +682,11 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       <hr />
                       {currentProject?.journey1?.tab9_5?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4 ">
-                          <h1 className="font-bold text-[16px]">Growth Levers </h1>
+                          <h1 className="font-bold text-[16px]">
+                            Growth Levers{" "}
+                          </h1>
                           <p>
-                            <Markdown className="prose text-black text-[9px]">
+                            <Markdown className="prose text-black text-[9px]" style={{ fontSize: "14px" }}>
                               {modifyMarkdownForTab("9_5", 1)}
                             </Markdown>
                           </p>
@@ -735,9 +695,11 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       <hr />
                       {currentProject?.journey1?.tab10?.selected && (
                         <div className="flex flex-col items-start justify-start space-y-4 text-[9px] my-4 ">
-                          <h1 className="font-bold text-[16px]">Financial Statement</h1>
+                          <h1 className="font-bold text-[16px]">
+                            Financial Statement
+                          </h1>
                           <p>
-                            <Markdown className="prose text-black text-[9px]">
+                            <Markdown className="prose text-black text-[9px]" style={{ fontSize: "14px" }}>
                               {modifyMarkdownForTab(10, 1)}
                             </Markdown>
                           </p>
@@ -752,8 +714,9 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                         Journey #2 : Favcy Venture Manual
                       </h2>
                       {Array.from({ length: 28 }, (_, index) => (
-                        <div key={index}>
-                          {currentProject?.journey2[`tab${index + 1}`]?.selected && (
+                        <div key={index} style={{ fontSize: "14px" }}>
+                          {currentProject?.journey2[`tab${index + 1}`]
+                            ?.selected && (
                             <div className="">
                               <Markdown className="prose ">
                                 {modifyMarkdownForTab(index + 1, 2)}
@@ -772,10 +735,20 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                       </h2>
                       {Array.from({ length: 28 }, (_, index) => (
                         <div key={index} style={{ fontSize: "14px" }}>
-                          {currentProject?.journey3[`tab${index + 1}`]?.selected && (
+                          {currentProject?.journey3[`tab${index + 1}`]
+                            ?.selected && (
                             <div className="flex flex-col items-start justify-start space-y-4 ">
-                              <h3 style={{ marginBottom: "10px", marginTop: "10px" }}>
-                                {journey2.find((item) => item.tab === index + 1).title}
+                              <h3
+                                style={{
+                                  marginBottom: "10px",
+                                  marginTop: "10px",
+                                }}
+                              >
+                                {
+                                  journey2.find(
+                                    (item) => item.tab === index + 1
+                                  ).title
+                                }
                               </h3>
                               <table className="table-auto ">
                                 <thead>
@@ -800,63 +773,70 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
                                     </th>
                                   </tr>
                                 </thead>
-                                {currentProject?.journey3[`tab${index + 1}`].data?.map(
-                                  (item, index) => (
-                                    <tbody key={index}>
-                                      <tr>
-                                        <td
-                                          className=" px-4 py-2 border-b-2 font-semibold text-brand"
-                                          style={{
-                                            verticalAlign: "top",
-                                            color: "#FD8A09",
-                                            margin: "5px",
-                                          }}
-                                        >
-                                          {index + 1}. {item?.Objective}
-                                        </td>
-                                        <td
-                                          className="px-4 py-2 max-w-xl border-b-2 border-l-2 font-medium"
-                                          style={{ verticalAlign: "top" }}
-                                        >
-                                          <ul className="list-none px-4">
-                                            {item?.Tasks.map((task, index) => {
+                                {currentProject?.journey3[
+                                  `tab${index + 1}`
+                                ].data?.map((item, index) => (
+                                  <tbody key={index}>
+                                    <tr>
+                                      <td
+                                        className=" px-4 py-2 border-b-2 font-semibold text-brand"
+                                        style={{
+                                          verticalAlign: "top",
+                                          color: "#FD8A09",
+                                          margin: "5px",
+                                        }}
+                                      >
+                                        {index + 1}. {item?.Objective}
+                                      </td>
+                                      <td
+                                        className="px-4 py-2 max-w-xl border-b-2 border-l-2 font-medium"
+                                        style={{ verticalAlign: "top" }}
+                                      >
+                                        <ul className="list-none px-4">
+                                          {item?.Tasks.map((task, index) => {
+                                            return (
+                                              <li
+                                                className="my-3"
+                                                key={index}
+                                                style={{ margin: "5px" }}
+                                              >
+                                                <input
+                                                  type="checkbox"
+                                                  name={task}
+                                                  className="accent-brand text-white w-3 h-3"
+                                                  defaultChecked
+                                                />
+                                                <label className="ml-2">
+                                                  {task}
+                                                </label>
+                                              </li>
+                                            );
+                                          })}
+                                        </ul>
+                                      </td>
+
+                                      <td
+                                        className=" px-4 py-2 border-b-2 border-l-2 font-medium"
+                                        style={{ verticalAlign: "top" }}
+                                      >
+                                        <ul className="list-decimal  px-4">
+                                          {item["Desired Outcomes"].map(
+                                            (task) => {
                                               return (
                                                 <li
                                                   className="my-3"
-                                                  key={index}
                                                   style={{ margin: "5px" }}
                                                 >
-                                                  <input
-                                                    type="checkbox"
-                                                    name={task}
-                                                    className="accent-brand text-white w-3 h-3"
-                                                    defaultChecked
-                                                  />
-                                                  <label className="ml-2">{task}</label>
-                                                </li>
-                                              );
-                                            })}
-                                          </ul>
-                                        </td>
-
-                                        <td
-                                          className=" px-4 py-2 border-b-2 border-l-2 font-medium"
-                                          style={{ verticalAlign: "top" }}
-                                        >
-                                          <ul className="list-decimal  px-4">
-                                            {item["Desired Outcomes"].map((task) => {
-                                              return (
-                                                <li className="my-3" style={{ margin: "5px" }}>
                                                   {task}
                                                 </li>
                                               );
-                                            })}
-                                          </ul>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  )
-                                )}
+                                            }
+                                          )}
+                                        </ul>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                ))}
                               </table>
                             </div>
                           )}
