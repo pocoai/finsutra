@@ -318,18 +318,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                                 </Link>
 
                             ) : (
-                                <div className="w-fit h-20 rounded-md">
-                                    <div className="flex flex-row items-center h-full justify-center space-x-3">
-                                        <div className="w-12 bg-gray-100 h-12 rounded-full  animate-pulse ">
-                                        </div>
-                                        <div className="flex flex-col space-y-2">
-                                            <div className="w-36 bg-gray-100 h-5 rounded-md  animate-pulse ">
-                                            </div>
-                                            <div className="w-24 bg-gray-100 h-5 rounded-md  animate-pulse">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                               <></>
                             )
                         }
 
