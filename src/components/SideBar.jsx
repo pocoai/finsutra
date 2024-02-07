@@ -92,7 +92,7 @@ const ProfileButtons = ({ collapsed, onClick, image, name, link, target, }) => {
         "justify-center p-3": collapsed,
         "min-w-0": true, // Ensure a minimum width of 0
     })}
-        onClick={onClick}
+        onClick={() => {console.log("clicked")}}
     >
         <Image
             src={image}
@@ -286,7 +286,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                     })}>
                         {
                             isLoaded ? (
-                                <Link href={"/profile"} prefetch={false}>
+                                <Link href={"/"} prefetch={false}>
                                     <div className={classNames({
                                         "flex items-center gap-2 w-fit h-20": true
 
