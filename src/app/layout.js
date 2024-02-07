@@ -20,9 +20,9 @@ const urbanist = Urbanist({
 });
 
 const metadata = {
-  title: " Favcy Navigator| AI powered venture building copilot.  ",
+  title: "Finsutra | AI powered Threat Detection",
   description:
-    "Favcy Navigator is an AI-powered tool that revolutionizes the way founders approach venture building. In the world of startups, where challenges and complexities often abound, Favcy Navigator serves as your indispensable ally, simplifying every step of the journey while ensuring a profitable and efficient outcome.",
+    "Finsutra helps fintech risk and compliance teams to automate and strengthen customer due diligence through advanced Artificial Intelligence",
 };
 
 export default function RootLayout({ children }) {
@@ -59,11 +59,11 @@ export default function RootLayout({ children }) {
         <meta name="description" content={metadata.description} />
         <meta
           property="og:title"
-          content="Favcy Navigator | AI powered venture building copilot."
+          content="Finsutra | AI powered Threat Detection"
         />
         <meta
           property="og:description"
-          content="Favcy Navigator is an AI-powered tool that revolutionizes the way founders approach venture building. In the world of startups, where challenges and complexities often abound, Favcy Navigator serves as your indispensable ally, simplifying every step of the journey while ensuring a profitable and efficient outcome."
+          content="Finsutra helps fintech risk and compliance teams to automate and strengthen customer due diligence through advanced Artificial Intelligence"
         />
         <meta property="og:image" content="/images/og.png" />
         <meta property="og:url" content="https://favcynavigator.com" />
@@ -71,7 +71,7 @@ export default function RootLayout({ children }) {
         {/* <!-- Optional Open Graph Tags (adjust as needed) --> */}
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="en_US" />
-        <meta property="og:site_name" content="Favcy Navigator | AI-powered Business Co-Pilot" />
+        <meta property="og:site_name" content="Finsutra | AI powered Threat Detection" />
 
         {/* <!-- Twitter Card Tags (for Twitter-specific display) -->
         <meta name="twitter:card" content="/images/og.png" />

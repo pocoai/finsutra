@@ -240,7 +240,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                         <Link href={"/"}>
                             {!collapsed ?
                                 <div className="relative">
-                                    <Image
+                                    {/* <Image
                                         src="/images/logo.png"
                                         height={30}
                                         width={107}
@@ -248,12 +248,13 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                                         style={{ objectFit: 'contain' }}
                                         className=""
                                         priority={true}
-                                    />
-                                    <span className="absolute right-0 -bottom-5">
+                                    /> */}
+                                    {/* <span className="absolute right-0 -bottom-5">
                                         <sub className="text-xs font-bold">
                                             v 1.0
                                         </sub>
-                                    </span>
+                                    </span> */}
+                                    <h1 className="text-2xl px-2 font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600">Finsutra</h1>
                                 </div>
 
                                 : (
@@ -321,8 +322,6 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                                <></>
                             )
                         }
-
-
                         <div className='w-full flex flex-col items-center justify-center gap-3 '>
                             {sidecards.map((card, index) => (
                                 <SideCard key={index} {...card} selected={selected} collapsed={collapsed} />
