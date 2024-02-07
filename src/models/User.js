@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema({
       journey: String,
       type: {
         type: String,
-        enum: ["add", "remove"],
+        enum: ["add", "remove", "referral"],
       },
       purchasePlan: String,
     },

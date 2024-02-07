@@ -117,48 +117,49 @@ const ProfileButtons = ({ collapsed, onClick, image, name, link, target, }) => {
 const sidecards = [
     {
         id: 1,
-        name: "Projects",
+        name: "Minigator",
         image: "/images/project.svg",
         link: "/"
-    }, {
-        id: 2,
-        name: "Credits",
-        image: "/images/coins.svg",
-        link: "/pricing"
-    }, {
-        id: 3,
-        name: "Minigator",
-        image: "/images/minigator.svg",
-        link: "/minigator"
-        // link: "https://minigator.vercel.app/"
-    }
+    }, 
+    // {
+    //     id: 2,
+    //     name: "Credits",
+    //     image: "/images/coins.svg",
+    //     link: "/pricing"
+    // }, {
+    //     id: 3,
+    //     name: "Minigator",
+    //     image: "/images/minigator.svg",
+    //     link: "/minigator"
+    //     // link: "https://minigator.vercel.app/"
+    // }
 ]
 
 
 const profilebuttons = [
-    {
-        image: "/images/profile.svg",
-        name: "My Profile",
-        link: "/profile",
-        target: "_self",
+    // {
+    //     image: "/images/profile.svg",
+    //     name: "My Profile",
+    //     link: "/profile",
+    //     target: "_self",
 
 
-    },
-    {
-        image: "/images/release.svg",
-        name: "Release Notes",
-        link: "https://favcynavigator.canny.io/changelog/",
-        target: "_blank"
+    // },
+    // {
+    //     image: "/images/release.svg",
+    //     name: "Release Notes",
+    //     link: "https://favcynavigator.canny.io/changelog/",
+    //     target: "_blank"
 
 
-    },
-    {
-        image: "/images/roadmap.svg",
-        name: "Product Roadmap",
-        link: "https://favcynavigator.canny.io/",
-        target: "_blank"
+    // },
+    // {
+    //     image: "/images/roadmap.svg",
+    //     name: "Product Roadmap",
+    //     link: "https://favcynavigator.canny.io/",
+    //     target: "_blank"
 
-    },
+    // },
     // {
     //     image: "/images/about.svg",
     //     name: "About Us",
