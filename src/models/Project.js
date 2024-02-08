@@ -3,12 +3,6 @@ import mongoose, { model, models } from "mongoose";
 const ProjectSchema = new mongoose.Schema(
   {
     name: String,
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    uid: String,
     query: {
       type: String,
       default: "",
@@ -29,10 +23,18 @@ const ProjectSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    minigator: {
+      index: String,
+      lastUpdated: Date,
+    },
     journey1: mongoose.Schema.Types.Mixed,
     journey2: mongoose.Schema.Types.Mixed,
     journey3: mongoose.Schema.Types.Mixed,
     journey4: mongoose.Schema.Types.Mixed,
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

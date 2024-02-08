@@ -177,9 +177,9 @@ const profilebuttons = [
 const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
     const [selected, setSelected] = useState(1);
     const Icon = collapsed ? ChevronDoubleRightIcon : ChevronDoubleLeftIcon;
-    const { signOut } = useClerk();
+    // const { signOut } = useClerk();
 
-    const { user: ClerkUser } = useUser()
+    // const { user: ClerkUser } = useUser()
 
     // console.log("user", user)
 
@@ -286,7 +286,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                         "overflow-hidden": true
                     })}>
                         {
-                            isLoaded ? (
+                            false ? (
                                 <Link href={"/"} prefetch={false}>
                                     <div className={classNames({
                                         "flex items-center gap-2 w-fit h-20": true
@@ -294,26 +294,13 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
 
                                     })}>
                                         <Image
-                                            src={user?.image || ClerkUser?.imageUrl || "/images/user.png"}
+                                            src={"/images/user.png"}
                                             height={40}
                                             width={40}
                                             alt="logo"
                                             style={{ objectFit: 'contain' }}
                                             className="rounded-full"
                                         />
-                                        <div className={classNames({
-                                            "font-medium transition-all overflow-hidden": true,
-                                            "hidden": collapsed
-                                        })}>
-                                            <p className='text-[#373D41] text-[16px]'>
-                                                {user?.firstName}
-                                            </p>
-                                            <span className='text-[#ADB0B6] text-[14px]'>
-                                                {user?.interests?.work}
-                                            </span>
-                                        </div>
-
-
                                     </div>
 
                                 </Link>
@@ -334,7 +321,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                         <div className='w-full flex flex-col items-center justify-center gap-3 '>
                             {profilebuttons.map((card, index) => (
                                 <ProfileButtons key={index} {...card} collapsed={collapsed} onClick={
-                                    () => signOut()
+                                    () => console.log('signout')
                                 } />
                             ))}
 

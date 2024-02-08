@@ -18,30 +18,30 @@ const urbanist = Urbanist({
 
 const ParentLayout = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false)
-    const [userData, setUserState] = useRecoilState(userState);
-    const { getToken, isSignedIn, isLoaded } = useAuth()
+    // const [userData, setUserState] = useRecoilState(userState);
+    // const { getToken, isSignedIn, isLoaded } = useAuth()
     const [pageLoading, setPageLoading] = useState(true)
 
-    let searchParams = useSearchParams()
+    // let searchParams = useSearchParams()
 
-    // const pathname = usePathname()
+    // // const pathname = usePathname()
 
-    const router = useRouter()
+    // const router = useRouter()
 
 
-    const getData = async () => {
-        let token = await getToken()
-        let code = searchParams.get("invitecode")
-        let user = await getUserData(token, code)
-        setUserState({
-            ...user,
-            isLoaded: true
-        })
+    // const getData = async () => {
+    //     let token = await getToken()
+    //     let code = searchParams.get("invitecode")
+    //     let user = await getUserData(token, code)
+    //     setUserState({
+    //         ...user,
+    //         isLoaded: true
+    //     })
 
-        if (code) {
-            router.replace("/");
-        }
-    }
+    //     if (code) {
+    //         router.replace("/");
+    //     }
+    // }
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -49,37 +49,37 @@ const ParentLayout = ({ children }) => {
         }
     }, [])
 
-    useEffect(() => {
-        if (isSignedIn && !pageLoading) {
-            getData()
-        }
-    }, [isSignedIn, pageLoading]);
+    // useEffect(() => {
+    //     if (isSignedIn && !pageLoading) {
+    //         getData()
+    //     }
+    // }, [isSignedIn, pageLoading]);
 
 
 
-    let success = searchParams.get("success")
-    let cancelled = searchParams.get("cancelled")
+    // let success = searchParams.get("success")
+    // let cancelled = searchParams.get("cancelled")
 
-    success = Boolean(success);
-    cancelled = Boolean(cancelled);
+    // success = Boolean(success);
+    // cancelled = Boolean(cancelled);
 
-    useEffect(() => {
-        if (success) {
-            toast.success("Payment Successful");
-            setTimeout(() => {
-                router.push("/")
+    // useEffect(() => {
+    //     if (success) {
+    //         toast.success("Payment Successful");
+    //         setTimeout(() => {
+    //             router.push("/")
 
-            }, 2000)
-        }
+    //         }, 2000)
+    //     }
 
-        if (cancelled) {
-            toast.error("Payment Failed");
-            setTimeout(() => {
-                router.push("/");
-            }, 2000)
-        }
+    //     if (cancelled) {
+    //         toast.error("Payment Failed");
+    //         setTimeout(() => {
+    //             router.push("/");
+    //         }, 2000)
+    //     }
 
-    }, [success, cancelled])
+    // }, [success, cancelled])
 
 
     // console.log(userData, "userData");
@@ -96,7 +96,7 @@ const ParentLayout = ({ children }) => {
                         [`${urbanist.className}`]: true,
                     })}>
                     {
-                        <SideBar collapsed={collapsed} setCollapsed={setCollapsed} isLoaded={userData.isLoaded} user={userData} />
+                        <SideBar collapsed={collapsed} setCollapsed={setCollapsed} isLoaded={true} user={""} />
                     }
 
                     <section className="max-w-7xl w-full mx-auto transition-all duration-1000 py-10 px-5 h-screen overflow-y-scroll scrollbar-hide">

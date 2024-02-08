@@ -19,7 +19,7 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
   const [currentProject, setCurrentProject] = useState(null);
   const [downloading, setisDownloading] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { getToken } = useAuth();
+  // const { getToken } = useAuth();
   const reportTemplateRef = useRef(null);
   const markdownParser = new MarkdownIt();
 
@@ -42,12 +42,12 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
   };
 
   const FetchProject = async (id) => {
-    let token = await getToken();
+    // let token = await getToken();
 
     let res = await axios.get(`${api}/api/getCurrentProject/${id}`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
       },
     });
     return res;
@@ -83,20 +83,6 @@ const PdfDisplay = ({ setShowPdf, showPdf, id, journeyStates }) => {
           },
         ],
       },
-      // header: {
-      //   columns: [
-      //     {
-      //       image: await getBase64ImageFromURL(
-      //         "https://raw.githubusercontent.com/Niranjangkr/files/main/header.jpg"
-      //       ),
-      //       width: 120,
-      //       height: 28,
-      //       marginTop:3,
-      //       marginRight: 3,
-      //       alignment: 'left',
-      //     },
-      //   ],
-      // },
     });
 
     pdfDoc.download(`${currentProject?.name}.pdf`);

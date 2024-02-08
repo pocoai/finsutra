@@ -24,7 +24,7 @@ const MinigatorHeader = ({ id, name, journey }) => {
         <header>
             <div className='flex flex-col lg:flex-row items-center justify-between '>
                 <h1 className='text-[28px] font-[700] w-full'>
-                    {user?capitalize(user.firstName) + "`s":""} Workspace / {name || ''}
+                    Workspace
                 </h1>
             </div>
         </header>
