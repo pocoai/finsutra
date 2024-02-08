@@ -254,7 +254,7 @@ const SideBar = ({ collapsed, setCollapsed, isLoaded, user }) => {
                                             v 1.0
                                         </sub>
                                     </span> */}
-                                    <h1 className="text-2xl px-2 font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600">Finsutra</h1>
+                                    <h1 className="text-3xl px-2 font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600">Finsutra</h1>
                                 </div>
 
                                 : (
