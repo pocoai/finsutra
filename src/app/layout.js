@@ -53,7 +53,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>Favcy Navigator | AI-powered Business Co-Pilot</title>
+        <title>Finsutra | AI powered Threat Detection</title>
 
         <link rel="icon" href="/favicon.ico" />
         <meta name="description" content={metadata.description} />
