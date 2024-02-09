@@ -215,11 +215,14 @@ const UploadAndChat = ({ id, setFileName, indexnameQuery }) => {
     formData.append("account_id", process.env.NEXT_PUBLIC_ACCOUNTID);
 
     const response = await uploadPDFClient(formData);
-
+    if(response.detail){
+      toast.error("File Too Long.");
+    }
     if (response) {
       setBusy(false);
       if (response?.response === "Access Denied.") {
         // toast.error("Internal Server Error");
+        console.log("access den ", response);
         await uploadPDFHandler(e);
       } else if (response?.response === "Successfully created index") {
         setLinks({

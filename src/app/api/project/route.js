@@ -1,6 +1,4 @@
 import Project from "@/models/Project";
-import User from "@/models/User";
-import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 import { connectDb } from "@/app/lib/connectDb";
