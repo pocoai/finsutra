@@ -37,7 +37,7 @@ function Chat({ loading, index, setIndex }) {
           setMessages([
             {
               type: "api",
-              message: `Hey! I am your Minigator. Ask me anything related to your project and I'll try my best to answer it`,
+              message: `Hey there!. Ask me anything related to your project and I'll try my best to answer it`,
             },
           ]);
         }
@@ -47,7 +47,7 @@ function Chat({ loading, index, setIndex }) {
       setMessages([
         {
           type: "api",
-          message: `Hey! I am your Minigator. Ask me anything related to your project and I'll try my best to answer it`,
+          message: `Hey! Ask me anything related to your project and I'll try my best to answer it`,
         },
       ]);
     }
@@ -164,7 +164,7 @@ function Chat({ loading, index, setIndex }) {
 
   return (
     <div className="flex flex-col flex-1 w-3/4  bg-gray-100/70 rounded-lg m-3 relative h-full">
-      {projectId && (
+      {/* {projectId && (
         <div
           className="pt-4 px-4 absolute right-10 tooltip tooltip-bottom tooltip-warning"
           data-tip="Show Playbook"
@@ -176,7 +176,7 @@ function Chat({ loading, index, setIndex }) {
             onClick={() => setView(!view)}
           />
         </div>
-      )}
+      )} */}
 
       {view && projectId && (
         <>

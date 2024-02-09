@@ -229,6 +229,7 @@ const UploadAndChat = ({ id, setFileName, indexnameQuery }) => {
         setFile(formFile);
         toast.success("PDF Successfully Uploaded");
         setIndexname(randomString);
+        console.log("heloo ",randomString)
       }
     } else {
       setBusy(false);

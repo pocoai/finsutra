@@ -8,14 +8,7 @@ import { connectDb } from "@/app/lib/connectDb";
 await connectDb();
 
 export const GET = async (request) => {
-  const { userId } = auth();
-
-  // console.log(userId, "userId");
-
-  let projects = await Project.find({ uid: userId }).sort({ updatedAt: -1 });
-
-  // console.log(projects, "projects");
-
+  let projects = await Project.find({}).sort({ updatedAt: -1 });
   return NextResponse.json({
     success: true,
     data: projects,
@@ -23,19 +16,14 @@ export const GET = async (request) => {
 };
 
 export const POST = async (request) => {
-  const { userId } = auth();
 
-  let user = await User.findOne({ userId });
-
-  const { name } = await request.json();
-
-  // console.log(name);
-
+  const { name, index } = await request.json();
+  console.log(name, index);
   let newProject = await Project.create({
     name,
-    query: name,
-    userId: user._id,
-    uid: userId,
+    index: index,
+    reselect: true,
+    sharable: true,
   });
 
   return NextResponse.json({

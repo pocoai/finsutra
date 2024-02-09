@@ -20,7 +20,7 @@ const page = () => {
         [urbanist.className]: true,
       })}
     >
-      <MinigatorHeader />
+      {/* <MinigatorHeader /> */}
       <SelectAndChat />
     </div>
   );

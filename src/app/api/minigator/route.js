@@ -6,21 +6,14 @@ import { v4 as uuidv4 } from "uuid";
 
 export const GET = async (request) => {
   const id = request.nextUrl.searchParams.get("id");
-
-  let project = await Project.findOne({ _id: id });
-
-  if (project.minigator.index) {
-    // console.log("inside here");
-    const date1 = new Date(project.minigator.lastUpdated);
-    const date2 = new Date(project.updatedAt);
-
-    if (date1.getTime() === date2.getTime()) {
-      // console.log("Both dates are the same.");
-      return NextResponse.json({
-        success: true,
-        index: project.minigator.index,
-      });
-    }
+  console.log("helo", id);
+  let project = await Project.findOne({ index: id });
+  console.log("found pr, ", project);
+  if (project.index) {
+    return NextResponse.json({
+      success: true,
+      index: project.index,
+    });
   }
 
   if (!project) {
@@ -67,10 +60,7 @@ export const GET = async (request) => {
           project._id,
           {
             $set: {
-              minigator: {
-                index: randomString,
-                lastUpdated: date,
-              },
+              index: randomString,
               updatedAt: date,
             },
           },

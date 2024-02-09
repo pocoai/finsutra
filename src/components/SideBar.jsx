@@ -117,10 +117,11 @@ const ProfileButtons = ({ collapsed, onClick, image, name, link, target, }) => {
 const sidecards = [
     {
         id: 1,
-        name: "Minigator",
+        name: "Dashboard",
         image: "/images/project.svg",
         link: "/"
     }, 
+    
     // {
     //     id: 2,
     //     name: "Credits",

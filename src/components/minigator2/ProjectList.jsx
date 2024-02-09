@@ -75,9 +75,9 @@ const Project = ({
   const pathname = usePathname();
 
   const handleProject = async () => {
-    let url = api + `/api/minigator?id=${id}`;
+    let url = api + `/api/minigator?id=${index}`;
     setActive(index);
-    const query = `?id=${id}`;
+    const query = `?id=${index}`;
     router.push(`${pathname}${query}`);
     setLoading(true);
     try {
@@ -138,6 +138,7 @@ function ProjectList({ index, setIndex, setLoading, setError }) {
 
         },
       });
+      console.log("belo", res)
 
       if (res.data.success) {
         dispatch({ type: "FETCH_SUCCESS", payload: res.data.data });
@@ -147,7 +148,6 @@ function ProjectList({ index, setIndex, setLoading, setError }) {
         }
 
         setFilteredProjects([...filteredProjects, ...res.data.data]);
-
         if (res.data.data.length === 0) {
           dispatch({ type: "FETCH_ERROR", payload: "No projects found" });
         }
@@ -237,7 +237,7 @@ function ProjectList({ index, setIndex, setLoading, setError }) {
           </div>
         )}
 
-        <Link href={"/minigator/upload-and-chat"} className={classNames({
+        <Link href={"/minigator"} className={classNames({
           "flex gap-5 items-center justify-center w-full rounded-md my-2 p-2 cursor-pointer": true,
           "bg-white border border-brand": true,
         })}
