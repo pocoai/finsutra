@@ -132,7 +132,7 @@ function ProjectList({ index, setIndex, setLoading, setError }) {
     try {
 
 
-      let res = await axios.get(`${api}/api/project?page=${page}`, {
+      let res = await axios.get(`${api}/api/project`, {
         headers: {
           "Content-Type": "application/json",
 
